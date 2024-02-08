@@ -12,5 +12,6 @@ val Pink40 = Color(0xFF7D5260)
 
 val Navy = Color(0xFF073042)
 val Blue = Color(0xFF4285F4)
-val LightBlue = Color(0xFFD7EFFE)
 val Chartreuse = Color(0xFFEFF7CF)
+
+val LightBlue = Color(0xFF668CFF)
