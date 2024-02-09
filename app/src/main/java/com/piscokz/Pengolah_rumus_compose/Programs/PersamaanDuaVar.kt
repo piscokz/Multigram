@@ -1,9 +1,5 @@
-package com.piscokz.Pengolah_rumus_compose
+package com.piscokz.Pengolah_rumus_compose.Programs
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -24,11 +19,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.piscokz.Pengolah_rumus_compose.R
 import com.piscokz.Pengolah_rumus_compose.ui.theme.PengolahRumusComposeTheme
 
 //navigationIcon = {
@@ -42,7 +37,7 @@ import com.piscokz.Pengolah_rumus_compose.ui.theme.PengolahRumusComposeTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RumusKelilingPersegi(
+fun PersamaanDuaVariabel(
     navController: NavController
 ) {
     PengolahRumusComposeTheme {
@@ -54,10 +49,10 @@ fun RumusKelilingPersegi(
             TopAppBar(
                 title = {
                     Text(
-                        "rumus keliling persegi",
+                        listProgram[listRumusPersamaanDuaVariabel()],
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        color = Color.White,
+                        color = Color.Black,
                     )
                 },
                 navigationIcon = {
@@ -77,17 +72,17 @@ fun RumusKelilingPersegi(
                 modifier = Modifier.padding(horizontal = 15.dp),
             ) {
 
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(80.dp),
-                    verticalArrangement = Arrangement.Center,
-                ) {
-                    Text(
-                        text = "Rumus keliling persegi",
-                        style = MaterialTheme.typography.headlineMedium,
-                    )
-                }
+//                Column(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .height(80.dp),
+//                    verticalArrangement = Arrangement.Center,
+//                ) {
+//                    Text(
+//                        text = "Rumus keliling persegi",
+//                        style = MaterialTheme.typography.headlineMedium,
+//                    )
+//                }
 
                 Column(
                     modifier = Modifier

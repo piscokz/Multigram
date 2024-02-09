@@ -1,6 +1,8 @@
 package com.piscokz.Pengolah_rumus_compose.ui.theme
 
 import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -10,23 +12,30 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
+//    primary = Color.Green,
+//    secondary = PurpleGrey80,
+//    tertiary = Pink80
+    surface = Color.Black,
+    onSurface = Navy,
     primary = LightBlue,
-    secondary = PurpleGrey80,
-    tertiary = Pink80,
-    background = LightBlue
+    onPrimary = Chartreuse,
+    background = LightBlue,
+
 )
 
 private val LightColorScheme = lightColorScheme(
+    surface = Blue,
+    onSurface = Color.White,
     primary = LightBlue,
-    secondary = PurpleGrey40,
-    tertiary = Pink40,
-    background = LightBlue
+    onPrimary = Navy,
+    background = LightBlue,
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -43,13 +52,14 @@ private val LightColorScheme = lightColorScheme(
 fun PengolahRumusComposeTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = false,
+    dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+//            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+            dynamicLightColorScheme(context)
         }
 
         darkTheme -> DarkColorScheme
