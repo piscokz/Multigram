@@ -3,27 +3,29 @@ package com.piscokz.Pengolah_rumus_compose.Programs
 import androidx.navigation.NavController
 import com.piscokz.Pengolah_rumus_compose.Screen
 
-var listProgram: List<String> = listOf("Panjang (meter)", "Berat (gram)", "persamaan dua variabel")
+
+var listKonversi : List<String> = listOf("Panjang (m)", "Berat (g)")
+var listRumus : List<String> = listOf("persamaan dua variabel")
+var listProgram : List<String> = listRumus + listKonversi
+
 
 fun navProgram (
     navController: NavController,
     string: String
 )  {
-    when (string) {
-        listProgram[listRumusPersamaanDuaVariabel()] -> navController.navigate(Screen.Rumus.route)
-        else -> ""
+    when {
+        listRumus.contains(string) -> navController.navigate(Screen.Rumus.route)
+        else -> {}
     }
 }
-fun tipeProgram (int: Int) : String  {
+fun tipeProgram (string: String) : String  {
     var tipeProgram = when {
-        listProgram[int] == "persamaan dua variabel" -> "Rumus"
-        listProgram[int] == "Panjang (meter)" || listProgram[int] == "Berat (gram)" -> "Konversi"
+        listRumus.contains(string) -> "Rumus"
+        listKonversi.contains(string) -> "Konversi"
         else -> {"custom"}
     }
     return tipeProgram
 }
 
-fun listRumusPersamaanDuaVariabel(): Int {
-    return listProgram.indexOf("persamaan dua variabel")
-}
+
 

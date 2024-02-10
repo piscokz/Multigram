@@ -32,7 +32,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.piscokz.Pengolah_rumus_compose.Programs.listProgram
-import com.piscokz.Pengolah_rumus_compose.Programs.listRumusPersamaanDuaVariabel
 import com.piscokz.Pengolah_rumus_compose.Programs.navProgram
 import com.piscokz.Pengolah_rumus_compose.Programs.tipeProgram
 import com.piscokz.Pengolah_rumus_compose.ui.theme.PengolahRumusComposeTheme

@@ -42,7 +42,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.piscokz.Pengolah_rumus_compose.Programs.listProgram
-import com.piscokz.Pengolah_rumus_compose.Programs.listRumusPersamaanDuaVariabel
+import com.piscokz.Pengolah_rumus_compose.Programs.listRumus
 import com.piscokz.Pengolah_rumus_compose.Programs.navProgram
 import com.piscokz.Pengolah_rumus_compose.Programs.tipeProgram
 import com.piscokz.Pengolah_rumus_compose.ui.theme.PengolahRumusComposeTheme
@@ -92,7 +92,7 @@ fun Home(
                 }
 
             ) { paddingValues ->
-                var rekomendasi = listProgram[listRumusPersamaanDuaVariabel()]
+                var rekomendasi = listRumus[0]
                 Column() {
                     Column(
                         modifier = Modifier
@@ -117,7 +117,7 @@ fun Home(
                         ) {
                             Column(modifier = Modifier.weight(0.5f)) {
                                 Text(
-                                    text = "Rumus",
+                                    text = tipeProgram(rekomendasi),
                                     style = MaterialTheme.typography.bodySmall
                                 )
                                 Text(
@@ -257,7 +257,7 @@ fun Home(
 //                        }
 //                    }
                     LazyRow() {
-                        items(listProgram.size) { it ->
+                        items(listProgram.size) {
                             Row(
                                 modifier = Modifier
                                     .padding(vertical = 15.dp, horizontal = 10.dp)
@@ -278,7 +278,7 @@ fun Home(
 //                                        modifier = Modifier.weight(0.6f)
                                     ) {
                                         Text(
-                                            text = tipeProgram(it),
+                                            text = tipeProgram(listProgram[it]),
                                             style = MaterialTheme.typography.bodySmall
                                         )
                                         Text(

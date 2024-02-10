@@ -49,7 +49,7 @@ fun PersamaanDuaVariabel(
             TopAppBar(
                 title = {
                     Text(
-                        listProgram[listRumusPersamaanDuaVariabel()],
+                        listRumus[0],
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         color = Color.Black,
