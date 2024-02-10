@@ -1,16 +1,31 @@
 package com.piscokz.Pengolah_rumus_compose
 
+import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
+import androidx.compose.foundation.layout.requiredWidth
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,6 +47,7 @@ import com.piscokz.Pengolah_rumus_compose.Programs.navProgram
 import com.piscokz.Pengolah_rumus_compose.Programs.tipeProgram
 import com.piscokz.Pengolah_rumus_compose.ui.theme.PengolahRumusComposeTheme
 
+@SuppressLint("SuspiciousIndentation")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Home(
@@ -41,7 +57,8 @@ fun Home(
     PengolahRumusComposeTheme {
         Surface(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+//                .verticalScroll(rememberScrollState())
         ) {
             Scaffold(
                 modifier = Modifier
@@ -76,7 +93,7 @@ fun Home(
 
             ) { paddingValues ->
                 var rekomendasi = listProgram[listRumusPersamaanDuaVariabel()]
-                Column {
+                Column() {
                     Column(
                         modifier = Modifier
                             .padding(paddingValues = paddingValues)
@@ -95,7 +112,7 @@ fun Home(
                     ) {
 
                         Row(
-                            modifier = Modifier.padding(vertical = 20.dp, horizontal = 15.dp),
+                            modifier = Modifier.padding(vertical = 50.dp, horizontal = 15.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Column(modifier = Modifier.weight(0.5f)) {
@@ -136,57 +153,161 @@ fun Home(
                             style = MaterialTheme.typography.headlineMedium,
                         )
                     }
+//                    for (program in listProgram) {
+//                        Row(
+//                            modifier = Modifier
+//                                .background(Color.Yellow)
+//                                .fillMaxWidth(0.5f)
+//                                .padding(vertical = 15.dp, horizontal = 15.dp)
+//                                .border(
+//                                    1.dp,
+//                                    Color.Black,
+//                                    shape = RoundedCornerShape(15.dp)
+//                                )
+//                                .requiredHeight(120.dp)
+//                                .requiredWidth(180.dp)
+//                        ) {
+//                            Column(
+//                                modifier = Modifier
+//                                    .padding(vertical = 15.dp, horizontal = 15.dp),
+//                            ) {
+//                                Column(
+//                                    modifier = Modifier.weight(0.6f)
+//                                ) {
+//                                    Text(
+//                                        text = program,
+//                                        style = MaterialTheme.typography.bodySmall
+//                                    )
+//                                    Text(
+//                                        text = program,
+//                                        style = MaterialTheme.typography.headlineSmall,
+//                                        overflow = TextOverflow.Ellipsis,
+//                                    )
+//                                }
+//                                ElevatedButton(
+//                                    modifier = Modifier
+//                                        .fillMaxWidth()
+//                                        .weight(0.4f),
+//                                    onClick = {
+//                                        navProgram(navController, program)
+//                                    },
+//                                ) {
+//                                    Text(
+//                                        text = "Show",
+//                                    )
+//                                }
+//                            }
+//                        }
+                    //    }
 
-                    LazyVerticalGrid(
-                        columns = GridCells.Adaptive(150.dp)
-                    ) {
-                        var i = 0
-                            items(listProgram.size) {
-                                Box(
+
+//                    LazyHorizontalGrid(
+//                        rows = GridCells.Fixed(1),
+//                    )
+////                    LazyVerticalGrid(
+////                        columns = GridCells.Adaptive(150.dp)
+////                    )
+//                    {
+//                        var i = 0
+//                        items(listProgram.size) {
+//                            Row(
+//                                modifier = Modifier
+//                                    .padding(vertical = 15.dp, horizontal = 10.dp)
+//                                    .border(
+//                                        1.dp,
+//                                        Color.Black,
+//                                        shape = RoundedCornerShape(15.dp)
+//                                    )
+////                                    .requiredHeight(220.dp)
+////                                    .requiredWidth(150.dp),
+//
+//                            ) {
+//                                Column(
+//                                    modifier = Modifier
+//                                        .padding(vertical = 15.dp, horizontal = 15.dp),
+//                                ) {
+//                                    Column(
+//                                        modifier = Modifier.weight(0.6f)
+//                                    ) {
+//                                        Text(
+//                                            text = tipeProgram(it),
+//                                            style = MaterialTheme.typography.bodySmall
+//                                        )
+//                                        Text(
+//                                            text = listProgram[it],
+//                                            style = MaterialTheme.typography.headlineSmall,
+//                                            overflow = TextOverflow.Ellipsis,
+//                                        )
+//                                    }
+//                                    ElevatedButton(
+//                                        modifier = Modifier
+//                                            .fillMaxWidth()
+//                                            .weight(0.4f),
+//                                        onClick = {
+//                                            navProgram(navController, listProgram[it])
+//                                        },
+//                                    ) {
+//                                        Text(
+//                                            text = "Show",
+//                                        )
+//                                    }
+//                                }
+//                                i++
+//                            }
+//                        }
+//                    }
+                    LazyRow() {
+                        items(listProgram.size) { it ->
+                            Row(
+                                modifier = Modifier
+                                    .padding(vertical = 15.dp, horizontal = 10.dp)
+                                    .border(
+                                        1.dp,
+                                        Color.Black,
+                                        shape = RoundedCornerShape(15.dp)
+                                    )
+//                                    .requiredHeight(220.dp)
+//                                    .requiredWidth(150.dp),
+
+                            ) {
+                                Column(
                                     modifier = Modifier
-                                        .padding(vertical = 15.dp, horizontal = 10.dp)
-                                        .border(
-                                            1.dp,
-                                            Color.Black,
-                                            shape = RoundedCornerShape(15.dp)
-                                        )
-                                        .requiredHeight(120.dp)
+                                        .padding(vertical = 15.dp, horizontal = 15.dp),
                                 ) {
                                     Column(
-                                        modifier = Modifier
-                                            .padding(vertical = 15.dp, horizontal = 15.dp),
+//                                        modifier = Modifier.weight(0.6f)
                                     ) {
-                                        Column(
-                                            modifier = Modifier.weight(0.6f)
-                                        ) {
-                                            Text(
-                                                text = tipeProgram(it),
-                                                style = MaterialTheme.typography.bodySmall
-                                            )
-                                            Text(
-                                                text = listProgram[it],
-                                                style = MaterialTheme.typography.headlineSmall,
-                                                overflow = TextOverflow.Ellipsis,
-                                            )
-                                        }
-                                        ElevatedButton(
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .weight(0.4f),
-                                            onClick = {
-                                                navProgram(navController, listProgram[it])
-                                            },
-                                        ) {
-                                            Text(
-                                                text = "Show",
-                                            )
-                                        }
+                                        Text(
+                                            text = tipeProgram(it),
+                                            style = MaterialTheme.typography.bodySmall
+                                        )
+                                        Text(
+                                            text = listProgram[it],
+                                            style = MaterialTheme.typography.headlineSmall,
+                                            overflow = TextOverflow.Ellipsis,
+                                        )
                                     }
-                                    i++
+                                    ElevatedButton(
+                                        modifier = Modifier
+//                                            .weight(0.3f)
+                                            .fillMaxWidth(),
+                                        onClick = {
+                                            navProgram(navController, listProgram[it])
+                                        },
+                                    ) {
+                                        Text(
+                                            text = "Show",
+                                        )
+                                    }
                                 }
                             }
+                        }
                     }
-
+//                    Spacer(
+//                        modifier = Modifier
+//                            .size(25.dp)
+//                            .background(Color.Yellow)
+//                    )
                 }
             }
         }
