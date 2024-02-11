@@ -272,10 +272,12 @@ fun Home(
                             ) {
                                 Column(
                                     modifier = Modifier
-                                        .padding(vertical = 15.dp, horizontal = 15.dp),
+                                        .padding(horizontal = 15.dp)
+                                        .requiredWidth(150.dp)
+                                        .requiredHeight(120.dp),
+                                    verticalArrangement = Arrangement.SpaceEvenly
                                 ) {
                                     Column(
-//                                        modifier = Modifier.weight(0.6f)
                                     ) {
                                         Text(
                                             text = tipeProgram(listProgram[it]),
@@ -285,6 +287,7 @@ fun Home(
                                             text = listProgram[it],
                                             style = MaterialTheme.typography.headlineSmall,
                                             overflow = TextOverflow.Ellipsis,
+                                            maxLines = 1
                                         )
                                     }
                                     ElevatedButton(
