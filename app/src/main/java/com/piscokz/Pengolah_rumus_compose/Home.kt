@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -37,6 +38,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -58,7 +60,7 @@ fun Home(
         Surface(
             modifier = Modifier
                 .fillMaxSize()
-//                .verticalScroll(rememberScrollState())
+                .verticalScroll(rememberScrollState())
         ) {
             Scaffold(
                 modifier = Modifier
@@ -70,29 +72,19 @@ fun Home(
                                 "MultiGram",
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
-                                style = MaterialTheme.typography.headlineLarge
+                                style = MaterialTheme.typography.headlineLarge,
+                                fontWeight = FontWeight.ExtraBold
 
                             )
                         },
-//                        actions = {
-//                            IconButton(
-//                                onClick = {
-//
-//                                }
-//                            ) {
-//                                Icon(
-//                                    imageVector = Icons.Sharp.MoreVert,
-//                                    tint = Color.Black,
-//                                    contentDescription = "More settings",
-//                                )
-//                            }
-//                        },
                     )
 
                 }
 
             ) { paddingValues ->
-                var rekomendasi = listRumus[0]
+
+                val lebarTombol = 100.dp
+                val rekomendasi = listRumus[0]
                 Column() {
                     Column(
                         modifier = Modifier
@@ -101,8 +93,9 @@ fun Home(
 
                     ) {
                         Text(
-                            text = "Rekomendasi :",
+                            text = "Rekomendasi ",
                             style = MaterialTheme.typography.headlineMedium,
+                            fontWeight = FontWeight.Bold,
                         )
                     }
                     Surface(
@@ -123,7 +116,6 @@ fun Home(
                                 Text(
                                     text = rekomendasi,
                                     style = MaterialTheme.typography.headlineSmall,
-                                    overflow = TextOverflow.Ellipsis,
                                 )
                             }
                             ElevatedButton(
@@ -131,151 +123,46 @@ fun Home(
                                     navProgram(navController, rekomendasi)
                                 },
                                 modifier = Modifier
-                                    .weight(0.3f),
+                                    .width(lebarTombol)
+                                    .padding(start = 5.dp)
                             ) {
-                                Text("Show")
+                                Text("Lihat")
                             }
                         }
                     }
-//                LazyColumn(
-//                    modifier = Modifier
-//                        .padding(paddingValues)
-//                        .padding(vertical = 10.dp, horizontal = 10.dp)
-//                        .clip(RoundedCornerShape(15.dp)),
-//                ) {
+
                     Column(
                         modifier = Modifier
                             .padding(start = 10.dp, bottom = 5.dp, top = 20.dp)
 
                     ) {
                         Text(
-                            text = "Lainnya :",
+                            text = "Lainnya ",
                             style = MaterialTheme.typography.headlineMedium,
+                            fontWeight = FontWeight.Bold,
                         )
                     }
-//                    for (program in listProgram) {
-//                        Row(
-//                            modifier = Modifier
-//                                .background(Color.Yellow)
-//                                .fillMaxWidth(0.5f)
-//                                .padding(vertical = 15.dp, horizontal = 15.dp)
-//                                .border(
-//                                    1.dp,
-//                                    Color.Black,
-//                                    shape = RoundedCornerShape(15.dp)
-//                                )
-//                                .requiredHeight(120.dp)
-//                                .requiredWidth(180.dp)
-//                        ) {
-//                            Column(
-//                                modifier = Modifier
-//                                    .padding(vertical = 15.dp, horizontal = 15.dp),
-//                            ) {
-//                                Column(
-//                                    modifier = Modifier.weight(0.6f)
-//                                ) {
-//                                    Text(
-//                                        text = program,
-//                                        style = MaterialTheme.typography.bodySmall
-//                                    )
-//                                    Text(
-//                                        text = program,
-//                                        style = MaterialTheme.typography.headlineSmall,
-//                                        overflow = TextOverflow.Ellipsis,
-//                                    )
-//                                }
-//                                ElevatedButton(
-//                                    modifier = Modifier
-//                                        .fillMaxWidth()
-//                                        .weight(0.4f),
-//                                    onClick = {
-//                                        navProgram(navController, program)
-//                                    },
-//                                ) {
-//                                    Text(
-//                                        text = "Show",
-//                                    )
-//                                }
-//                            }
-//                        }
-                    //    }
-
-
-//                    LazyHorizontalGrid(
-//                        rows = GridCells.Fixed(1),
-//                    )
-////                    LazyVerticalGrid(
-////                        columns = GridCells.Adaptive(150.dp)
-////                    )
-//                    {
-//                        var i = 0
-//                        items(listProgram.size) {
-//                            Row(
-//                                modifier = Modifier
-//                                    .padding(vertical = 15.dp, horizontal = 10.dp)
-//                                    .border(
-//                                        1.dp,
-//                                        Color.Black,
-//                                        shape = RoundedCornerShape(15.dp)
-//                                    )
-////                                    .requiredHeight(220.dp)
-////                                    .requiredWidth(150.dp),
-//
-//                            ) {
-//                                Column(
-//                                    modifier = Modifier
-//                                        .padding(vertical = 15.dp, horizontal = 15.dp),
-//                                ) {
-//                                    Column(
-//                                        modifier = Modifier.weight(0.6f)
-//                                    ) {
-//                                        Text(
-//                                            text = tipeProgram(it),
-//                                            style = MaterialTheme.typography.bodySmall
-//                                        )
-//                                        Text(
-//                                            text = listProgram[it],
-//                                            style = MaterialTheme.typography.headlineSmall,
-//                                            overflow = TextOverflow.Ellipsis,
-//                                        )
-//                                    }
-//                                    ElevatedButton(
-//                                        modifier = Modifier
-//                                            .fillMaxWidth()
-//                                            .weight(0.4f),
-//                                        onClick = {
-//                                            navProgram(navController, listProgram[it])
-//                                        },
-//                                    ) {
-//                                        Text(
-//                                            text = "Show",
-//                                        )
-//                                    }
-//                                }
-//                                i++
-//                            }
-//                        }
-//                    }
                     LazyRow() {
                         items(listProgram.size) {
                             Row(
                                 modifier = Modifier
-                                    .padding(vertical = 15.dp, horizontal = 10.dp)
+                                    .padding(vertical = 15.dp, horizontal = 2.dp)
+                                    .padding(start = 8.dp)
                                     .border(
                                         1.dp,
                                         Color.Black,
                                         shape = RoundedCornerShape(15.dp)
                                     )
-//                                    .requiredHeight(220.dp)
-//                                    .requiredWidth(150.dp),
 
                             ) {
+
                                 Column(
                                     modifier = Modifier
                                         .padding(horizontal = 15.dp)
                                         .requiredWidth(150.dp)
                                         .requiredHeight(120.dp),
-                                    verticalArrangement = Arrangement.SpaceEvenly
+                                    verticalArrangement = Arrangement.SpaceAround,
+                                    horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
                                     Column(
                                     ) {
@@ -291,38 +178,21 @@ fun Home(
                                         )
                                     }
                                     ElevatedButton(
-                                        modifier = Modifier
-//                                            .weight(0.3f)
-                                            .fillMaxWidth(),
+                                        modifier = Modifier.width(lebarTombol),
                                         onClick = {
                                             navProgram(navController, listProgram[it])
                                         },
                                     ) {
                                         Text(
-                                            text = "Show",
+                                            text = "Lihat",
                                         )
                                     }
                                 }
                             }
                         }
                     }
-//                    Spacer(
-//                        modifier = Modifier
-//                            .size(25.dp)
-//                            .background(Color.Yellow)
-//                    )
                 }
             }
         }
     }
 }
-
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Preview
-@Composable
-fun Prev() {
-    PengolahRumusComposeTheme {
-    }
-}
-

@@ -26,7 +26,7 @@ private val DarkColorScheme = darkColorScheme(
     onSurface = Navy,
     primary = LightBlue,
     onPrimary = Chartreuse,
-    background = LightBlue,
+    background = Color.Black,
 
 )
 

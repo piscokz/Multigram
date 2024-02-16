@@ -4,9 +4,9 @@ import androidx.navigation.NavController
 import com.piscokz.Pengolah_rumus_compose.Screen
 
 
-var listKonversi : List<String> = listOf("Panjang (m)", "Berat (g)")
-var listRumus : List<String> = listOf("persamaan dua variabel")
-var listProgram : List<String> = listRumus + listKonversi
+var listKonversi : List<String> = listOf()
+var listRumus : List<String> = listOf("keliling persegi panjang", "luas persegi panjang", "volume persegi panjang")
+var listProgram : List<String> = listKonversi + listRumus
 
 
 fun navProgram (
@@ -14,7 +14,7 @@ fun navProgram (
     string: String
 )  {
     when {
-        listRumus.contains(string) -> navController.navigate(Screen.Rumus.route)
+        listRumus[0].contains(string) -> navController.navigate(Screen.Rumus.route)
         else -> {}
     }
 }

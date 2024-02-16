@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.PengolahRumusCompose" parent="android:Theme.Material.Light.NoActionBar" />
+
+<!--    <resources>-->
+<!--        <style name="Theme." parent="@android:style/Theme.DeviceDefault" />-->
+
+<!--        <style name="Theme.App.Starting" parent="Theme.SplashScreen">-->
+<!--            &lt;!&ndash; Set the splash screen background to black &ndash;&gt;-->
+<!--            <item name="windowSplashScreenBackground">@android:color/black</item>-->
+<!--            &lt;!&ndash; Use windowSplashScreenAnimatedIcon to add a drawable or an animated-->
+<!--                 drawable. &ndash;&gt;-->
+<!--            <item name="windowSplashScreenAnimatedIcon">@drawable/splash_screen</item>-->
+<!--            &lt;!&ndash; Set the theme of the Activity that follows your splash screen. &ndash;&gt;-->
+<!--            <item name="postSplashScreenTheme">@style/Theme.App</item>-->
+<!--        </style>-->
+<!--    </resources>-->
+</resources>
