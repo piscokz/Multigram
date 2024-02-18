@@ -38,7 +38,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -60,13 +63,13 @@ fun Home(
         Surface(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
         ) {
             Scaffold(
                 modifier = Modifier
                     .fillMaxSize(),
                 topBar = {
                     CenterAlignedTopAppBar(
+                        modifier = Modifier.background(Color.Green),
                         title = {
                             Text(
                                 "MultiGram",
@@ -100,22 +103,29 @@ fun Home(
                     }
                     Surface(
                         modifier = Modifier
-                            .padding(vertical = 10.dp, horizontal = 10.dp)
-                            .border(1.dp, Color.Black, shape = RoundedCornerShape(15.dp))
+                            .padding(vertical = 10.dp, horizontal = 10.dp),
+                        shape = RoundedCornerShape(15.dp)
+
                     ) {
 
                         Row(
-                            modifier = Modifier.padding(vertical = 50.dp, horizontal = 15.dp),
-                            verticalAlignment = Alignment.CenterVertically
+                            modifier = Modifier
+                                .padding(vertical = 50.dp, horizontal = 15.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+
                         ) {
                             Column(modifier = Modifier.weight(0.5f)) {
                                 Text(
                                     text = tipeProgram(rekomendasi),
-                                    style = MaterialTheme.typography.bodySmall
-                                )
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    fontWeight = FontWeight.Medium
+
+                                    )
                                 Text(
                                     text = rekomendasi,
-                                    style = MaterialTheme.typography.headlineSmall,
+                                    style = MaterialTheme.typography.headlineMedium,
+                                    fontFamily = FontFamily.Default,
+                                    fontWeight = FontWeight.Medium
                                 )
                             }
                             ElevatedButton(
@@ -147,45 +157,47 @@ fun Home(
                             Row(
                                 modifier = Modifier
                                     .padding(vertical = 15.dp, horizontal = 2.dp)
-                                    .padding(start = 8.dp)
-                                    .border(
-                                        1.dp,
-                                        Color.Black,
-                                        shape = RoundedCornerShape(15.dp)
-                                    )
-
+                                    .padding(start = 8.dp),
                             ) {
-
-                                Column(
-                                    modifier = Modifier
-                                        .padding(horizontal = 15.dp)
-                                        .requiredWidth(150.dp)
-                                        .requiredHeight(120.dp),
-                                    verticalArrangement = Arrangement.SpaceAround,
-                                    horizontalAlignment = Alignment.CenterHorizontally
+                                Surface(
+                                    shape = RoundedCornerShape(15.dp)
                                 ) {
                                     Column(
+                                        modifier = Modifier
+                                            .padding(horizontal = 10.dp, vertical = 10.dp)
+                                            .requiredWidth(160.dp)
+                                            .requiredHeight(100.dp),
                                     ) {
-                                        Text(
-                                            text = tipeProgram(listProgram[it]),
-                                            style = MaterialTheme.typography.bodySmall
-                                        )
-                                        Text(
-                                            text = listProgram[it],
-                                            style = MaterialTheme.typography.headlineSmall,
-                                            overflow = TextOverflow.Ellipsis,
-                                            maxLines = 1
-                                        )
-                                    }
-                                    ElevatedButton(
-                                        modifier = Modifier.width(lebarTombol),
-                                        onClick = {
-                                            navProgram(navController, listProgram[it])
-                                        },
-                                    ) {
-                                        Text(
-                                            text = "Lihat",
-                                        )
+                                        Column(
+                                            modifier = Modifier
+                                                .weight(0.5f),
+                                        ) {
+                                            Text(
+                                                text = tipeProgram(listProgram[it]),
+                                                style = MaterialTheme.typography.bodySmall,
+                                                fontWeight = FontWeight.Medium
+                                            )
+                                            Text(
+                                                text = listProgram[it],
+                                                style = MaterialTheme.typography.headlineSmall,
+                                                overflow = TextOverflow.Ellipsis,
+                                                maxLines = 1,
+                                                fontWeight = FontWeight.Medium
+                                            )
+                                        }
+                                        ElevatedButton(
+                                            modifier = Modifier
+                                                .width(lebarTombol)
+                                                .weight(0.3f),
+                                            onClick = {
+                                                navProgram(navController, listProgram[it])
+                                            },
+                                        ) {
+                                            Text(
+                                                text = "Lihat",
+                                                textAlign = TextAlign.Center
+                                            )
+                                        }
                                     }
                                 }
                             }

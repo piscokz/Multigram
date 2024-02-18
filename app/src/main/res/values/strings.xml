@@ -1,29 +1,6 @@
 <resources>
-    <string name="app_name">Pengolah rumus compose</string>
+    <string name="app_name">MutliGram</string>
 
     <string name="deskripsi_persegi">persegi</string>
-
-    <!--  Rumus Keliling Persegi  -->
-
-    <string name="sub_judul_deskripsi">Deskripsi</string>
-    <string name="isi_deskripsi">
-        Persegi adalah bangun datar dua dimensi yang dibentuk oleh empat buah rusuk yang sama
-        panjang dan memiliki empat buah sudut yang kesemuanya adalah sudut siku-siku.
-    </string>
-
-    <string name="sub_judul_sifat">Sifat</string>
-    <string name="isi_sifat_1">
-        1. Memiliki empat ruas garis AB - DC - AD dan BC
-    </string>
-    <string name="isi_sifat_2">
-        2. Keempat ruas garis tersebut sama panjang
-    </string>
-    <string name="isi_sifat_3">
-        3. Memiliki empat buah sudut sama besar
-    </string>
-
-    <string name="sub_judul_rumus">Rumus</string>
-    <string name="isi_rumus">K = 4 x s / s + s + s + s</string>
-
 
 </resources>

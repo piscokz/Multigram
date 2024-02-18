@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.PengolahRumusCompose" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.PengolahRumusCompose" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="postSplashScreenTheme">@style/Theme.PengolahRumusCompose</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@mipmap/multi_gram_icon2</item>
+    </style>
 
-<!--    <resources>-->
-<!--        <style name="Theme." parent="@android:style/Theme.DeviceDefault" />-->
-
-<!--        <style name="Theme.App.Starting" parent="Theme.SplashScreen">-->
-<!--            &lt;!&ndash; Set the splash screen background to black &ndash;&gt;-->
-<!--            <item name="windowSplashScreenBackground">@android:color/black</item>-->
-<!--            &lt;!&ndash; Use windowSplashScreenAnimatedIcon to add a drawable or an animated-->
-<!--                 drawable. &ndash;&gt;-->
-<!--            <item name="windowSplashScreenAnimatedIcon">@drawable/splash_screen</item>-->
-<!--            &lt;!&ndash; Set the theme of the Activity that follows your splash screen. &ndash;&gt;-->
-<!--            <item name="postSplashScreenTheme">@style/Theme.App</item>-->
-<!--        </style>-->
-<!--    </resources>-->
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="postSplashScreenTheme">@style/Theme.PengolahRumusCompose</item>
+<!--        <item name="android:windowSplashScreenBrandingImage">@mipmap/multi_gram_icon2_foreground</item>-->
+<!--        <item name="android:windowSplashScreenAnimatedIcon">@drawable/multi_gram_logo_xml</item>-->
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/white</item>
+    </style>
 </resources>

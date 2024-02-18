@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Pengolah rumus compose"
+rootProject.name = "Multigram"
 include(":app")
  
