@@ -1,8 +1,6 @@
 package com.piscokz.Pengolah_rumus_compose.ui.theme
 
 import android.app.Activity
-import android.content.Context
-import android.content.ContextWrapper
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -19,27 +17,33 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-//    primary = Color.Green,
-//    secondary = PurpleGrey80,
-//    tertiary = Pink80
-    surface = Color.Black,
-    onSurface = Navy,
-    primary = LightBlue,
-    onPrimary = Chartreuse,
-    background = Color.White,
-
+    surface = DarkBlue,
+    onSurface = Color.White, // tulisan di dropDownMenu, tulisan pada list rumus, tulisan di toppBar
+    primary = Color.White, // text button
+    onSecondary = Color.Green,
+    secondary = Color.Green, // -
+    onPrimary = Navy, // -
+    background = DarkBackground, // background
+    onBackground = Color.White, // tulisan pada background
+    onTertiary = Color.Green,
+    error = Color.Red,
+    onError = Color.Red,
 )
 
 private val LightColorScheme = lightColorScheme(
-    surface = Blue,
-    onSurface = Color.White,
-    primary = Color.White,
-    onSecondary = Color.Green,
-    secondary = Color.White,
+    surface = LightBlue,
+    onSurface = Color.DarkGray,
+    primary = Color.DarkGray,
+    onSecondary = Color.Black,
+    secondary = Color.Green,
     onPrimary = Navy,
-    background = LightBlue,
-    onBackground = Color.White,
+    background = Color.White,
+    onBackground = LightBackground,
     onTertiary = Color.Green,
+    error = Color.Red,
+    onError = Color.Red,
+    primaryContainer = Color.Yellow,
+    onPrimaryContainer = Color.Red
 )
 
 @Composable
@@ -55,7 +59,7 @@ fun PengolahRumusComposeTheme(
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
 
-//        darkTheme -> DarkColorScheme
+        darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
     val view = LocalView.current

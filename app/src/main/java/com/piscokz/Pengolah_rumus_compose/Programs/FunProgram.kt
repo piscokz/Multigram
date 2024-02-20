@@ -1,5 +1,12 @@
 package com.piscokz.Pengolah_rumus_compose.Programs
 
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
+import com.piscokz.Pengolah_rumus_compose.ui.theme.DarkButtonColors
+import com.piscokz.Pengolah_rumus_compose.ui.theme.LightButtonColors
 import kotlin.math.pow
 
 fun kpp(panjang: String, lebar: String, ukuranPanjang: String): String {
@@ -87,4 +94,59 @@ fun displayUkuranPanjang(
             "konversi"
         }
     }
+}
+
+fun cekInput(
+    input1:String,
+    input2: String = "uhuy"
+) : Boolean {
+    val hasilFinal : Boolean
+    val hasil1 : String = when {
+        input1.contains("-") || input1.contains(".") || input1.contains(",") -> {"false"}
+        else -> {"true"}
+    }
+    val hasil2 : String = when {
+        input2.contains("-") || input2.contains(".") || input2.contains(",") -> {"false"}
+        else -> {"true"}
+    }
+
+    if (hasil1 == "true" && hasil2 == "true") { hasilFinal = true }
+    else if (hasil1 == "true" && input2 == "uhuy") { hasilFinal = true }
+    else { hasilFinal = false }
+
+    return hasilFinal
+}
+
+@Composable
+fun switchColor() : Color {
+    var a : Color
+    if (isSystemInDarkTheme()) {
+        a = Color.LightGray
+    }
+    else {
+        a = Color.Black
+    }
+    return a
+}
+
+@Composable
+fun switchButtonColors() : ButtonColors {
+    var a : ButtonColors
+    if (isSystemInDarkTheme()) {
+        a = ButtonColors(
+            containerColor = DarkButtonColors, // background color
+            contentColor = Color.White, // text color
+            disabledContainerColor = Color.White,
+            disabledContentColor = Color.Black
+        )
+    }
+    else {
+        a = ButtonColors(
+            containerColor = LightButtonColors,
+            contentColor = Color.Black,
+            disabledContainerColor = Color.Black,
+            disabledContentColor = Color.Red
+        )
+    }
+    return a
 }

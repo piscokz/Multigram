@@ -6,9 +6,8 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/multi_gram_icon2"
+        android:icon="@drawable/multigram4"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/multi_gram_icon2_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PengolahRumusCompose"
         tools:targetApi="34">

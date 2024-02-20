@@ -3,7 +3,7 @@
 
     <style name="Theme.PengolahRumusCompose" parent="android:Theme.Material.Light.NoActionBar">
         <item name="postSplashScreenTheme">@style/Theme.PengolahRumusCompose</item>
-        <item name="android:windowSplashScreenAnimatedIcon">@mipmap/multi_gram_icon2</item>
+        <item name="android:windowSplashScreenBrandingImage">@drawable/splashscreen6</item>
     </style>
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">

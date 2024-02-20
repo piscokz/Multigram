@@ -9,9 +9,13 @@ val Pink80 = Color(0xFFEFB8C8)
 val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
+val Navy = Color(0xFF061E63)
 
-val Navy = Color(0xFF073042)
-val Blue = Color(0xFF4285F4)
-val Chartreuse = Color(0xFFEFF7CF)
-
+val DarkBlue = Color(0xFF093379)
 val LightBlue = Color(0xFF82B1FF)
+
+val DarkBackground = Color(0xFF000000)
+val LightBackground = Color(0xFFE4E4E4)
+
+val DarkButtonColors = Color(0x52000000)
+val LightButtonColors = Color(0xFFA4C5FF)

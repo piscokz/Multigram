@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -46,11 +47,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.piscokz.Pengolah_rumus_compose.Programs.cekInput
 import com.piscokz.Pengolah_rumus_compose.Programs.displayKpp
 import com.piscokz.Pengolah_rumus_compose.Programs.displaylp
 import com.piscokz.Pengolah_rumus_compose.Programs.konversiUkuranPanjang
 import com.piscokz.Pengolah_rumus_compose.Programs.listRumus
 import com.piscokz.Pengolah_rumus_compose.Programs.lp
+import com.piscokz.Pengolah_rumus_compose.Programs.switchButtonColors
+import com.piscokz.Pengolah_rumus_compose.Programs.switchColor
 import com.piscokz.Pengolah_rumus_compose.ui.theme.PengolahRumusComposeTheme
 
 val listUkuranPanjang: List<String> = listOf("mm", "cm", "dm", "m", "dam", "hm", "km")
@@ -138,12 +142,13 @@ fun lp(
                         ) {
 
                             Text(
+                                color = switchColor(),
                                 text = displaylp(display2,panjang,lebar,ukuranInputPanjang,ukuranInputLebar),
                                 fontFamily = FontFamily.Serif,
                                 style = MaterialTheme.typography.headlineMedium,
                                 modifier = Modifier
                                     .fillMaxWidth(1f)
-                                    .border(1.dp, Color.Black)
+                                    .border(1.dp, switchColor())
                                     .padding(15.dp),
                                 textAlign = TextAlign.Center,
                                 fontStyle = FontStyle.Italic,
@@ -171,7 +176,7 @@ fun lp(
                                         onValueChange = { panjang = it },
                                         label = {
                                             Text(
-                                                color = Color.White,
+                                                color = switchColor(),
                                                 text = "panjang",
                                                 fontFamily = FontFamily.Serif,
                                                 modifier = Modifier.fillMaxWidth(),
@@ -187,14 +192,14 @@ fun lp(
                                             .width(lebarTexfield.dp),
                                         suffix = {
                                             Text(
-                                                color = Color.White,
+                                                color = switchColor(),
                                                 text = " $ukuranInputPanjang",
                                                 fontFamily = FontFamily.Monospace,
                                                 style = MaterialTheme.typography.titleMedium
                                             )
                                         },
                                         supportingText = {
-                                            if (panjang.isEmpty()) Text(text = "masukkan angka", color = Color.White)
+                                            if (panjang.isEmpty()) Text(text = "masukkan angka", color = switchColor())
                                         },
                                         isError = panjang.isEmpty() && tekanTombolHitung
                                     )
@@ -237,7 +242,7 @@ fun lp(
                                         onValueChange = { lebar = it },
                                         label = {
                                             Text(
-                                                color = Color.White,
+                                                color = switchColor(),
                                                 text = "lebar",
                                                 fontFamily = FontFamily.Serif,
                                                 modifier = Modifier.fillMaxWidth(),
@@ -255,14 +260,14 @@ fun lp(
                                             .width(lebarTexfield.dp),
                                         suffix = {
                                             Text(
-                                                color = Color.White,
+                                                color = switchColor(),
                                                 text = " $ukuranInputLebar",
                                                 fontFamily = FontFamily.Monospace,
                                                 style = MaterialTheme.typography.titleMedium
                                             )
                                         },
                                         supportingText = {
-                                            if (lebar.isEmpty()) Text(text = "masukkan angka", color = Color.White)
+                                            if (lebar.isEmpty()) Text(text = "masukkan angka", color = switchColor())
                                         },
                                         isError = lebar.isEmpty() && tekanTombolHitung
                                     )
@@ -302,23 +307,26 @@ fun lp(
                                     }
                                 }
                                 ElevatedButton(
+                                    shape = RoundedCornerShape(35.dp),
+                                    colors = switchButtonColors(),
                                     onClick = {
-
-                                        tekanTombolHitung = panjang.isEmpty() || lebar.isEmpty()
-                                        if (panjang.isNotEmpty() && lebar.isNotEmpty()) {
-                                            panjang = konversiUkuranPanjang(
-                                                ukuranInputPanjang,
-                                                ukuranInputHitung,
-                                                panjang
-                                            )
-                                            lebar = konversiUkuranPanjang(
-                                                ukuranInputLebar,
-                                                ukuranInputHitung,
-                                                lebar
-                                            )
-                                            display2 = lp(panjang, lebar, ukuranInputHitung )
-                                            panjang = ""
-                                            lebar = ""
+                                        if (cekInput(panjang,lebar)) {
+                                            tekanTombolHitung = panjang.isEmpty() || lebar.isEmpty()
+                                            if (panjang.isNotEmpty() && lebar.isNotEmpty()) {
+                                                panjang = konversiUkuranPanjang(
+                                                    ukuranInputPanjang,
+                                                    ukuranInputHitung,
+                                                    panjang
+                                                )
+                                                lebar = konversiUkuranPanjang(
+                                                    ukuranInputLebar,
+                                                    ukuranInputHitung,
+                                                    lebar
+                                                )
+                                                display2 = lp(panjang, lebar, ukuranInputHitung )
+                                                panjang = ""
+                                                lebar = ""
+                                            }
                                         }
                                     },
                                     modifier = Modifier.padding(end = 10.dp),
@@ -329,6 +337,8 @@ fun lp(
                                     )
                                 }
                                 ElevatedButton(
+                                    shape = RoundedCornerShape(35.dp),
+                                    colors = switchButtonColors(),
                                     onClick = {
                                         panjang = ""
                                         lebar = ""
@@ -348,7 +358,7 @@ fun lp(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(1.dp)
-                                    .border(1.dp, Color.Black)
+                                    .border(1.dp, switchColor())
                             )
                         }
                     }

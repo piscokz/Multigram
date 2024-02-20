@@ -74,7 +74,8 @@ fun kpp(
                     TopAppBar(
                         title = {
                             Text(
-                                listRumus[0],
+                                color = switchColor(),
+                                text = listRumus[0],
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                                 style = MaterialTheme.typography.headlineLarge
@@ -136,13 +137,20 @@ fun kpp(
                         ) {
 
                             Text(
-                                text = displayKpp(display2,panjang,lebar,ukuranInputPanjang,ukuranInputLebar),
+                                color = switchColor(),
+                                text = displayKpp(
+                                    display2,
+                                    panjang,
+                                    lebar,
+                                    ukuranInputPanjang,
+                                    ukuranInputLebar
+                                ),
                                 fontFamily = FontFamily.Serif,
                                 fontWeight = FontWeight.Thin,
                                 style = MaterialTheme.typography.headlineMedium,
                                 modifier = Modifier
                                     .fillMaxWidth(1f)
-                                    .border(1.dp, Color.Black)
+                                    .border(1.dp, switchColor())
                                     .padding(15.dp),
                                 textAlign = TextAlign.Center,
                                 fontStyle = FontStyle.Italic,
@@ -170,7 +178,7 @@ fun kpp(
                                         onValueChange = { panjang = it },
                                         label = {
                                             Text(
-                                                color = Color.White,
+                                                color = switchColor(),
                                                 text = "panjang",
                                                 fontFamily = FontFamily.Serif,
                                                 modifier = Modifier.fillMaxWidth(),
@@ -187,14 +195,17 @@ fun kpp(
                                             .width(lebarTexfield.dp),
                                         suffix = {
                                             Text(
-                                                color = Color.White,
+                                                color = switchColor(),
                                                 text = " $ukuranInputPanjang",
                                                 fontFamily = FontFamily.Monospace,
                                                 style = MaterialTheme.typography.titleMedium
                                             )
                                         },
                                         supportingText = {
-                                            if (panjang.isEmpty()) Text(text = "masukkan angka", color = Color.White)
+                                            if (panjang.isEmpty()) Text(
+                                                text = "masukkan angka",
+                                                color = switchColor()
+                                            )
                                         },
                                         isError = panjang.isEmpty() && tekanTombolHitung
                                     )
@@ -237,7 +248,7 @@ fun kpp(
                                         onValueChange = { lebar = it },
                                         label = {
                                             Text(
-                                                color = Color.White,
+                                                color = switchColor(),
                                                 text = "lebar",
                                                 fontFamily = FontFamily.Serif,
                                                 modifier = Modifier.fillMaxWidth(),
@@ -256,21 +267,20 @@ fun kpp(
                                         modifier = Modifier
                                             .width(lebarTexfield.dp)
                                             .pointerInput(key1 = true) {
-                                                detectTapGestures(
-                                                    onLongPress = {
-                                                    }
-                                                )
                                             },
                                         suffix = {
                                             Text(
-                                                color = Color.White,
+                                                color = switchColor(),
                                                 text = " $ukuranInputLebar",
                                                 fontFamily = FontFamily.Monospace,
                                                 style = MaterialTheme.typography.titleMedium,
                                             )
                                         },
                                         supportingText = {
-                                            if (lebar.isEmpty()) Text(text = "masukkan angka", color = Color.White)
+                                            if (lebar.isEmpty()) Text(
+                                                text = "masukkan angka",
+                                                color = switchColor()
+                                            )
                                         },
                                         isError = lebar.isEmpty() && tekanTombolHitung
                                     )
@@ -310,33 +320,42 @@ fun kpp(
                                     }
                                 }
                                 ElevatedButton(
+                                    shape = RoundedCornerShape(35.dp),
+                                    colors = switchButtonColors(),
                                     onClick = {
-
-                                        tekanTombolHitung = panjang.isEmpty() || lebar.isEmpty()
-                                        if (panjang.isNotEmpty() && lebar.isNotEmpty()) {
-                                            panjang = konversiUkuranPanjang(
-                                                ukuranInputPanjang,
-                                                ukuranInputHitung,
-                                                panjang
-                                            )
-                                            lebar = konversiUkuranPanjang(
-                                                ukuranInputLebar,
-                                                ukuranInputHitung,
-                                                lebar
-                                            )
-                                            display2 = kpp(panjang,lebar,ukuranInputHitung)
-                                            panjang = ""
-                                            lebar = ""
+                                        if(cekInput(panjang,lebar)) {
+                                            tekanTombolHitung = panjang.isEmpty() || lebar.isEmpty()
+                                            if (panjang.isNotEmpty() && lebar.isNotEmpty()) {
+                                                panjang = konversiUkuranPanjang(
+                                                    ukuranInputPanjang,
+                                                    ukuranInputHitung,
+                                                    panjang
+                                                )
+                                                lebar = konversiUkuranPanjang(
+                                                    ukuranInputLebar,
+                                                    ukuranInputHitung,
+                                                    lebar
+                                                )
+                                                display2 = kpp(panjang, lebar, ukuranInputHitung)
+                                                panjang = ""
+                                                lebar = ""
+                                            }
+                                            else {
+                                                tekanTombolHitung = true
+                                            }
                                         }
                                     },
                                     modifier = Modifier.padding(end = 10.dp),
                                 ) {
                                     Text(
+                                        color = switchColor(),
                                         text = "Hitung & konversikan $ukuranInputHitung",
                                         textAlign = TextAlign.Center
                                     )
                                 }
                                 ElevatedButton(
+                                    shape = RoundedCornerShape(35.dp),
+                                    colors = switchButtonColors(),
                                     onClick = {
                                         panjang = ""
                                         lebar = ""
@@ -344,7 +363,10 @@ fun kpp(
                                         tekanTombolHitung = false
                                     },
                                 ) {
-                                    Text(text = "Reset")
+                                    Text(
+                                        color = switchColor(),
+                                        text = "Reset"
+                                    )
                                 }
                             }
                             Spacer(
@@ -356,7 +378,7 @@ fun kpp(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(1.dp)
-                                    .border(1.dp, Color.Black)
+                                    .border(1.dp, switchColor())
                             )
                         }
                     }

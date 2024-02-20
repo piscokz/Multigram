@@ -127,7 +127,7 @@ fun ukuranPanjang(
                                     onValueChange = { konversi = it },
                                     label = {
                                         Text(
-                                            color = Color.White,
+                                            color = switchColor(),
                                             text = "konversi",
                                             style = MaterialTheme.typography.titleLarge,
                                             fontFamily = FontFamily.Serif,
@@ -144,14 +144,17 @@ fun ukuranPanjang(
                                         .fillMaxWidth(0.4f),
                                     suffix = {
                                         Text(
-                                            color = Color.White,
+                                            color = switchColor(),
                                             text = " $ukuranInput1",
                                             fontFamily = FontFamily.Monospace,
                                             style = MaterialTheme.typography.titleMedium
                                         )
                                     },
                                     supportingText = {
-                                        if (konversi.isEmpty()) Text(text = "masukkan angka", color = Color.White)
+                                        if (konversi.isEmpty()) Text(
+                                            text = "masukkan angka",
+                                            color = switchColor()
+                                        )
                                     },
                                     isError = konversi.isEmpty() && tekanTombolHitung
                                 )
@@ -171,26 +174,32 @@ fun ukuranPanjang(
                                             onClick = { ukuranInput1 = i })
                                     }
                                 }
-                                Column (
+                                Column(
                                     modifier = Modifier.padding(top = 5.dp)
-                                ){
+                                ) {
                                     Text(
-                                        text = displayUkuranPanjang(display2, konversi, ukuranInput1),
+                                        color = switchColor(),
+                                        text = displayUkuranPanjang(
+                                            display2,
+                                            konversi,
+                                            ukuranInput1
+                                        ),
                                         fontFamily = FontFamily.Serif,
                                         style = MaterialTheme.typography.headlineMedium,
                                         modifier = Modifier
                                             .fillMaxWidth(1f)
-                                            .border(1.dp, Color.Gray, shape = RoundedCornerShape(5.dp))
+                                            .border(
+                                                1.dp,
+                                                switchColor(),
+                                                shape = RoundedCornerShape(5.dp)
+                                            )
                                             .padding(vertical = 15.dp),
                                         textAlign = TextAlign.Center,
                                         fontStyle = FontStyle.Italic,
                                     )
                                 }
                             }
-
-
                         }
-
                         Spacer(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -241,18 +250,22 @@ fun ukuranPanjang(
                                     }
                                 }
                                 ElevatedButton(
+                                    shape = RoundedCornerShape(35.dp),
+                                    colors = switchButtonColors(),
                                     onClick = {
-
-                                        tekanTombolHitung = konversi.isEmpty()
-                                        if (konversi.isNotEmpty()) {
-                                            konversi = konversiUkuranPanjang(
-                                                ukuranInput1,
-                                                ukuranInputKonversi,
-                                                konversi
-                                            )
-                                            display2 = "$konversi $ukuranInputKonversi"
-                                            konversi = ""
+                                        if (cekInput(konversi)) {
+                                            tekanTombolHitung = konversi.isEmpty()
+                                            if (konversi.isNotEmpty()) {
+                                                konversi = konversiUkuranPanjang(
+                                                    ukuranInput1,
+                                                    ukuranInputKonversi,
+                                                    konversi
+                                                )
+                                                display2 = "$konversi $ukuranInputKonversi"
+                                                konversi = ""
+                                            }
                                         }
+
                                     },
                                     modifier = Modifier.padding(end = 10.dp),
                                 ) {
@@ -262,6 +275,8 @@ fun ukuranPanjang(
                                     )
                                 }
                                 ElevatedButton(
+                                    shape = RoundedCornerShape(35.dp),
+                                    colors = switchButtonColors(),
                                     onClick = {
                                         konversi = ""
                                         display2 = ""
@@ -280,7 +295,7 @@ fun ukuranPanjang(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(1.dp)
-                                    .border(1.dp, Color.Black)
+                                    .border(1.dp, switchColor())
                             )
                         }
                     }
