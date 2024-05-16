@@ -53,9 +53,9 @@ import com.piscokz.Pengolah_rumus_compose.ui.theme.PengolahRumusComposeTheme
 
 val listUkuranPanjang: List<String> = listOf("mm", "cm", "dm", "m", "dam", "hm", "km")
 
-val lebarTexfield = 120
-val marginBawah = 20
-val marginBawahSesi = 40
+const val lebarTexfield = 120
+const val marginBawah = 20
+const val marginBawahSesi = 40
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -323,7 +323,7 @@ fun kpp(
                                     shape = RoundedCornerShape(35.dp),
                                     colors = switchButtonColors(),
                                     onClick = {
-                                        if(cekInput(panjang,lebar)) {
+                                        if (cekInput(panjang, lebar)) {
                                             tekanTombolHitung = panjang.isEmpty() || lebar.isEmpty()
                                             if (panjang.isNotEmpty() && lebar.isNotEmpty()) {
                                                 panjang = konversiUkuranPanjang(
@@ -339,8 +339,7 @@ fun kpp(
                                                 display2 = kpp(panjang, lebar, ukuranInputHitung)
                                                 panjang = ""
                                                 lebar = ""
-                                            }
-                                            else {
+                                            } else {
                                                 tekanTombolHitung = true
                                             }
                                         }

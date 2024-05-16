@@ -25,18 +25,6 @@ fun Navigation() {
         composable(route = Screen.ukuranPanjang.route) {
             ukuranPanjang(navController = navController)
         }
-//        composable(
-//            route = Screen.Detail.route + "/{name}",
-//            arguments = listOf(
-//                navArgument("name") {
-//                    type = NavType.StringType
-//                    defaultValue = "Master"
-//                    nullable = true
-//                }
-//            )
-//        ) { entry ->
-//            DetailScreen(string = entry.arguments?.getString("name"), navController)
-//        }
 
     }
 }
