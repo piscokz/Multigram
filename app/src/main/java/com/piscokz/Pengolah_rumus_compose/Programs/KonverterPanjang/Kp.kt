@@ -46,6 +46,7 @@
 //import com.piscokz.Pengolah_rumus_compose.Programs.Kpp.listUkuranPanjang
 //import com.piscokz.Pengolah_rumus_compose.Programs.Kpp.marginBawah
 //import com.piscokz.Pengolah_rumus_compose.Programs.Kpp.marginBawahSesi
+//import com.piscokz.Pengolah_rumus_compose.listUkuranPanjang
 //import com.piscokz.Pengolah_rumus_compose.ui.theme.PengolahRumusComposeTheme
 //
 //@OptIn(ExperimentalMaterial3Api::class)
@@ -253,18 +254,18 @@
 //                                    shape = RoundedCornerShape(35.dp),
 //                                    colors = switchButtonColors(),
 //                                    onClick = {
-//                                        if (cekInput(konversi)) {
-//                                            tekanTombolHitung = konversi.isEmpty()
-//                                            if (konversi.isNotEmpty()) {
-//                                                konversi = konversiUkuranPanjang(
-//                                                    ukuranInput1,
-//                                                    ukuranInputKonversi,
-//                                                    konversi
-//                                                )
-//                                                display2 = "$konversi $ukuranInputKonversi"
-//                                                konversi = ""
-//                                            }
-//                                        }
+////                                        if (cekInput(konversi)) {
+////                                            tekanTombolHitung = konversi.isEmpty()
+////                                            if (konversi.isNotEmpty()) {
+////                                                konversi = konversiUkuranPanjang(
+////                                                    ukuranInput1,
+////                                                    ukuranInputKonversi,
+////                                                    konversi
+////                                                )
+////                                                display2 = "$konversi $ukuranInputKonversi"
+////                                                konversi = ""
+////                                            }
+////                                        }
 //
 //                                    },
 //                                    modifier = Modifier.padding(end = 10.dp),

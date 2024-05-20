@@ -42,9 +42,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.piscokz.Pengolah_rumus_compose.Programs.Lpp.LppViewModel
+import com.piscokz.Pengolah_rumus_compose.Programs.RumusLuasPersegiPanjang.LppViewModel
 import com.piscokz.Pengolah_rumus_compose.Programs.cekInput
-import com.piscokz.Pengolah_rumus_compose.Programs.konversiUkuranPanjang
 import com.piscokz.Pengolah_rumus_compose.Programs.listRumus
 import com.piscokz.Pengolah_rumus_compose.Programs.switchButtonColors
 import com.piscokz.Pengolah_rumus_compose.Programs.switchColor
@@ -298,15 +297,15 @@ fun LppBody(
                         shape = RoundedCornerShape(35.dp),
                         colors = switchButtonColors(),
                         onClick = {
-                            lppViewModel.panjang = lppViewModel.inputPanjang
-                            lppViewModel.lebar = lppViewModel.inputLebar
 
-                            if (cekInput(lppViewModel.panjang, lppViewModel.lebar)) {
+                            if (cekInput(lppViewModel.inputPanjang, lppViewModel.inputLebar)) {
 
                                 lppViewModel.tekanTombolHitung =
-                                    lppViewModel.panjang.isEmpty() || lppViewModel.lebar.isEmpty()
+                                    lppViewModel.inputPanjang.isEmpty() || lppViewModel.inputLebar.isEmpty()
 
-                                if (lppViewModel.panjang.isNotEmpty() && lppViewModel.lebar.isNotEmpty()) {
+                                if (lppViewModel.inputPanjang.isNotEmpty() && lppViewModel.inputLebar.isNotEmpty()) {
+                                    lppViewModel.panjang = lppViewModel.inputPanjang
+                                    lppViewModel.lebar = lppViewModel.inputLebar
 
                                     lppViewModel.panjang = lppViewModel.konversiUkuranLppPanjang()
 

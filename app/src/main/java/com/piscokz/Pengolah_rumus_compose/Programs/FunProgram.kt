@@ -4,74 +4,61 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ButtonColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import com.piscokz.Pengolah_rumus_compose.Programs.Kpp.listUkuranPanjang
+import com.piscokz.Pengolah_rumus_compose.Programs.RumusKelilingPersegiPanjang.listUkuranPanjang
 import com.piscokz.Pengolah_rumus_compose.ui.theme.DarkButtonColors
 import com.piscokz.Pengolah_rumus_compose.ui.theme.LightButtonColors
 import kotlin.math.pow
-
-fun hitungKpp(panjang: Double, lebar: Double, ukuranPanjang: String): String {
-    val hasil: Double = 2 * (panjang + lebar)
-    return "Kpp = ${cekBilanganBulat(hasil)} $ukuranPanjang"
-}
+import kotlin.math.roundToInt
 
 fun konversiUkuranPanjang(
     ukuranPanjang: String,
     ukuranKonversi: String,
     nilai: String,
-): String {
-//    val listUkuranPanjang: List<String> = listOf("mm", "cm", "dm", "m", "dam", "hm", "km")
-    var hasilNilai: Double = nilai.toDouble()
+    ): String {
+
+    var hitungNilai: Double = nilai.toDouble()
+    var hasil : Number = hitungNilai
     val panjang: Int
     val konversi: Int
     val output: Int
 
     if (ukuranPanjang != ukuranKonversi) {
+//    val listUkuranPanjang: List<String> = listOf("mm", "cm", "dm", "m", "dam", "hm", "km")
         panjang = listUkuranPanjang.indexOf(ukuranPanjang) + 1
         konversi = listUkuranPanjang.indexOf(ukuranKonversi) + 1
 
         if (panjang > konversi) {
             output = panjang - konversi
-            hasilNilai *= 10.0.pow(output.toDouble())
+            hitungNilai *= 10.0.pow(output.toDouble())
         } else {
             output = konversi - panjang
-            hasilNilai /= 10.0.pow(output.toDouble())
+            hitungNilai /= 10.0.pow(output.toDouble())
         }
     }
-    return "$hasilNilai"
+
+    return "$hasil"
 }
 
-fun displayKpp(
-    display2: String,
-    panjang: String,
-    lebar: String,
-    ukuranInputPanjang: String,
-    ukuranInputLebar: String
-): String {
-    return when {
-        display2.isNotEmpty() && panjang.isEmpty() && lebar.isEmpty() -> display2
-        panjang.isNotEmpty() && lebar.isEmpty() -> "Kpp = 2 * ( $panjang $ukuranInputPanjang + lebar )"
-        lebar.isNotEmpty() && panjang.isEmpty() -> "Kpp = 2 * ( panjang + $lebar $ukuranInputLebar )"
-        panjang.isNotEmpty() && lebar.isNotEmpty() -> "Kpp = 2 * ( $panjang $ukuranInputPanjang + $lebar $ukuranInputLebar )"
+//fun cekBilanganBulat(param : Double) {
+//    if (param.toString().contains(".0")) {
+//        param.roundToInt()
+//    }
+//}
 
-        else -> {
-            "Kpp = 2 * ( panjang + lebar )"
-        }
-    }
-}
 
-fun displayUkuranPanjang(
-    display2: String,
-    panjang: String,
-    ukuranInput: String,
-): String {
-    return when {
-        display2.isNotEmpty() && panjang.isEmpty() -> display2
-        panjang.isNotEmpty() -> "$panjang $ukuranInput"
-        else -> {
-            "konversi"
-        }
-    }
-}
+//fun displayUkuranPanjang(
+//    display2: String,
+//    panjang: String,
+//    ukuranInput: String,
+//): String {
+//    return when {
+//        display2.isNotEmpty() && panjang.isEmpty() -> display2
+//        panjang.isNotEmpty() -> "$panjang $ukuranInput"
+//        else -> {
+//            "konversi"
+//        }
+//    }
+//}
 
 fun cekInput(
     input1: String,
@@ -138,12 +125,4 @@ fun switchButtonColors(): ButtonColors {
         )
     }
     return a
-}
-
-fun cekBilanganBulat(double: Double): Any {
-
-    if (double.toString().contains(".0")) {
-        double.toInt()
-    }
-    return double
 }

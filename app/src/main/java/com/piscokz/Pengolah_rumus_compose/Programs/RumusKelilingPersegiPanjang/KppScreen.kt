@@ -1,4 +1,4 @@
-package com.piscokz.Pengolah_rumus_compose.Programs.Kpp
+package com.piscokz.Pengolah_rumus_compose.Programs.RumusKelilingPersegiPanjang
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
@@ -47,9 +47,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.piscokz.Pengolah_rumus_compose.AppViewModelProvider
 import com.piscokz.Pengolah_rumus_compose.Programs.cekInput
-import com.piscokz.Pengolah_rumus_compose.Programs.displayKpp
-import com.piscokz.Pengolah_rumus_compose.Programs.konversiUkuranPanjang
-import com.piscokz.Pengolah_rumus_compose.Programs.hitungKpp
 import com.piscokz.Pengolah_rumus_compose.Programs.listRumus
 import com.piscokz.Pengolah_rumus_compose.Programs.switchButtonColors
 import com.piscokz.Pengolah_rumus_compose.Programs.switchColor
@@ -136,13 +133,7 @@ fun KppBody(
 
                 Text(
                     color = switchColor(),
-                    text = displayKpp(
-                        kppViewModel.display,
-                        kppViewModel.inputPanjang,
-                        kppViewModel.inputLebar,
-                        kppViewModel.ukuranInputPanjang,
-                        kppViewModel.ukuranInputLebar
-                    ),
+                    text = kppViewModel.displayKpp(),
                     fontFamily = FontFamily.Serif,
                     fontWeight = FontWeight.Thin,
                     style = MaterialTheme.typography.headlineMedium,
@@ -236,10 +227,7 @@ fun KppBody(
                             }
                         }
                         IconButton(onClick = { kppViewModel.expandedLebar = true }) {
-                            Icon(
-                                Icons.Default.ArrowDropDown,
-                                contentDescription = "Localized description"
-                            )
+                            Icon(Icons.Default.ArrowDropDown, contentDescription = "Localized description")
                         }
                         OutlinedTextField(
                             value = kppViewModel.inputLebar,
@@ -322,25 +310,17 @@ fun KppBody(
                         colors = switchButtonColors(),
                         onClick = {
                             if (cekInput(kppViewModel.inputPanjang, kppViewModel.inputLebar)) {
-                                kppViewModel.tekanTombolHitung = kppViewModel.inputPanjang.isEmpty() || kppViewModel.inputLebar.isEmpty()
+                                kppViewModel.tekanTombolHitung =
+                                    kppViewModel.inputPanjang.isEmpty() || kppViewModel.inputLebar.isEmpty()
 
                                 if (kppViewModel.inputPanjang.isNotEmpty() && kppViewModel.inputLebar.isNotEmpty()) {
+                                    kppViewModel.panjang = kppViewModel.inputPanjang
+                                    kppViewModel.lebar = kppViewModel.inputLebar
 
-                                    kppViewModel.inputPanjang = konversiUkuranPanjang(
-                                        kppViewModel.ukuranInputPanjang,
-                                        kppViewModel.ukuranInputHitung,
-                                        kppViewModel.inputPanjang)
+                                    kppViewModel.panjang = kppViewModel.konversiUkuranKppPanjang()
+                                    kppViewModel.lebar = kppViewModel.konversiUkuranKppLebar()
 
-                                    kppViewModel.inputLebar = konversiUkuranPanjang(
-                                        kppViewModel.ukuranInputLebar,
-                                        kppViewModel.ukuranInputHitung,
-                                        kppViewModel.inputLebar)
-
-                                    kppViewModel.display =
-                                        hitungKpp(
-                                            kppViewModel.inputPanjang.toDouble(),
-                                            kppViewModel.inputLebar.toDouble(),
-                                            kppViewModel.ukuranInputHitung)
+                                    kppViewModel.display = kppViewModel.hitungKpp()
 
                                 } else {
                                     kppViewModel.tekanTombolHitung = true

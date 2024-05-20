@@ -7,7 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.piscokz.Pengolah_rumus_compose.Home.Home
 //import com.piscokz.Pengolah_rumus_compose.Programs.ukuranPanjang
-import com.piscokz.Pengolah_rumus_compose.Programs.Kpp.Kpp
+import com.piscokz.Pengolah_rumus_compose.Programs.RumusKelilingPersegiPanjang.Kpp
 
 @Composable
 fun Navigation() {

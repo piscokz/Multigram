@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.piscokz.Pengolah_rumus_compose.ui.theme.PengolahRumusComposeTheme
 
 class MainActivity : ComponentActivity() {
 
@@ -18,7 +19,9 @@ class MainActivity : ComponentActivity() {
             }
         }
         setContent {
-            Navigation()
+            PengolahRumusComposeTheme {
+                Navigation()
+            }
         }
     }
 }
