@@ -16,8 +16,7 @@ fun navProgram (
     when {
         listProgram[1].contains(string) -> navController.navigate(Screen.Kpp.route)
         listProgram[2].contains(string) -> navController.navigate(Screen.Lpp.route)
-        listProgram[0].contains(string) -> navController.navigate(Screen.ukuranPanjang.route)
-        else -> {}
+        listProgram[0].contains(string) -> navController.navigate(Screen.UkuranPanjang.route)
     }
 }
 fun tipeProgram (string: String) : String  {
