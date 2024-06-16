@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.piscokz.Pengolah_rumus_compose.Programs.konversiUkuranPanjang
+import com.piscokz.Pengolah_rumus_compose.Programs.konverterUkuranPanjang
 import java.math.RoundingMode
 import kotlin.math.roundToInt
 
@@ -29,18 +29,18 @@ class KppViewModel : ViewModel() {
     var ukuranInputHitung by mutableStateOf("cm")
 
     fun konversiUkuranKppPanjang(): String {
-        return konversiUkuranPanjang(
-            ukuranPanjang = ukuranInputPanjang,
-            ukuranKonversi = ukuranInputHitung,
-            inputPanjang
+        return konverterUkuranPanjang(
+            ukuranPanjangSaatIniParam = ukuranInputPanjang,
+            konversikanUkuranPanjangParam = ukuranInputHitung,
+            nilai = inputPanjang
         )
     }
 
     fun konversiUkuranKppLebar(): String {
-        return konversiUkuranPanjang(
-            ukuranPanjang = ukuranInputLebar,
-            ukuranKonversi = ukuranInputHitung,
-            inputLebar
+        return konverterUkuranPanjang(
+            ukuranPanjangSaatIniParam = ukuranInputLebar,
+            konversikanUkuranPanjangParam = ukuranInputHitung,
+            nilai = inputLebar
         )
     }
 

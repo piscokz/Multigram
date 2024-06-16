@@ -1,11 +1,15 @@
 package com.piscokz.Pengolah_rumus_compose.Home
 
-import android.annotation.SuppressLint
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.width
@@ -21,6 +25,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -33,19 +38,17 @@ import com.piscokz.Pengolah_rumus_compose.Programs.navProgram
 import com.piscokz.Pengolah_rumus_compose.Programs.switchButtonColors
 import com.piscokz.Pengolah_rumus_compose.Programs.switchColor
 import com.piscokz.Pengolah_rumus_compose.Programs.tipeProgram
+import com.piscokz.Pengolah_rumus_compose.R
+import com.piscokz.Pengolah_rumus_compose.Screen
 import com.piscokz.Pengolah_rumus_compose.ui.theme.PengolahRumusComposeTheme
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Home(
     navController: NavController
 ) {
-
     PengolahRumusComposeTheme {
-        Surface(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
             Scaffold(
                 modifier = Modifier
                     .fillMaxSize(),
@@ -59,7 +62,6 @@ fun Home(
                                 overflow = TextOverflow.Ellipsis,
                                 style = MaterialTheme.typography.headlineLarge,
                                 fontWeight = FontWeight.ExtraBold
-
                             )
                         },
                     )
@@ -67,8 +69,104 @@ fun Home(
                 }
 
             ) { paddingValues ->
-                HomeBody(paddingValues = paddingValues, navController = navController)
+                HomeBody2(paddingValues = paddingValues, navController = navController)
             }
+        }
+    }
+
+@Composable
+fun listProgram(
+    navController: NavController,
+    namaProgram: String,
+    jenisProgram: String,
+    screen_route: String,
+    id_resource : Int
+) {
+    Surface(
+        shape = RoundedCornerShape(15.dp),
+    ) {
+        Row(
+            modifier = Modifier
+                .clickable { navController.navigate(screen_route) }
+                .fillMaxWidth()
+                .height(150.dp)
+                .padding(horizontal = 10.dp)
+                .background(MaterialTheme.colorScheme.surface),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column {
+                Text(
+                    text = jenisProgram,
+                    color = switchColor(),
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.Medium,
+                    fontFamily = FontFamily.Serif
+                )
+                Text(
+                    text = namaProgram.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() },
+                    color = switchColor(),
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontFamily = FontFamily.SansSerif,
+                    fontWeight = FontWeight.Medium
+                    )
+            }
+            Column(
+                Modifier.padding(end = 10.dp)
+            ) {
+                Image(painter = painterResource(id = id_resource), contentDescription = null)
+            }
+        }
+    }
+}
+
+@Composable
+fun HomeBody2(
+    paddingValues: PaddingValues,
+    navController: NavController
+) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+            .padding(horizontal = 10.dp, vertical = 15.dp),
+    ) {
+        item {
+            Column() {
+                Text(
+                    modifier = Modifier.padding(start = 5.dp, bottom = 15.dp),
+                    color = switchColor(),
+                    text = "Rekomendasi ",
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold,
+                )
+            }
+            listProgram(
+                navController = navController,
+                namaProgram = "keliling persegi panjang",
+                jenisProgram = "rumus",
+                screen_route = "kpp_screen",
+                id_resource = R.drawable.rectangle_shape
+            )
+
+            Column(
+                modifier = Modifier
+                    .padding(start = 10.dp, bottom = 15.dp, top = 20.dp)
+            ) {
+                Text(
+                    color = switchColor(),
+                    text = "Lainnya ",
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold,
+                )
+            }
+            listProgram(
+                navController = navController,
+                namaProgram = "luas persegi panjang",
+                jenisProgram = "rumus",
+                screen_route = "lp_screen",
+                id_resource = R.drawable.rectangle_shape
+            )
         }
     }
 }

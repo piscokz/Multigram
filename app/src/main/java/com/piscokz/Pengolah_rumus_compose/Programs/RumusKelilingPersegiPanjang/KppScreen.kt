@@ -2,6 +2,7 @@ package com.piscokz.Pengolah_rumus_compose.Programs.RumusKelilingPersegiPanjang
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -19,6 +20,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ElevatedButton
@@ -80,13 +82,13 @@ fun Kpp(
                                 text = listRumus[0],
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
-                                style = MaterialTheme.typography.headlineLarge
+                                style = MaterialTheme.typography.headlineMedium
 
                             )
                         },
                         navigationIcon = {
                             IconButton(onClick = {
-                                navController.popBackStack()
+                                navController.navigateUp()
                             }) {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -187,7 +189,10 @@ fun KppBody(
                                     color = switchColor(),
                                     text = " ${kppViewModel.ukuranInputPanjang}",
                                     fontFamily = FontFamily.Monospace,
-                                    style = MaterialTheme.typography.titleMedium
+                                    style = MaterialTheme.typography.titleMedium,
+                                    modifier = Modifier.clickable {
+                                        kppViewModel.expandedPanjang = true
+                                    }
                                 )
                             },
                             supportingText = {
@@ -198,12 +203,12 @@ fun KppBody(
                             },
                             isError = kppViewModel.inputPanjang.isEmpty() && kppViewModel.tekanTombolHitung
                         )
-                        IconButton(onClick = { kppViewModel.expandedPanjang = true }) {
-                            Icon(
-                                Icons.Default.ArrowDropDown,
-                                contentDescription = "Localized description"
-                            )
-                        }
+//                        IconButton(onClick = { kppViewModel.expandedPanjang = true }) {
+//                            Icon(
+//                                Icons.Default.ArrowDropDown,
+//                                contentDescription = "Localized description"
+//                            )
+//                        }
                         DropdownMenu(
                             expanded = kppViewModel.expandedPanjang,
                             onDismissRequest = { kppViewModel.expandedPanjang = false }
@@ -211,7 +216,10 @@ fun KppBody(
                             for (i in listUkuranPanjang) {
                                 DropdownMenuItem(
                                     text = { Text(text = i) },
-                                    onClick = { kppViewModel.ukuranInputPanjang = i })
+                                    onClick = {
+                                        kppViewModel.ukuranInputPanjang = i
+//                                        kppViewModel.expandedPanjang = false
+                                    })
                             }
                         }
                     }
@@ -223,12 +231,18 @@ fun KppBody(
                             for (i in listUkuranPanjang) {
                                 DropdownMenuItem(
                                     text = { Text(text = i) },
-                                    onClick = { kppViewModel.ukuranInputLebar = i })
+                                    onClick = {
+                                        kppViewModel.ukuranInputLebar = i
+                                        kppViewModel.expandedLebar = false
+                                    })
                             }
                         }
-                        IconButton(onClick = { kppViewModel.expandedLebar = true }) {
-                            Icon(Icons.Default.ArrowDropDown, contentDescription = "Localized description")
-                        }
+//                        IconButton(onClick = { kppViewModel.expandedLebar = true }) {
+//                            Icon(
+//                                Icons.Default.ArrowDropDown,
+//                                contentDescription = "Localized description"
+//                            )
+//                        }
                         OutlinedTextField(
                             value = kppViewModel.inputLebar,
                             onValueChange = { kppViewModel.inputLebar = it },
@@ -260,8 +274,12 @@ fun KppBody(
                                     text = " ${kppViewModel.ukuranInputLebar}",
                                     fontFamily = FontFamily.Monospace,
                                     style = MaterialTheme.typography.titleMedium,
+                                    modifier = Modifier.clickable {
+                                        kppViewModel.expandedLebar = true
+                                    }
                                 )
                             },
+
                             supportingText = {
                                 if (kppViewModel.inputLebar.isEmpty()) Text(
                                     text = "masukkan angka",
@@ -289,7 +307,7 @@ fun KppBody(
                         .fillMaxWidth(1f),
                     horizontalArrangement = Arrangement.End
                 ) {
-                    IconButton(onClick = { kppViewModel.expandedHitung = true }) {
+                    IconButton(onClick = { kppViewModel.expandedHitung = false }) {
                         Icon(
                             Icons.Default.ArrowDropDown,
                             contentDescription = "Localized description"

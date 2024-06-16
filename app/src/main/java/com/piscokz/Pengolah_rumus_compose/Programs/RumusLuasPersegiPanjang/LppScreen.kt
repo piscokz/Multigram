@@ -1,6 +1,7 @@
 package com.piscokz.Pengolah_rumus_compose
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -80,7 +81,7 @@ fun Lpp(
                     },
                     navigationIcon = {
                         IconButton(onClick = {
-                            navController.popBackStack()
+                            navController.navigateUp()
                         }) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -165,7 +166,7 @@ fun LppBody(
                                 )
                             },
                             textStyle = LocalTextStyle.current.copy(
-                                textAlign = TextAlign.Right
+                                textAlign = TextAlign.Center
                             ),
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             singleLine = true,
@@ -176,7 +177,10 @@ fun LppBody(
                                     color = switchColor(),
                                     text = " ${lppViewModel.ukuranInputPanjang}",
                                     fontFamily = FontFamily.Monospace,
-                                    style = MaterialTheme.typography.titleMedium
+                                    style = MaterialTheme.typography.titleMedium,
+                                    modifier = Modifier.clickable {
+                                        lppViewModel.expandedPanjang = true
+                                    }
                                 )
                             },
                             supportingText = {
@@ -187,12 +191,12 @@ fun LppBody(
                             },
                             isError = lppViewModel.inputPanjang.isEmpty() && lppViewModel.tekanTombolHitung
                         )
-                        IconButton(onClick = { lppViewModel.expandedPanjang = true }) {
-                            Icon(
-                                Icons.Default.ArrowDropDown,
-                                contentDescription = "Localized description"
-                            )
-                        }
+//                        IconButton(onClick = { lppViewModel.expandedPanjang = true }) {
+//                            Icon(
+//                                Icons.Default.ArrowDropDown,
+//                                contentDescription = "Localized description"
+//                            )
+//                        }
                         DropdownMenu(
                             expanded = lppViewModel.expandedPanjang,
                             onDismissRequest = { lppViewModel.expandedPanjang = false }
@@ -200,7 +204,10 @@ fun LppBody(
                             for (i in listUkuranPanjang) {
                                 DropdownMenuItem(
                                     text = { Text(text = i) },
-                                    onClick = { lppViewModel.ukuranInputPanjang = i })
+                                    onClick = {
+                                        lppViewModel.ukuranInputPanjang = i
+                                        lppViewModel.expandedPanjang = false
+                                    })
                             }
                         }
                     }
@@ -212,15 +219,18 @@ fun LppBody(
                             for (i in listUkuranPanjang) {
                                 DropdownMenuItem(
                                     text = { Text(text = i) },
-                                    onClick = { lppViewModel.ukuranInputLebar = i })
+                                    onClick = {
+                                        lppViewModel.ukuranInputLebar = i
+                                        lppViewModel.expandedLebar = false
+                                    })
                             }
                         }
-                        IconButton(onClick = { lppViewModel.expandedLebar = true }) {
-                            Icon(
-                                Icons.Default.ArrowDropDown,
-                                contentDescription = "Localized description"
-                            )
-                        }
+//                        IconButton(onClick = { lppViewModel.expandedLebar = true }) {
+//                            Icon(
+//                                Icons.Default.ArrowDropDown,
+//                                contentDescription = "Localized description"
+//                            )
+//                        }
                         OutlinedTextField(
                             value = lppViewModel.inputLebar,
                             onValueChange = { lppViewModel.inputLebar = it },
@@ -234,7 +244,7 @@ fun LppBody(
                                 )
                             },
                             textStyle = LocalTextStyle.current.copy(
-                                textAlign = TextAlign.Right
+                                textAlign = TextAlign.Center
                             ),
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Number,
@@ -247,7 +257,10 @@ fun LppBody(
                                     color = switchColor(),
                                     text = " ${lppViewModel.ukuranInputLebar}",
                                     fontFamily = FontFamily.Monospace,
-                                    style = MaterialTheme.typography.titleMedium
+                                    style = MaterialTheme.typography.titleMedium,
+                                    modifier = Modifier.clickable {
+                                        lppViewModel.expandedLebar = true
+                                    }
                                 )
                             },
                             supportingText = {
