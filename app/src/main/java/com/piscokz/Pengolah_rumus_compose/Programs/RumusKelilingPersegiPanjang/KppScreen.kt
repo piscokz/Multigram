@@ -16,11 +16,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ElevatedButton
@@ -38,9 +38,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -51,7 +53,7 @@ import com.piscokz.Pengolah_rumus_compose.AppViewModelProvider
 import com.piscokz.Pengolah_rumus_compose.Programs.cekInput
 import com.piscokz.Pengolah_rumus_compose.Programs.listRumus
 import com.piscokz.Pengolah_rumus_compose.Programs.switchButtonColors
-import com.piscokz.Pengolah_rumus_compose.Programs.switchColor
+import com.piscokz.Pengolah_rumus_compose.Programs.switchColorText
 import com.piscokz.Pengolah_rumus_compose.ui.theme.PengolahRumusComposeTheme
 
 val listUkuranPanjang: List<String> = listOf("mm", "cm", "dm", "m", "dam", "hm", "km")
@@ -78,7 +80,7 @@ fun Kpp(
                     TopAppBar(
                         title = {
                             Text(
-                                color = switchColor(),
+                                color = switchColorText(),
                                 text = listRumus[0],
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
@@ -113,6 +115,9 @@ fun KppBody(
     paddingValues: PaddingValues,
     kppViewModel: KppViewModel
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+//    val focusRequester = remember { FocusRequester() }
+//    var isKeyboardHide by remember { mutableStateOf(true) }
 
     LazyColumn(
         modifier = Modifier
@@ -134,14 +139,14 @@ fun KppBody(
             ) {
 
                 Text(
-                    color = switchColor(),
+                    color = switchColorText(),
                     text = kppViewModel.displayKpp(),
                     fontFamily = FontFamily.Serif,
                     fontWeight = FontWeight.Thin,
                     style = MaterialTheme.typography.headlineMedium,
                     modifier = Modifier
                         .fillMaxWidth(1f)
-                        .border(1.dp, switchColor())
+                        .border(1.dp, switchColorText())
                         .padding(15.dp),
                     textAlign = TextAlign.Center,
                     fontStyle = FontStyle.Italic,
@@ -166,31 +171,43 @@ fun KppBody(
                     Row {
                         OutlinedTextField(
                             value = kppViewModel.inputPanjang,
-                            onValueChange = { kppViewModel.inputPanjang = it },
+                            onValueChange = {
+                                kppViewModel.inputPanjang = it
+                            },
                             label = {
                                 Text(
-                                    color = switchColor(),
+                                    color = switchColorText(),
                                     text = "panjang",
                                     fontFamily = FontFamily.Serif,
                                     modifier = Modifier.fillMaxWidth(),
                                     textAlign = TextAlign.Center,
-                                    fontWeight = FontWeight.Bold
+                                    fontWeight = FontWeight.Bold,
                                 )
                             },
                             textStyle = LocalTextStyle.current.copy(
                                 textAlign = TextAlign.Right
                             ),
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Number,
+                                imeAction = ImeAction.Done,
+                            ),
+                            keyboardActions = KeyboardActions(
+                                onDone = {
+                                    keyboardController?.hide()
+//                                    isKeyboardHide = true
+                                }
+                            ),
                             singleLine = true,
                             modifier = Modifier
                                 .width(lebarTexfield.dp),
                             suffix = {
                                 Text(
-                                    color = switchColor(),
+                                    color = switchColorText(),
                                     text = " ${kppViewModel.ukuranInputPanjang}",
                                     fontFamily = FontFamily.Monospace,
                                     style = MaterialTheme.typography.titleMedium,
                                     modifier = Modifier.clickable {
+                                        keyboardController?.hide()
                                         kppViewModel.expandedPanjang = true
                                     }
                                 )
@@ -198,27 +215,26 @@ fun KppBody(
                             supportingText = {
                                 if (kppViewModel.inputPanjang.isEmpty()) Text(
                                     text = "masukkan angka",
-                                    color = switchColor()
+                                    color = switchColorText()
                                 )
                             },
                             isError = kppViewModel.inputPanjang.isEmpty() && kppViewModel.tekanTombolHitung
                         )
-//                        IconButton(onClick = { kppViewModel.expandedPanjang = true }) {
-//                            Icon(
-//                                Icons.Default.ArrowDropDown,
-//                                contentDescription = "Localized description"
-//                            )
-//                        }
+
                         DropdownMenu(
                             expanded = kppViewModel.expandedPanjang,
-                            onDismissRequest = { kppViewModel.expandedPanjang = false }
+                            onDismissRequest = {
+                                kppViewModel.expandedPanjang = false
+                                keyboardController?.hide()
+                            }
                         ) {
                             for (i in listUkuranPanjang) {
                                 DropdownMenuItem(
                                     text = { Text(text = i) },
                                     onClick = {
                                         kppViewModel.ukuranInputPanjang = i
-//                                        kppViewModel.expandedPanjang = false
+                                        kppViewModel.expandedPanjang = false
+                                        keyboardController?.hide()
                                     })
                             }
                         }
@@ -237,18 +253,13 @@ fun KppBody(
                                     })
                             }
                         }
-//                        IconButton(onClick = { kppViewModel.expandedLebar = true }) {
-//                            Icon(
-//                                Icons.Default.ArrowDropDown,
-//                                contentDescription = "Localized description"
-//                            )
-//                        }
+
                         OutlinedTextField(
                             value = kppViewModel.inputLebar,
                             onValueChange = { kppViewModel.inputLebar = it },
                             label = {
                                 Text(
-                                    color = switchColor(),
+                                    color = switchColorText(),
                                     text = "lebar",
                                     fontFamily = FontFamily.Serif,
                                     modifier = Modifier.fillMaxWidth(),
@@ -266,15 +277,15 @@ fun KppBody(
                             singleLine = true,
                             modifier = Modifier
                                 .width(lebarTexfield.dp)
-                                .pointerInput(key1 = true) {
-                                },
+                                .pointerInput(key1 = true) {},
                             suffix = {
                                 Text(
-                                    color = switchColor(),
+                                    color = switchColorText(),
                                     text = " ${kppViewModel.ukuranInputLebar}",
                                     fontFamily = FontFamily.Monospace,
                                     style = MaterialTheme.typography.titleMedium,
                                     modifier = Modifier.clickable {
+                                        keyboardController?.hide()
                                         kppViewModel.expandedLebar = true
                                     }
                                 )
@@ -283,7 +294,7 @@ fun KppBody(
                             supportingText = {
                                 if (kppViewModel.inputLebar.isEmpty()) Text(
                                     text = "masukkan angka",
-                                    color = switchColor()
+                                    color = switchColorText()
                                 )
                             },
                             isError = kppViewModel.inputLebar.isEmpty() && kppViewModel.tekanTombolHitung
@@ -307,7 +318,10 @@ fun KppBody(
                         .fillMaxWidth(1f),
                     horizontalArrangement = Arrangement.End
                 ) {
-                    IconButton(onClick = { kppViewModel.expandedHitung = false }) {
+                    IconButton(onClick = {
+                        keyboardController?.hide()
+                        kppViewModel.expandedHitung = true
+                    }) {
                         Icon(
                             Icons.Default.ArrowDropDown,
                             contentDescription = "Localized description"
@@ -315,12 +329,18 @@ fun KppBody(
                     }
                     DropdownMenu(
                         expanded = kppViewModel.expandedHitung,
-                        onDismissRequest = { kppViewModel.expandedHitung = false }
+                        onDismissRequest = {
+                            kppViewModel.expandedHitung = false
+                        }
                     ) {
                         for (i in listUkuranPanjang) {
                             DropdownMenuItem(
                                 text = { Text(text = i) },
-                                onClick = { kppViewModel.ukuranInputHitung = i })
+                                onClick = {
+                                    kppViewModel.ukuranInputHitung = i
+                                    kppViewModel.expandedHitung = false
+                                }
+                            )
                         }
                     }
                     ElevatedButton(
@@ -348,7 +368,7 @@ fun KppBody(
                         modifier = Modifier.padding(end = 10.dp),
                     ) {
                         Text(
-                            color = switchColor(),
+                            color = switchColorText(),
                             text = "Hitung & konversikan ${kppViewModel.ukuranInputHitung}",
                             textAlign = TextAlign.Center
                         )
@@ -364,7 +384,7 @@ fun KppBody(
                         },
                     ) {
                         Text(
-                            color = switchColor(),
+                            color = switchColorText(),
                             text = "Reset"
                         )
                     }
@@ -378,7 +398,7 @@ fun KppBody(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(1.dp)
-                        .border(1.dp, switchColor())
+                        .border(1.dp, switchColorText())
                 )
             }
         }

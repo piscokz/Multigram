@@ -114,12 +114,23 @@ fun cekInput(
 }
 
 @Composable
-fun switchColor(): Color {
+fun switchColorText(): Color {
     var a: Color
     if (isSystemInDarkTheme()) {
         a = Color.LightGray
     } else {
         a = Color.Black
+    }
+    return a
+}
+
+@Composable
+fun switchColorTextWithBackground(): Color {
+    var a: Color
+    if (isSystemInDarkTheme()) {
+        a = Color.Black
+    } else {
+        a = Color.LightGray
     }
     return a
 }

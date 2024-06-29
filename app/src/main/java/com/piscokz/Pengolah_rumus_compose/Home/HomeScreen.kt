@@ -30,7 +30,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.piscokz.Pengolah_rumus_compose.Programs.switchColor
+import com.piscokz.Pengolah_rumus_compose.Programs.switchColorText
 import com.piscokz.Pengolah_rumus_compose.R
 import com.piscokz.Pengolah_rumus_compose.ui.theme.PengolahRumusComposeTheme
 import java.util.Locale
@@ -49,7 +49,7 @@ fun Home(
                         title = {
                             Text(
                                 "MultiGram",
-                                color = switchColor(),
+                                color = switchColorText(),
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                                 style = MaterialTheme.typography.headlineLarge,
@@ -88,6 +88,7 @@ fun listProgram(
                 .widthIn(min = 500.dp, max = 700.dp)
                 .height(150.dp)
                 .padding(horizontal = 10.dp)
+                .padding(end = 15.dp)
                 .background(MaterialTheme.colorScheme.surface),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
@@ -95,14 +96,14 @@ fun listProgram(
             Column {
                 Text(
                     text = jenisProgram,
-                    color = switchColor(),
+                    color = switchColorText(),
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Medium,
                     fontFamily = FontFamily.Serif
                 )
                 Text(
                     text = namaProgram.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() },
-                    color = switchColor(),
+                    color = switchColorText(),
                     style = MaterialTheme.typography.headlineSmall,
                     fontFamily = FontFamily.SansSerif,
                     fontWeight = FontWeight.Medium
@@ -131,26 +132,26 @@ fun HomeBody(
             Column() {
                 Text(
                     modifier = Modifier.padding(start = 5.dp, bottom = 15.dp),
-                    color = switchColor(),
+                    color = switchColorText(),
                     text = "Rekomendasi ",
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold,
                 )
+                listProgram(
+                    navController = navController,
+                    namaProgram = "ukuran pajang",
+                    jenisProgram = "konversi",
+                    screen_route = "ukuran_panjang",
+                    id_resource = R.drawable.meter_logo
+                )
             }
-            listProgram(
-                navController = navController,
-                namaProgram = "keliling persegi panjang",
-                jenisProgram = "rumus",
-                screen_route = "kpp_screen",
-                id_resource = R.drawable.rectangle_shape
-            )
 
             Column(
                 modifier = Modifier
                     .padding(start = 10.dp, bottom = 15.dp, top = 20.dp)
             ) {
                 Text(
-                    color = switchColor(),
+                    color = switchColorText(),
                     text = "Lainnya ",
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold,
@@ -165,10 +166,10 @@ fun HomeBody(
             )
             listProgram(
                 navController = navController,
-                namaProgram = "ukuran pajang",
-                jenisProgram = "konversi",
-                screen_route = "ukuran_panjang",
-                id_resource = R.drawable.calculate_img
+                namaProgram = "keliling persegi panjang",
+                jenisProgram = "rumus",
+                screen_route = "kpp_screen",
+                id_resource = R.drawable.rectangle_shape
             )
         }
     }

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.piscokz.Pengolah_rumus_compose.Programs.konverterUkuranPanjang
 import java.math.RoundingMode
 import kotlin.math.roundToInt
+import kotlin.math.roundToLong
 
 
 class KppViewModel : ViewModel() {
@@ -61,7 +62,7 @@ class KppViewModel : ViewModel() {
         var hasil: Number = hitung
 
         if (hasil.toString().contains(".0")) {
-            hasil = hitung.roundToInt()
+            hasil = hitung.roundToLong()
         }
         else {
             hasil = hitung.toBigDecimal().setScale(1, RoundingMode.UP).toDouble()

@@ -47,7 +47,7 @@ import com.piscokz.Pengolah_rumus_compose.Programs.RumusLuasPersegiPanjang.LppVi
 import com.piscokz.Pengolah_rumus_compose.Programs.cekInput
 import com.piscokz.Pengolah_rumus_compose.Programs.listRumus
 import com.piscokz.Pengolah_rumus_compose.Programs.switchButtonColors
-import com.piscokz.Pengolah_rumus_compose.Programs.switchColor
+import com.piscokz.Pengolah_rumus_compose.Programs.switchColorText
 
 val listUkuranPanjang: List<String> = listOf("mm", "cm", "dm", "m", "dam", "hm", "km")
 
@@ -124,13 +124,13 @@ fun LppBody(
             ) {
 
                 Text(
-                    color = switchColor(),
+                    color = switchColorText(),
                     text = lppViewModel.displayLpp(),
                     fontFamily = FontFamily.Serif,
                     style = MaterialTheme.typography.headlineMedium,
                     modifier = Modifier
                         .fillMaxWidth(1f)
-                        .border(1.dp, switchColor())
+                        .border(1.dp, switchColorText())
                         .padding(15.dp),
                     textAlign = TextAlign.Center,
                     fontStyle = FontStyle.Italic,
@@ -158,7 +158,7 @@ fun LppBody(
                             onValueChange = { lppViewModel.inputPanjang = it },
                             label = {
                                 Text(
-                                    color = switchColor(),
+                                    color = switchColorText(),
                                     text = "panjang",
                                     fontFamily = FontFamily.Serif,
                                     modifier = Modifier.fillMaxWidth(),
@@ -174,7 +174,7 @@ fun LppBody(
                                 .width(lebarTexfield.dp),
                             suffix = {
                                 Text(
-                                    color = switchColor(),
+                                    color = switchColorText(),
                                     text = " ${lppViewModel.ukuranInputPanjang}",
                                     fontFamily = FontFamily.Monospace,
                                     style = MaterialTheme.typography.titleMedium,
@@ -186,7 +186,7 @@ fun LppBody(
                             supportingText = {
                                 if (lppViewModel.inputPanjang.isEmpty()) Text(
                                     text = "masukkan angka",
-                                    color = switchColor()
+                                    color = switchColorText()
                                 )
                             },
                             isError = lppViewModel.inputPanjang.isEmpty() && lppViewModel.tekanTombolHitung
@@ -236,7 +236,7 @@ fun LppBody(
                             onValueChange = { lppViewModel.inputLebar = it },
                             label = {
                                 Text(
-                                    color = switchColor(),
+                                    color = switchColorText(),
                                     text = "lebar",
                                     fontFamily = FontFamily.Serif,
                                     modifier = Modifier.fillMaxWidth(),
@@ -254,7 +254,7 @@ fun LppBody(
                                 .width(lebarTexfield.dp),
                             suffix = {
                                 Text(
-                                    color = switchColor(),
+                                    color = switchColorText(),
                                     text = " ${lppViewModel.ukuranInputLebar}",
                                     fontFamily = FontFamily.Monospace,
                                     style = MaterialTheme.typography.titleMedium,
@@ -266,7 +266,7 @@ fun LppBody(
                             supportingText = {
                                 if (lppViewModel.inputLebar.isEmpty()) Text(
                                     text = "masukkan angka",
-                                    color = switchColor()
+                                    color = switchColorText()
                                 )
                             },
                             isError = lppViewModel.inputLebar.isEmpty() && lppViewModel.tekanTombolHitung
@@ -358,7 +358,7 @@ fun LppBody(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(1.dp)
-                        .border(1.dp, switchColor())
+                        .border(1.dp, switchColorText())
                 )
             }
         }
