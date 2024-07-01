@@ -6,7 +6,6 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.piscokz.Pengolah_rumus_compose.Programs.konverterUkuranPanjang
 import java.math.RoundingMode
-import kotlin.math.roundToInt
 import kotlin.math.roundToLong
 
 
@@ -19,7 +18,7 @@ class KppViewModel : ViewModel() {
 
     var display by mutableStateOf("")
 
-    var tekanTombolHitung by mutableStateOf(false)
+    var isError by mutableStateOf(false)
 
     var expandedPanjang by mutableStateOf(false)
     var expandedLebar by mutableStateOf(false)

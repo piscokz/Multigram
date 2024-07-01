@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -37,6 +36,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontFamily
@@ -166,7 +166,7 @@ fun KppBody(
                     modifier = Modifier
                         .padding(horizontal = 10.dp)
                         .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceAround
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Row {
                         OutlinedTextField(
@@ -174,14 +174,14 @@ fun KppBody(
                             onValueChange = {
                                 kppViewModel.inputPanjang = it
                             },
-                            label = {
+                            placeholder = {
                                 Text(
                                     color = switchColorText(),
                                     text = "panjang",
                                     fontFamily = FontFamily.Serif,
                                     modifier = Modifier.fillMaxWidth(),
-                                    textAlign = TextAlign.Center,
-                                    fontWeight = FontWeight.Bold,
+                                    textAlign = TextAlign.Right,
+                                    fontStyle = FontStyle.Italic
                                 )
                             },
                             textStyle = LocalTextStyle.current.copy(
@@ -199,7 +199,9 @@ fun KppBody(
                             ),
                             singleLine = true,
                             modifier = Modifier
-                                .width(lebarTexfield.dp),
+//                                .width(lebarTexfield.dp)
+                                .padding(end = 5.dp)
+                                .fillParentMaxWidth(0.4f),
                             suffix = {
                                 Text(
                                     color = switchColorText(),
@@ -217,8 +219,14 @@ fun KppBody(
                                     text = "masukkan angka",
                                     color = switchColorText()
                                 )
+                                if(kppViewModel.isError && kppViewModel.inputPanjang.isEmpty()) {
+                                    Text(
+                                        text = "masukkan angka !",
+                                        color = Color.Red
+                                    )
+                                }
                             },
-                            isError = kppViewModel.inputPanjang.isEmpty() && kppViewModel.tekanTombolHitung
+                            isError = kppViewModel.inputPanjang.isEmpty() && kppViewModel.isError
                         )
 
                         DropdownMenu(
@@ -257,14 +265,14 @@ fun KppBody(
                         OutlinedTextField(
                             value = kppViewModel.inputLebar,
                             onValueChange = { kppViewModel.inputLebar = it },
-                            label = {
+                            placeholder = {
                                 Text(
                                     color = switchColorText(),
                                     text = "lebar",
                                     fontFamily = FontFamily.Serif,
                                     modifier = Modifier.fillMaxWidth(),
-                                    textAlign = TextAlign.Center,
-                                    fontWeight = FontWeight.Bold
+                                    textAlign = TextAlign.Right,
+                                    fontStyle = FontStyle.Italic
 
                                 )
                             },
@@ -276,7 +284,9 @@ fun KppBody(
                             ),
                             singleLine = true,
                             modifier = Modifier
-                                .width(lebarTexfield.dp)
+                                .fillParentMaxWidth(0.4f)
+//                                .width(lebarTexfield.dp)
+                                .padding(start = 5.dp)
                                 .pointerInput(key1 = true) {},
                             suffix = {
                                 Text(
@@ -296,8 +306,14 @@ fun KppBody(
                                     text = "masukkan angka",
                                     color = switchColorText()
                                 )
+                                if(kppViewModel.isError && kppViewModel.inputPanjang.isEmpty()) {
+                                    Text(
+                                        text = "masukkan angka !",
+                                        color = Color.Red
+                                    )
+                                }
                             },
-                            isError = kppViewModel.inputLebar.isEmpty() && kppViewModel.tekanTombolHitung
+                            isError = kppViewModel.inputLebar.isEmpty() && kppViewModel.isError
                         )
                     }
                 }
@@ -348,7 +364,7 @@ fun KppBody(
                         colors = switchButtonColors(),
                         onClick = {
                             if (cekInput(kppViewModel.inputPanjang, kppViewModel.inputLebar)) {
-                                kppViewModel.tekanTombolHitung =
+                                kppViewModel.isError =
                                     kppViewModel.inputPanjang.isEmpty() || kppViewModel.inputLebar.isEmpty()
 
                                 if (kppViewModel.inputPanjang.isNotEmpty() && kppViewModel.inputLebar.isNotEmpty()) {
@@ -361,7 +377,7 @@ fun KppBody(
                                     kppViewModel.display = kppViewModel.hitungKpp()
 
                                 } else {
-                                    kppViewModel.tekanTombolHitung = true
+                                    kppViewModel.isError = true
                                 }
                             }
                         },
@@ -380,7 +396,7 @@ fun KppBody(
                             kppViewModel.inputPanjang = ""
                             kppViewModel.inputLebar = ""
                             kppViewModel.display = ""
-                            kppViewModel.tekanTombolHitung = false
+                            kppViewModel.isError = false
                         },
                     ) {
                         Text(

@@ -35,6 +35,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.input.KeyboardType
@@ -150,28 +151,32 @@ fun LppBody(
                     modifier = Modifier
                         .padding(horizontal = 10.dp)
                         .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceAround
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Row {
                         OutlinedTextField(
                             value = lppViewModel.inputPanjang,
                             onValueChange = { lppViewModel.inputPanjang = it },
-                            label = {
+                            placeholder = {
                                 Text(
                                     color = switchColorText(),
                                     text = "panjang",
                                     fontFamily = FontFamily.Serif,
                                     modifier = Modifier.fillMaxWidth(),
-                                    textAlign = TextAlign.Center
+                                    textAlign = TextAlign.Right,
+                                    fontStyle = FontStyle.Italic
                                 )
                             },
                             textStyle = LocalTextStyle.current.copy(
-                                textAlign = TextAlign.Center
+                                textAlign = TextAlign.Right
                             ),
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             singleLine = true,
                             modifier = Modifier
-                                .width(lebarTexfield.dp),
+                                .padding(end = 5.dp)
+                                .fillParentMaxWidth(0.4f)
+//                                .width(lebarTexfield.dp)
+                            ,
                             suffix = {
                                 Text(
                                     color = switchColorText(),
@@ -188,8 +193,14 @@ fun LppBody(
                                     text = "masukkan angka",
                                     color = switchColorText()
                                 )
+                                if (lppViewModel.isError && lppViewModel.inputPanjang.isEmpty()) {
+                                    Text(
+                                        text = "masukkan angka !",
+                                        color = Color.Red
+                                    )
+                                }
                             },
-                            isError = lppViewModel.inputPanjang.isEmpty() && lppViewModel.tekanTombolHitung
+                            isError = lppViewModel.inputPanjang.isEmpty() && lppViewModel.isError
                         )
 //                        IconButton(onClick = { lppViewModel.expandedPanjang = true }) {
 //                            Icon(
@@ -225,33 +236,31 @@ fun LppBody(
                                     })
                             }
                         }
-//                        IconButton(onClick = { lppViewModel.expandedLebar = true }) {
-//                            Icon(
-//                                Icons.Default.ArrowDropDown,
-//                                contentDescription = "Localized description"
-//                            )
-//                        }
                         OutlinedTextField(
                             value = lppViewModel.inputLebar,
                             onValueChange = { lppViewModel.inputLebar = it },
-                            label = {
+                            placeholder = {
                                 Text(
                                     color = switchColorText(),
                                     text = "lebar",
                                     fontFamily = FontFamily.Serif,
                                     modifier = Modifier.fillMaxWidth(),
-                                    textAlign = TextAlign.Center
+                                    textAlign = TextAlign.Right,
+                                    fontStyle = FontStyle.Italic
                                 )
                             },
                             textStyle = LocalTextStyle.current.copy(
-                                textAlign = TextAlign.Center
+                                textAlign = TextAlign.Right
                             ),
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Number,
                             ),
                             singleLine = true,
                             modifier = Modifier
-                                .width(lebarTexfield.dp),
+                                .padding(start = 5.dp)
+                                .fillParentMaxWidth(0.4f)
+//                                .width(lebarTexfield.dp)
+                            ,
                             suffix = {
                                 Text(
                                     color = switchColorText(),
@@ -268,8 +277,12 @@ fun LppBody(
                                     text = "masukkan angka",
                                     color = switchColorText()
                                 )
+                                if (lppViewModel.isError && lppViewModel.inputLebar.isEmpty()) Text(
+                                    text = "masukkan angka",
+                                    color = Color.Red
+                                )
                             },
-                            isError = lppViewModel.inputLebar.isEmpty() && lppViewModel.tekanTombolHitung
+                            isError = lppViewModel.inputLebar.isEmpty() && lppViewModel.isError
                         )
                     }
                 }
@@ -313,7 +326,7 @@ fun LppBody(
 
                             if (cekInput(lppViewModel.inputPanjang, lppViewModel.inputLebar)) {
 
-                                lppViewModel.tekanTombolHitung =
+                                lppViewModel.isError =
                                     lppViewModel.inputPanjang.isEmpty() || lppViewModel.inputLebar.isEmpty()
 
                                 if (lppViewModel.inputPanjang.isNotEmpty() && lppViewModel.inputLebar.isNotEmpty()) {
@@ -343,7 +356,7 @@ fun LppBody(
                             lppViewModel.inputPanjang = ""
                             lppViewModel.inputLebar = ""
                             lppViewModel.display = ""
-                            lppViewModel.tekanTombolHitung = false
+                            lppViewModel.isError = false
                         },
                     ) {
                         Text(text = "Reset")

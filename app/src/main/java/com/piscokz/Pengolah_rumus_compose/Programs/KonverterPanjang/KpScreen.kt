@@ -42,11 +42,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
@@ -176,9 +179,12 @@ fun KpBodyInput(
                 },
                 placeholder = {
                     Text(
+                        modifier = Modifier.fillMaxWidth(),
                         text = "Masukkan angka",
                         letterSpacing = TextUnit(2.5f, TextUnitType.Sp),
                         fontFamily = FontFamily.Monospace,
+                        textAlign = TextAlign.Right,
+                        fontStyle = FontStyle.Italic
                     )
                 },
                 isError = vm.isInputError,

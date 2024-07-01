@@ -4,15 +4,25 @@ import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.FlingBehavior
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyItemScope
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -41,33 +51,33 @@ fun Home(
     navController: NavController
 ) {
     PengolahRumusComposeTheme {
-            Scaffold(
-                modifier = Modifier
-                    .fillMaxSize(),
-                topBar = {
-                    CenterAlignedTopAppBar(
-                        title = {
-                            Text(
-                                "MultiGram",
-                                color = switchColorText(),
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis,
-                                style = MaterialTheme.typography.headlineLarge,
-                                fontWeight = FontWeight.ExtraBold
-                            )
-                        },
-                    )
-
-                }
-
-            ) { paddingValues ->
-                HomeBody(
-                    paddingValues = paddingValues,
-                    navController = navController
+        Scaffold(
+            modifier = Modifier
+                .fillMaxSize(),
+            topBar = {
+                CenterAlignedTopAppBar(
+                    title = {
+                        Text(
+                            "MultiGram",
+                            color = switchColorText(),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            style = MaterialTheme.typography.headlineLarge,
+                            fontWeight = FontWeight.ExtraBold
+                        )
+                    },
                 )
+
             }
+
+        ) { paddingValues ->
+            HomeBody(
+                paddingValues = paddingValues,
+                navController = navController
+            )
         }
     }
+}
 
 @Composable
 fun listProgram(
@@ -75,17 +85,18 @@ fun listProgram(
     namaProgram: String,
     jenisProgram: String,
     screen_route: String,
-    id_resource : Int
+    id_resource: Int,
+    modifier: Modifier = Modifier
 ) {
 
     Surface(
         shape = RoundedCornerShape(15.dp),
-        modifier = Modifier.padding(bottom = 15.dp)
+        modifier = modifier.padding(bottom = 15.dp)
     ) {
         Row(
             modifier = Modifier
                 .clickable { navController.navigate(screen_route) }
-                .widthIn(min = 500.dp, max = 700.dp)
+                .widthIn(min = 450.dp, max = 700.dp)
                 .height(150.dp)
                 .padding(horizontal = 10.dp)
                 .padding(end = 15.dp)
@@ -107,7 +118,7 @@ fun listProgram(
                     style = MaterialTheme.typography.headlineSmall,
                     fontFamily = FontFamily.SansSerif,
                     fontWeight = FontWeight.Medium
-                    )
+                )
             }
             Column(
             ) {
@@ -126,7 +137,8 @@ fun HomeBody(
         modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues)
-            .padding(horizontal = 10.dp, vertical = 15.dp),
+            .padding(horizontal = 10.dp, vertical = 15.dp)
+            .fillMaxSize(),
     ) {
         item {
             Column() {
@@ -145,31 +157,33 @@ fun HomeBody(
                     id_resource = R.drawable.meter_logo
                 )
             }
-
-            Column(
-                modifier = Modifier
-                    .padding(start = 10.dp, bottom = 15.dp, top = 20.dp)
-            ) {
+        }
+        item {
+            Column {
                 Text(
                     color = switchColorText(),
                     text = "Lainnya ",
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(start = 5.dp, bottom = 15.dp)
+                )
+                listProgram(
+                    navController = navController,
+                    namaProgram = "luas persegi panjang",
+                    jenisProgram = "rumus",
+                    screen_route = "lp_screen",
+                    id_resource = R.drawable.rectangle_shape,
+//                    modifier = Modifier.padding(end = 10.dp)
                 )
             }
-            listProgram(
-                navController = navController,
-                namaProgram = "luas persegi panjang",
-                jenisProgram = "rumus",
-                screen_route = "lp_screen",
-                id_resource = R.drawable.rectangle_shape
-            )
+
             listProgram(
                 navController = navController,
                 namaProgram = "keliling persegi panjang",
                 jenisProgram = "rumus",
                 screen_route = "kpp_screen",
-                id_resource = R.drawable.rectangle_shape
+                id_resource = R.drawable.rectangle_shape,
+//                modifier = Modifier.padding(start = 10.dp)
             )
         }
     }
@@ -180,7 +194,7 @@ fun HomeBody(
     uiMode = Configuration.UI_MODE_NIGHT_YES,
     name = "dark"
 )
-@Preview (
+@Preview(
     uiMode = Configuration.UI_MODE_NIGHT_NO,
     name = "light"
 )
