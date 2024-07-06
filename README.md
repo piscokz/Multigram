@@ -1,3 +1,3 @@
-# pengolah-rumus-compose
+# Multigram
 
-Multigram = multi program -_-
+Multigram, aplikasi multi program -_-
