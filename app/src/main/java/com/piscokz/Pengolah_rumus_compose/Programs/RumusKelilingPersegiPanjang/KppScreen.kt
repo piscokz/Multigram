@@ -109,7 +109,6 @@ fun Kpp(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun KppBody(
     paddingValues: PaddingValues,

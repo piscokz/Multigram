@@ -39,18 +39,24 @@ class KpViewModel : ViewModel() {
 
     fun notasiIlmiahKonverter(input: String): String {
         var finalResult: String = input
-        if (finalResult.contains("E-")) {
-            val lenghtOf0 = input.toString().substringAfter("E-").toInt()
-            var resultLenghtOf0 = "0."
-            var i = 0
-            while (i < lenghtOf0 - 1) {
-                resultLenghtOf0 += "0"; i++
-            }
-
-            if (finalResult.contains(".0")) {
-                finalResult = resultLenghtOf0 + finalResult.substringBefore(".0E")
-            } else {
-                finalResult = resultLenghtOf0 + finalResult.replace(".", "").substringBefore("E")
+//        if (finalResult.contains("E-")) {
+//            val lenghtOf0 = input.toString().substringAfter("E-").toInt()
+//            var resultLenghtOf0 = "0."
+//            var i = 0
+//            while (i < lenghtOf0 - 1) {
+//                resultLenghtOf0 += "0"; i++
+//            }
+//
+//            if (finalResult.contains(".0")) {
+//                finalResult = resultLenghtOf0 + finalResult.substringBefore(".0E")
+//            } else {
+//                finalResult = resultLenghtOf0 + finalResult.replace(".", "").substringBefore("E")
+//            }
+//       }
+        if (finalResult[finalResult.lastIndex] == '0' && finalResult.contains(".")) {
+            finalResult = finalResult.substring(startIndex = 0, endIndex = finalResult.lastIndex)
+            if (finalResult[finalResult.lastIndex] == '.') {
+                finalResult = finalResult.substring(startIndex = 0, endIndex = finalResult.lastIndex)
             }
         }
 //    untuk E- sudah, tinggal E+
@@ -64,10 +70,11 @@ class KpViewModel : ViewModel() {
             if (finalResult.contains(".0")) {
                 finalResult = finalResult.substringBefore(".0E") + resultLenghtOf0
             }
-            if(finalResult.substringAfter(".") == "0") {
-                finalResult = finalResult.replace(".", "").replace(finalResult.substringAfter("E"), "").replace("E", "")
-            }
-            else {
+            if (finalResult.substringAfter(".") == "0") {
+                finalResult =
+                    finalResult.replace(".", "").replace(finalResult.substringAfter("E"), "")
+                        .replace("E", "")
+            } else {
                 var lenghtOfNot0 = finalResult.substring(1).replace(".", "").substringBefore("E")
                 resultLenghtOf0 = resultLenghtOf0.dropLast(lenghtOfNot0.length)
                 finalResult = finalResult.replace(".", "").substringBefore("E") + resultLenghtOf0

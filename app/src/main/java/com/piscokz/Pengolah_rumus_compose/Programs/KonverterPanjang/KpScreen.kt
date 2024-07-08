@@ -19,10 +19,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.twotone.ArrowForward
-import androidx.compose.material.icons.twotone.ArrowForward
 import androidx.compose.material.icons.twotone.Delete
-import androidx.compose.material.icons.twotone.Done
 import androidx.compose.material.icons.twotone.PlayArrow
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -42,14 +39,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
@@ -61,7 +56,6 @@ import androidx.navigation.NavController
 import com.piscokz.Pengolah_rumus_compose.AppViewModelProvider
 import com.piscokz.Pengolah_rumus_compose.Programs.KonverterPanjang.KpViewModel
 import com.piscokz.Pengolah_rumus_compose.ui.theme.PengolahRumusComposeTheme
-import kotlin.math.roundToLong
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -310,7 +304,7 @@ fun KpBodyOutput(
                                             i.subSequence(0, 30).toString()
                                         )
                                     )
-                                }++"
+                                }+"
                             } else {
                                 vm.numberSpacing(vm.isWorthItRoundToLong(vm.notasiIlmiahKonverter(i)))
                             },

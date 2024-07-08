@@ -1,6 +1,8 @@
 package com.piscokz.Pengolah_rumus_compose.Home
 
 import android.content.res.Configuration
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -45,6 +47,7 @@ import com.piscokz.Pengolah_rumus_compose.R
 import com.piscokz.Pengolah_rumus_compose.ui.theme.PengolahRumusComposeTheme
 import java.util.Locale
 
+@RequiresApi(Build.VERSION_CODES.S)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Home(
