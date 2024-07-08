@@ -4,9 +4,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.piscokz.Pengolah_rumus_compose.Programs.konversiUkuranPanjang
+import com.piscokz.Pengolah_rumus_compose.Programs.konverterUkuranPanjang
 import java.math.RoundingMode
-import kotlin.math.roundToInt
+import kotlin.math.roundToLong
 
 
 class KppViewModel : ViewModel() {
@@ -18,7 +18,7 @@ class KppViewModel : ViewModel() {
 
     var display by mutableStateOf("")
 
-    var tekanTombolHitung by mutableStateOf(false)
+    var isError by mutableStateOf(false)
 
     var expandedPanjang by mutableStateOf(false)
     var expandedLebar by mutableStateOf(false)
@@ -29,18 +29,18 @@ class KppViewModel : ViewModel() {
     var ukuranInputHitung by mutableStateOf("cm")
 
     fun konversiUkuranKppPanjang(): String {
-        return konversiUkuranPanjang(
-            ukuranPanjang = ukuranInputPanjang,
-            ukuranKonversi = ukuranInputHitung,
-            inputPanjang
+        return konverterUkuranPanjang(
+            ukuranPanjangSaatIniParam = ukuranInputPanjang,
+            konversikanUkuranPanjangParam = ukuranInputHitung,
+            nilai = inputPanjang
         )
     }
 
     fun konversiUkuranKppLebar(): String {
-        return konversiUkuranPanjang(
-            ukuranPanjang = ukuranInputLebar,
-            ukuranKonversi = ukuranInputHitung,
-            inputLebar
+        return konverterUkuranPanjang(
+            ukuranPanjangSaatIniParam = ukuranInputLebar,
+            konversikanUkuranPanjangParam = ukuranInputHitung,
+            nilai = inputLebar
         )
     }
 
@@ -61,7 +61,7 @@ class KppViewModel : ViewModel() {
         var hasil: Number = hitung
 
         if (hasil.toString().contains(".0")) {
-            hasil = hitung.roundToInt()
+            hasil = hitung.roundToLong()
         }
         else {
             hasil = hitung.toBigDecimal().setScale(1, RoundingMode.UP).toDouble()

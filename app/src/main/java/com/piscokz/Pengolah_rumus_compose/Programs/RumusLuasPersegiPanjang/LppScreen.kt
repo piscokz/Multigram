@@ -1,6 +1,7 @@
 package com.piscokz.Pengolah_rumus_compose
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -34,6 +35,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.input.KeyboardType
@@ -46,7 +48,7 @@ import com.piscokz.Pengolah_rumus_compose.Programs.RumusLuasPersegiPanjang.LppVi
 import com.piscokz.Pengolah_rumus_compose.Programs.cekInput
 import com.piscokz.Pengolah_rumus_compose.Programs.listRumus
 import com.piscokz.Pengolah_rumus_compose.Programs.switchButtonColors
-import com.piscokz.Pengolah_rumus_compose.Programs.switchColor
+import com.piscokz.Pengolah_rumus_compose.Programs.switchColorText
 
 val listUkuranPanjang: List<String> = listOf("mm", "cm", "dm", "m", "dam", "hm", "km")
 
@@ -80,7 +82,7 @@ fun Lpp(
                     },
                     navigationIcon = {
                         IconButton(onClick = {
-                            navController.popBackStack()
+                            navController.navigateUp()
                         }) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -123,13 +125,13 @@ fun LppBody(
             ) {
 
                 Text(
-                    color = switchColor(),
+                    color = switchColorText(),
                     text = lppViewModel.displayLpp(),
                     fontFamily = FontFamily.Serif,
                     style = MaterialTheme.typography.headlineMedium,
                     modifier = Modifier
                         .fillMaxWidth(1f)
-                        .border(1.dp, switchColor())
+                        .border(1.dp, switchColorText())
                         .padding(15.dp),
                     textAlign = TextAlign.Center,
                     fontStyle = FontStyle.Italic,
@@ -149,19 +151,20 @@ fun LppBody(
                     modifier = Modifier
                         .padding(horizontal = 10.dp)
                         .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceAround
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Row {
                         OutlinedTextField(
                             value = lppViewModel.inputPanjang,
                             onValueChange = { lppViewModel.inputPanjang = it },
-                            label = {
+                            placeholder = {
                                 Text(
-                                    color = switchColor(),
+                                    color = switchColorText(),
                                     text = "panjang",
                                     fontFamily = FontFamily.Serif,
                                     modifier = Modifier.fillMaxWidth(),
-                                    textAlign = TextAlign.Center
+                                    textAlign = TextAlign.Right,
+                                    fontStyle = FontStyle.Italic
                                 )
                             },
                             textStyle = LocalTextStyle.current.copy(
@@ -170,29 +173,41 @@ fun LppBody(
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             singleLine = true,
                             modifier = Modifier
-                                .width(lebarTexfield.dp),
+                                .padding(end = 5.dp)
+                                .fillParentMaxWidth(0.4f)
+//                                .width(lebarTexfield.dp)
+                            ,
                             suffix = {
                                 Text(
-                                    color = switchColor(),
+                                    color = switchColorText(),
                                     text = " ${lppViewModel.ukuranInputPanjang}",
                                     fontFamily = FontFamily.Monospace,
-                                    style = MaterialTheme.typography.titleMedium
+                                    style = MaterialTheme.typography.titleMedium,
+                                    modifier = Modifier.clickable {
+                                        lppViewModel.expandedPanjang = true
+                                    }
                                 )
                             },
                             supportingText = {
                                 if (lppViewModel.inputPanjang.isEmpty()) Text(
                                     text = "masukkan angka",
-                                    color = switchColor()
+                                    color = switchColorText()
                                 )
+                                if (lppViewModel.isError && lppViewModel.inputPanjang.isEmpty()) {
+                                    Text(
+                                        text = "masukkan angka !",
+                                        color = Color.Red
+                                    )
+                                }
                             },
-                            isError = lppViewModel.inputPanjang.isEmpty() && lppViewModel.tekanTombolHitung
+                            isError = lppViewModel.inputPanjang.isEmpty() && lppViewModel.isError
                         )
-                        IconButton(onClick = { lppViewModel.expandedPanjang = true }) {
-                            Icon(
-                                Icons.Default.ArrowDropDown,
-                                contentDescription = "Localized description"
-                            )
-                        }
+//                        IconButton(onClick = { lppViewModel.expandedPanjang = true }) {
+//                            Icon(
+//                                Icons.Default.ArrowDropDown,
+//                                contentDescription = "Localized description"
+//                            )
+//                        }
                         DropdownMenu(
                             expanded = lppViewModel.expandedPanjang,
                             onDismissRequest = { lppViewModel.expandedPanjang = false }
@@ -200,7 +215,10 @@ fun LppBody(
                             for (i in listUkuranPanjang) {
                                 DropdownMenuItem(
                                     text = { Text(text = i) },
-                                    onClick = { lppViewModel.ukuranInputPanjang = i })
+                                    onClick = {
+                                        lppViewModel.ukuranInputPanjang = i
+                                        lppViewModel.expandedPanjang = false
+                                    })
                             }
                         }
                     }
@@ -212,25 +230,23 @@ fun LppBody(
                             for (i in listUkuranPanjang) {
                                 DropdownMenuItem(
                                     text = { Text(text = i) },
-                                    onClick = { lppViewModel.ukuranInputLebar = i })
+                                    onClick = {
+                                        lppViewModel.ukuranInputLebar = i
+                                        lppViewModel.expandedLebar = false
+                                    })
                             }
-                        }
-                        IconButton(onClick = { lppViewModel.expandedLebar = true }) {
-                            Icon(
-                                Icons.Default.ArrowDropDown,
-                                contentDescription = "Localized description"
-                            )
                         }
                         OutlinedTextField(
                             value = lppViewModel.inputLebar,
                             onValueChange = { lppViewModel.inputLebar = it },
-                            label = {
+                            placeholder = {
                                 Text(
-                                    color = switchColor(),
+                                    color = switchColorText(),
                                     text = "lebar",
                                     fontFamily = FontFamily.Serif,
                                     modifier = Modifier.fillMaxWidth(),
-                                    textAlign = TextAlign.Center
+                                    textAlign = TextAlign.Right,
+                                    fontStyle = FontStyle.Italic
                                 )
                             },
                             textStyle = LocalTextStyle.current.copy(
@@ -241,22 +257,32 @@ fun LppBody(
                             ),
                             singleLine = true,
                             modifier = Modifier
-                                .width(lebarTexfield.dp),
+                                .padding(start = 5.dp)
+                                .fillParentMaxWidth(0.4f)
+//                                .width(lebarTexfield.dp)
+                            ,
                             suffix = {
                                 Text(
-                                    color = switchColor(),
+                                    color = switchColorText(),
                                     text = " ${lppViewModel.ukuranInputLebar}",
                                     fontFamily = FontFamily.Monospace,
-                                    style = MaterialTheme.typography.titleMedium
+                                    style = MaterialTheme.typography.titleMedium,
+                                    modifier = Modifier.clickable {
+                                        lppViewModel.expandedLebar = true
+                                    }
                                 )
                             },
                             supportingText = {
                                 if (lppViewModel.inputLebar.isEmpty()) Text(
                                     text = "masukkan angka",
-                                    color = switchColor()
+                                    color = switchColorText()
+                                )
+                                if (lppViewModel.isError && lppViewModel.inputLebar.isEmpty()) Text(
+                                    text = "masukkan angka",
+                                    color = Color.Red
                                 )
                             },
-                            isError = lppViewModel.inputLebar.isEmpty() && lppViewModel.tekanTombolHitung
+                            isError = lppViewModel.inputLebar.isEmpty() && lppViewModel.isError
                         )
                     }
                 }
@@ -300,7 +326,7 @@ fun LppBody(
 
                             if (cekInput(lppViewModel.inputPanjang, lppViewModel.inputLebar)) {
 
-                                lppViewModel.tekanTombolHitung =
+                                lppViewModel.isError =
                                     lppViewModel.inputPanjang.isEmpty() || lppViewModel.inputLebar.isEmpty()
 
                                 if (lppViewModel.inputPanjang.isNotEmpty() && lppViewModel.inputLebar.isNotEmpty()) {
@@ -330,7 +356,7 @@ fun LppBody(
                             lppViewModel.inputPanjang = ""
                             lppViewModel.inputLebar = ""
                             lppViewModel.display = ""
-                            lppViewModel.tekanTombolHitung = false
+                            lppViewModel.isError = false
                         },
                     ) {
                         Text(text = "Reset")
@@ -345,7 +371,7 @@ fun LppBody(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(1.dp)
-                        .border(1.dp, switchColor())
+                        .border(1.dp, switchColorText())
                 )
             }
         }

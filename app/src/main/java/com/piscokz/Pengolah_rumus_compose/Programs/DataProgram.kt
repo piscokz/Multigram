@@ -19,8 +19,9 @@ fun navProgram (
         listProgram[0].contains(string) -> navController.navigate(Screen.UkuranPanjang.route)
     }
 }
+
 fun tipeProgram (string: String) : String  {
-    var tipeProgram = when {
+    val tipeProgram = when {
         listRumus.contains(string) -> "Rumus"
         listKonversi.contains(string) -> "Konversi"
         else -> {"custom"}

@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.piscokz.Pengolah_rumus_compose.Home.Home
+import com.piscokz.Pengolah_rumus_compose.Programs.Kp
 //import com.piscokz.Pengolah_rumus_compose.Programs.ukuranPanjang
 import com.piscokz.Pengolah_rumus_compose.Programs.RumusKelilingPersegiPanjang.Kpp
 
@@ -24,7 +25,7 @@ fun Navigation() {
             Lpp(navController = navController)
         }
         composable(route = Screen.UkuranPanjang.route) {
-//            ukuranPanjang(navController = navController)
+            Kp(navController = navController)
         }
 
     }

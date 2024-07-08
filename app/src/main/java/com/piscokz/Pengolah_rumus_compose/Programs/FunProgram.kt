@@ -8,34 +8,52 @@ import com.piscokz.Pengolah_rumus_compose.Programs.RumusKelilingPersegiPanjang.l
 import com.piscokz.Pengolah_rumus_compose.ui.theme.DarkButtonColors
 import com.piscokz.Pengolah_rumus_compose.ui.theme.LightButtonColors
 import kotlin.math.pow
-import kotlin.math.roundToInt
 
-fun konversiUkuranPanjang(
-    ukuranPanjang: String,
-    ukuranKonversi: String,
-    nilai: String,
-    ): String {
+//fun konversiUkuranPanjang(
+//    ukuranPanjang: String,
+//    ukuranKonversi: String,
+//    nilai: String,
+//    ): String {
+//
+//    var hasil: Double = nilai.toDouble()
+//    val panjang: Int
+//    val konversi: Int
+//    val output: Double
+//
+//    if (ukuranPanjang != ukuranKonversi) {
+////    val listUkuranPanjang: List<String> = listOf("mm", "cm", "dm", "m", "dam", "hm", "km")
+//        panjang = listUkuranPanjang.indexOf(ukuranPanjang) + 1
+//        konversi = listUkuranPanjang.indexOf(ukuranKonversi) + 1
+//
+//        if (panjang > konversi) {
+//            output = (panjang - konversi).toDouble()
+//            hasil *= 10.0.pow(output)
+//        } else {
+//            output = (konversi - panjang).toDouble()
+//            hasil /= 10.0.pow(output)
+//        }
+//    }
+//
+//    return "$hasil"
+//}
 
-    var hitungNilai: Double = nilai.toDouble()
-    var hasil : Number = hitungNilai
-    val panjang: Int
-    val konversi: Int
-    val output: Int
 
-    if (ukuranPanjang != ukuranKonversi) {
+fun konverterUkuranPanjang(
+    konversikanUkuranPanjangParam : String,
+    ukuranPanjangSaatIniParam : String,
+    nilai: String
+) : String{
 //    val listUkuranPanjang: List<String> = listOf("mm", "cm", "dm", "m", "dam", "hm", "km")
-        panjang = listUkuranPanjang.indexOf(ukuranPanjang) + 1
-        konversi = listUkuranPanjang.indexOf(ukuranKonversi) + 1
+    val ukuranPanjangSaatIni : Int = listUkuranPanjang.indexOf(ukuranPanjangSaatIniParam) + 1
+    val konversikanUkuranPanjang : Int = listUkuranPanjang.indexOf(konversikanUkuranPanjangParam) + 1
+    var hasil : Double = nilai.toDouble()
 
-        if (panjang > konversi) {
-            output = panjang - konversi
-            hitungNilai *= 10.0.pow(output.toDouble())
-        } else {
-            output = konversi - panjang
-            hitungNilai /= 10.0.pow(output.toDouble())
-        }
+    if (ukuranPanjangSaatIni > konversikanUkuranPanjang) {
+        hasil = nilai.toDouble() * 10.0.pow(ukuranPanjangSaatIni - konversikanUkuranPanjang)
     }
-
+    else if (ukuranPanjangSaatIni < konversikanUkuranPanjang) {
+        hasil = nilai.toDouble() / 10.0.pow(konversikanUkuranPanjang - ukuranPanjangSaatIni)
+    }
     return "$hasil"
 }
 
@@ -66,7 +84,7 @@ fun cekInput(
 ): Boolean {
     val hasilFinal: Boolean
     val hasil1: String = when {
-        input1.contains("-") || input1.contains(",") -> {
+        input1.contains("-") || input1.contains(",") || input1.contains(".") -> {
             "false"
         }
 
@@ -75,7 +93,7 @@ fun cekInput(
         }
     }
     val hasil2: String = when {
-        input2.contains("-") || input2.contains(",") -> {
+        input2.contains("-") || input2.contains(",") || input2.contains(".")-> {
             "false"
         }
 
@@ -96,12 +114,23 @@ fun cekInput(
 }
 
 @Composable
-fun switchColor(): Color {
+fun switchColorText(): Color {
     var a: Color
     if (isSystemInDarkTheme()) {
         a = Color.LightGray
     } else {
         a = Color.Black
+    }
+    return a
+}
+
+@Composable
+fun switchColorTextWithBackground(): Color {
+    var a: Color
+    if (isSystemInDarkTheme()) {
+        a = Color.Black
+    } else {
+        a = Color.LightGray
     }
     return a
 }
