@@ -5,37 +5,35 @@ import androidx.compose.material3.ButtonColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import com.piscokz.Pengolah_rumus_compose.Programs.RumusKelilingPersegiPanjang.listUkuranPanjang
-import com.piscokz.Pengolah_rumus_compose.ui.theme.DarkButtonColors
+import com.piscokz.Pengolah_rumus_compose.ui.theme.DarkButtonColor
 import com.piscokz.Pengolah_rumus_compose.ui.theme.LightButtonColors
+import java.math.BigDecimal
 import kotlin.math.pow
 
-//fun konversiUkuranPanjang(
-//    ukuranPanjang: String,
-//    ukuranKonversi: String,
-//    nilai: String,
-//    ): String {
-//
-//    var hasil: Double = nilai.toDouble()
-//    val panjang: Int
-//    val konversi: Int
-//    val output: Double
-//
-//    if (ukuranPanjang != ukuranKonversi) {
-////    val listUkuranPanjang: List<String> = listOf("mm", "cm", "dm", "m", "dam", "hm", "km")
-//        panjang = listUkuranPanjang.indexOf(ukuranPanjang) + 1
-//        konversi = listUkuranPanjang.indexOf(ukuranKonversi) + 1
-//
-//        if (panjang > konversi) {
-//            output = (panjang - konversi).toDouble()
-//            hasil *= 10.0.pow(output)
-//        } else {
-//            output = (konversi - panjang).toDouble()
-//            hasil /= 10.0.pow(output)
-//        }
-//    }
-//
-//    return "$hasil"
-//}
+fun hitungKelipatan(
+    listNilaiDariTerkecil: List<String> = listOf("mm", "cm", "dm", "m", "dam", "hm", "km"),
+    nilaiSaatIni: String = "m",
+    nilaiTujuan: String = "km",
+    nilaiAngkaSaatIni: Double = 100.0,
+    nilaiKelipatan : Double = 10.0
+) : BigDecimal {
+    var nilaiAkhir = nilaiAngkaSaatIni
+    val kelipatan10x : Double
+
+    if (listNilaiDariTerkecil.indexOf(nilaiSaatIni) < listNilaiDariTerkecil.indexOf(nilaiTujuan)) {
+
+        kelipatan10x = (nilaiKelipatan).pow((listNilaiDariTerkecil.indexOf(nilaiTujuan) + 1) - (listNilaiDariTerkecil.indexOf(nilaiSaatIni) + 1))
+        nilaiAkhir = nilaiAngkaSaatIni / kelipatan10x
+    }
+    else if (listNilaiDariTerkecil.indexOf(nilaiSaatIni) > listNilaiDariTerkecil.indexOf(nilaiTujuan)) {
+
+        kelipatan10x = (nilaiKelipatan).pow((listNilaiDariTerkecil.indexOf(nilaiSaatIni)) - (listNilaiDariTerkecil.indexOf(nilaiTujuan)))
+        nilaiAkhir = nilaiAngkaSaatIni * kelipatan10x
+    }
+    return nilaiAkhir.toBigDecimal()
+//    println(listNilaiDariTerkecil.indexOf(nilaiSaatIni))
+//    println(listNilaiDariTerkecil.indexOf(nilaiTujuan))
+}
 
 
 fun konverterUkuranPanjang(
@@ -56,27 +54,6 @@ fun konverterUkuranPanjang(
     }
     return "$hasil"
 }
-
-//fun cekBilanganBulat(param : Double) {
-//    if (param.toString().contains(".0")) {
-//        param.roundToInt()
-//    }
-//}
-
-
-//fun displayUkuranPanjang(
-//    display2: String,
-//    panjang: String,
-//    ukuranInput: String,
-//): String {
-//    return when {
-//        display2.isNotEmpty() && panjang.isEmpty() -> display2
-//        panjang.isNotEmpty() -> "$panjang $ukuranInput"
-//        else -> {
-//            "konversi"
-//        }
-//    }
-//}
 
 fun cekInput(
     input1: String,
@@ -140,7 +117,7 @@ fun switchButtonColors(): ButtonColors {
     var a: ButtonColors
     if (isSystemInDarkTheme()) {
         a = ButtonColors(
-            containerColor = DarkButtonColors, // background color
+            containerColor = DarkButtonColor, // background color
             contentColor = Color.White, // text color
             disabledContainerColor = Color.White,
             disabledContentColor = Color.Black

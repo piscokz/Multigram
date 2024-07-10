@@ -17,7 +17,7 @@ val LightBlue = Color(0xFF82B1FF)
 val DarkBackground = Color(0xFF000000)
 val LightBackground = Color(0xFFE4E4E4)
 
-val DarkButtonColors = Color(0x52000000)
+val DarkButtonColor = Color(0x52000000)
 val LightButtonColors = Color(0xFF6D98E6)
 val LightButtonColor2 = Color(0xFFA4C5FF)
 

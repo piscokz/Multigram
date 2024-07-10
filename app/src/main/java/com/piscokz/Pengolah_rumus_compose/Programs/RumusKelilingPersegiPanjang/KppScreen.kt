@@ -1,6 +1,5 @@
 package com.piscokz.Pengolah_rumus_compose.Programs.RumusKelilingPersegiPanjang
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -51,10 +50,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.piscokz.Pengolah_rumus_compose.AppViewModelProvider
 import com.piscokz.Pengolah_rumus_compose.Programs.cekInput
-import com.piscokz.Pengolah_rumus_compose.Programs.listRumus
+import com.piscokz.Pengolah_rumus_compose.Programs.ListRumus
 import com.piscokz.Pengolah_rumus_compose.Programs.switchButtonColors
 import com.piscokz.Pengolah_rumus_compose.Programs.switchColorText
-import com.piscokz.Pengolah_rumus_compose.ui.theme.PengolahRumusComposeTheme
+import com.piscokz.Pengolah_rumus_compose.ui.theme.multigramTheme
 
 val listUkuranPanjang: List<String> = listOf("mm", "cm", "dm", "m", "dam", "hm", "km")
 
@@ -68,7 +67,7 @@ fun Kpp(
     navController: NavController,
     kppViewModel: KppViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
-    PengolahRumusComposeTheme {
+    multigramTheme {
         Surface(
             modifier = Modifier
                 .fillMaxSize()
@@ -81,7 +80,7 @@ fun Kpp(
                         title = {
                             Text(
                                 color = switchColorText(),
-                                text = listRumus[0],
+                                text = ListRumus[0],
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                                 style = MaterialTheme.typography.headlineMedium

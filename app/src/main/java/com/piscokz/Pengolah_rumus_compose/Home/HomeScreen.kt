@@ -1,30 +1,18 @@
 package com.piscokz.Pengolah_rumus_compose.Home
 
 import android.content.res.Configuration
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.FlingBehavior
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyItemScope
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -42,18 +30,20 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.piscokz.Pengolah_rumus_compose.Programs.ListKonversi
+import com.piscokz.Pengolah_rumus_compose.Programs.ListRumus
 import com.piscokz.Pengolah_rumus_compose.Programs.switchColorText
 import com.piscokz.Pengolah_rumus_compose.R
-import com.piscokz.Pengolah_rumus_compose.ui.theme.PengolahRumusComposeTheme
+import com.piscokz.Pengolah_rumus_compose.Screen
+import com.piscokz.Pengolah_rumus_compose.ui.theme.multigramTheme
 import java.util.Locale
 
-@RequiresApi(Build.VERSION_CODES.S)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Home(
     navController: NavController
 ) {
-    PengolahRumusComposeTheme {
+    multigramTheme {
         Scaffold(
             modifier = Modifier
                 .fillMaxSize(),
@@ -123,8 +113,7 @@ fun listProgram(
                     fontWeight = FontWeight.Medium
                 )
             }
-            Column(
-            ) {
+            Column {
                 Image(painter = painterResource(id = id_resource), contentDescription = null)
             }
         }
@@ -154,9 +143,9 @@ fun HomeBody(
                 )
                 listProgram(
                     navController = navController,
-                    namaProgram = "ukuran pajang",
+                    namaProgram = ListKonversi[0],
                     jenisProgram = "konversi",
-                    screen_route = "ukuran_panjang",
+                    screen_route = Screen.Km.route,
                     id_resource = R.drawable.meter_logo
                 )
             }
@@ -172,9 +161,9 @@ fun HomeBody(
                 )
                 listProgram(
                     navController = navController,
-                    namaProgram = "luas persegi panjang",
+                    namaProgram = ListRumus[1],
                     jenisProgram = "rumus",
-                    screen_route = "lp_screen",
+                    screen_route = Screen.Lpp.route,
                     id_resource = R.drawable.rectangle_shape,
 //                    modifier = Modifier.padding(end = 10.dp)
                 )
@@ -182,9 +171,9 @@ fun HomeBody(
 
             listProgram(
                 navController = navController,
-                namaProgram = "keliling persegi panjang",
+                namaProgram = ListRumus[0],
                 jenisProgram = "rumus",
-                screen_route = "kpp_screen",
+                screen_route = Screen.Kpp.route,
                 id_resource = R.drawable.rectangle_shape,
 //                modifier = Modifier.padding(start = 10.dp)
             )

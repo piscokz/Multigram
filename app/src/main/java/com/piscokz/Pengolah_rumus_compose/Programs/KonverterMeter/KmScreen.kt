@@ -19,7 +19,10 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.twotone.ArrowDropDown
 import androidx.compose.material.icons.twotone.Delete
+import androidx.compose.material.icons.twotone.KeyboardArrowDown
+import androidx.compose.material.icons.twotone.KeyboardArrowUp
 import androidx.compose.material.icons.twotone.PlayArrow
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -54,16 +57,16 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.piscokz.Pengolah_rumus_compose.AppViewModelProvider
-import com.piscokz.Pengolah_rumus_compose.Programs.KonverterPanjang.KpViewModel
-import com.piscokz.Pengolah_rumus_compose.ui.theme.PengolahRumusComposeTheme
+import com.piscokz.Pengolah_rumus_compose.Programs.KonverterMeter.KmViewModel
+import com.piscokz.Pengolah_rumus_compose.ui.theme.multigramTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Kp(
+fun Km(
     navController: NavController,
-    vm: KpViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    vm: KmViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
-    PengolahRumusComposeTheme {
+    multigramTheme {
         Surface(
             modifier = Modifier
                 .fillMaxSize()
@@ -76,7 +79,7 @@ fun Kp(
                         title = {
                             Text(
                                 color = switchColorText(),
-                                text = listKonversi[0],
+                                text = ListKonversi[0],
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                                 style = MaterialTheme.typography.headlineMedium
@@ -119,10 +122,16 @@ fun Kp(
             ) { paddingValues ->
                 LazyColumn {
                     item {
-                        KpBodyInput(paddingValues = paddingValues, vm)
+                        KmBodyOutput(
+                            vm = vm,
+                            paddingValues = paddingValues
+                        )
                     }
                     item {
-                        KpBodyOutput(vm = vm)
+                        KmBodyInput(
+//                            paddingValues = paddingValues,
+                            vm
+                        )
                     }
                 }
 
@@ -132,15 +141,15 @@ fun Kp(
 }
 
 @Composable
-fun KpBodyInput(
-    paddingValues: PaddingValues,
-    vm: KpViewModel
+fun KmBodyInput(
+//    paddingValues: PaddingValues,
+    vm: KmViewModel
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
     Column(
         modifier = Modifier
-            .padding(paddingValues)
+//            .padding(paddingValues)
             .padding(top = 20.dp, start = 5.dp, end = 5.dp)
             .fillMaxSize(),
     ) {
@@ -186,10 +195,10 @@ fun KpBodyInput(
                 onValueChange = {
                     vm.input = it
                         .trimStart { it == '0' }
-                        .replace("-" ,"")
+                        .replace("-", "")
                         .replace(",", "")
-                        .replace(" ","")
-                        .replace(".","")
+                        .replace(" ", "")
+                        .replace(".", "")
                 },
                 enabled = true,
                 leadingIcon = {
@@ -207,13 +216,34 @@ fun KpBodyInput(
                     }
                 },
                 trailingIcon = {
-                    Text(
-                        text = vm.listMeterCurrent,
-                        modifier = Modifier.clickable {
-                            keyboardController?.hide()
-                            vm.expandedListMeter = true
+                    Surface(
+                        color = switchColorTextWithBackground(),
+                        modifier = Modifier.padding(horizontal = 10.dp)
+                    ) {
+                        Row(
+                            Modifier
+                                .clickable {
+                                    keyboardController?.hide()
+                                    vm.expandedListMeter = true
+                                }
+                        ) {
+                            Text(
+                                text = vm.listMeterCurrent,
+                            modifier = Modifier.padding(top = 1.dp)
+
+                            )
+                            if (vm.expandedListMeter) Icon(
+                                imageVector = Icons.TwoTone.KeyboardArrowUp,
+                                contentDescription = null
+                            )
+                            else Icon(
+                                imageVector = Icons.TwoTone.KeyboardArrowDown,
+                                contentDescription = null
+                            )
+
                         }
-                    )
+
+                    }
                 },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(
@@ -231,18 +261,25 @@ fun KpBodyInput(
             )
 
             DropdownMenu(
-                offset = DpOffset(x = (-15).dp, y = 0.dp),
+                offset = DpOffset(x = (-15).dp, y = 10.dp),
                 expanded = vm.expandedListMeter,
                 onDismissRequest = { vm.expandedListMeter = false })
             {
                 for (i in vm.listMeter) {
                     DropdownMenuItem(
-                        text = { Text(text = i) },
+                        text = {
+                            Text(
+                                text = i,
+                                modifier = Modifier.fillMaxWidth(),
+                                textAlign = TextAlign.Center,
+                            )
+                        },
                         onClick = {
                             vm.listMeterCurrent = i
                             vm.expandedListMeter = false
                             vm.conversion()
-                        })
+                        },
+                    )
                 }
             }
         }
@@ -250,14 +287,16 @@ fun KpBodyInput(
 }
 
 @Composable
-fun KpBodyOutput(
-    modifier: Modifier = Modifier,
-    vm: KpViewModel
+fun KmBodyOutput(
+    paddingValues: PaddingValues,
+    vm: KmViewModel
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp),
+            .padding(paddingValues)
+            .padding(horizontal = 20.dp)
+            .padding(top = 15.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Column(
@@ -295,7 +334,7 @@ fun KpBodyOutput(
                         vm.outputKm
                     )
                     for (i in listOutputListMeter) {
-//                        33 digit
+//                        jika hasil lebih dari 32 digit
                         Text(
                             text = if (i.length > 32) {
                                 "${
@@ -345,5 +384,8 @@ fun KpBodyOutput(
 @Preview
 @Composable
 private fun prev() {
-    KpBodyOutput(vm = KpViewModel())
+    KmBodyOutput(
+        vm = KmViewModel(),
+        paddingValues = PaddingValues(10.dp)
+    )
 }
