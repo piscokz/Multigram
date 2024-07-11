@@ -27,155 +27,16 @@ class KmViewModel : ViewModel() {
     var outputHm: String by mutableStateOf("0")
     var outputKm: String by mutableStateOf("0")
 
-    fun numberSpacing(number: String): String {
-        if (!number.contains('.')) {
-            val formattedNumber = number.reversed().chunked(3).joinToString(",")
-            return formattedNumber.reversed()
-        } else {
-            val finalNumber = number.substringBefore(".")
-            val formattedNumber = finalNumber.reversed().chunked(3).joinToString(",")
-            return formattedNumber.reversed() + "." + number.substringAfter(".")
-        }
-    }
-
-    fun notasiIlmiahKonverter(input: String): String {
-        var finalResult: String = input
-//        if (finalResult.contains("E-")) {
-//            val lenghtOf0 = input.toString().substringAfter("E-").toInt()
-//            var resultLenghtOf0 = "0."
-//            var i = 0
-//            while (i < lenghtOf0 - 1) {
-//                resultLenghtOf0 += "0"; i++
-//            }
-//
-//            if (finalResult.contains(".0")) {
-//                finalResult = resultLenghtOf0 + finalResult.substringBefore(".0E")
-//            } else {
-//                finalResult = resultLenghtOf0 + finalResult.replace(".", "").substringBefore("E")
-//            }
-//       }
-        if (finalResult[finalResult.lastIndex] == '0' && finalResult.contains(".")) {
-            finalResult = finalResult.substring(startIndex = 0, endIndex = finalResult.lastIndex)
-            if (finalResult[finalResult.lastIndex] == '.') {
-                finalResult = finalResult.substring(startIndex = 0, endIndex = finalResult.lastIndex)
-            }
-        }
-//    untuk E- sudah, tinggal E+
-        else if (input.contains("E+")) {
-            val lenghtOf0 = input.toString().substringAfter("E").toLong()
-            var resultLenghtOf0 = ""
-            var i = 0
-            while (i < lenghtOf0) {
-                resultLenghtOf0 += "0"; i++
-            }
-            if (finalResult.contains(".0")) {
-                finalResult = finalResult.substringBefore(".0E") + resultLenghtOf0
-            }
-            if (finalResult.substringAfter(".") == "0") {
-                finalResult =
-                    finalResult.replace(".", "").replace(finalResult.substringAfter("E"), "")
-                        .replace("E", "")
-            } else {
-                var lenghtOfNot0 = finalResult.substring(1).replace(".", "").substringBefore("E")
-                resultLenghtOf0 = resultLenghtOf0.dropLast(lenghtOfNot0.length)
-                finalResult = finalResult.replace(".", "").substringBefore("E") + resultLenghtOf0
-//                finalResult = finalResult.replace(".","").substringBefore("E") + resultLenghtOf0
-            }
-        }
-        return finalResult
-    }
-
-    fun isWorthItRoundToLong(number: String): String {
-        if (number.contains(".")) {
-            if (number.substringAfter(".") == "0") {
-                return number.toDouble().roundToLong().toString()
-            }
-        }
-        return number
-    }
-
     fun conversion() {
         if (this.input != "") {
             val input: Double = this.input.toDouble()
-            outputMm = hitungKelipatan(listMeter, listMeterCurrent,"mm", input, 10.0).toString()
-            outputCm = hitungKelipatan(listMeter, listMeterCurrent,"cm", input, 10.0).toString()
-            outputDm = hitungKelipatan(listMeter, listMeterCurrent,"dm", input, 10.0).toString()
-            outputM = hitungKelipatan(listMeter, listMeterCurrent,"m", input, 10.0).toString()
-            outputDam = hitungKelipatan(listMeter, listMeterCurrent,"dam", input, 10.0).toString()
-            outputHm = hitungKelipatan(listMeter, listMeterCurrent,"hm", input, 10.0).toString()
-            outputKm = hitungKelipatan(listMeter, listMeterCurrent,"km", input, 10.0).toString()
-
-//            when (listMeterCurrent) {
-//                "mm" -> {
-//                    outputMm = input.roundToLong().toString()
-//                    outputCm = (input / 10).toBigDecimal().toString()
-//                    outputDm = (input / 100).toBigDecimal().toString()
-//                    outputM = (input / 1_000).toBigDecimal().toString()
-//                    outputDam = (input / 10_000).toBigDecimal().toString()
-//                    outputHm = (input / 100_000).toBigDecimal().toString()
-//                    outputKm = (input / 1_000_000).toBigDecimal().toString()
-//                }
-//
-//                "cm" -> {
-//                    outputMm = (input * 10.0).toBigDecimal().toString()
-//                    outputCm = input.toLong().toString()
-//                    outputDm = (input / 10.0).toBigDecimal().toString()
-//                    outputM = (input / 100.0).toBigDecimal().toString()
-//                    outputDam = (input / 1_000.0).toBigDecimal().toString()
-//                    outputHm = (input / 10_000.0).toBigDecimal().toString()
-//                    outputKm = (input / 100_000.0).toBigDecimal().toString()
-//                }
-//
-//                "dm" -> {
-//                    outputMm = (input * 100.0).toBigDecimal().toString()
-//                    outputCm = (input * 10.0).toBigDecimal().toString()
-//                    outputDm = input.toLong().toString()
-//                    outputM = (input / 10.0).toBigDecimal().toString()
-//                    outputDam = (input / 100.0).toBigDecimal().toString()
-//                    outputHm = (input / 1_000.0).toBigDecimal().toString()
-//                    outputKm = (input / 10_000.0).toBigDecimal().toString()
-//                }
-//
-//                "m" -> {
-//                    outputMm = (input * 1_000.0).toBigDecimal().toString()
-//                    outputCm = (input * 100.0).toBigDecimal().toString()
-//                    outputDm = (input * 10.0).toBigDecimal().toString()
-//                    outputM = input.toLong().toString()
-//                    outputDam = (input / 10.0).toBigDecimal().toString()
-//                    outputHm = (input / 100.0).toBigDecimal().toString()
-//                    outputKm = (input / 1_000.0).toBigDecimal().toString()
-//                }
-//
-//                "dam" -> {
-//                    outputMm = (input * 10_000.0).toBigDecimal().toString()
-//                    outputCm = (input * 1_000.0).toBigDecimal().toString()
-//                    outputDm = (input * 100.0).toBigDecimal().toString()
-//                    outputM = (input * 10.0).toBigDecimal().toString()
-//                    outputDam = input.toLong().toString()
-//                    outputHm = (input / 10.0).toBigDecimal().toString()
-//                    outputKm = (input / 100.0).toBigDecimal().toString()
-//                }
-//
-//                "hm" -> {
-//                    outputMm = (input * 100_000.0).toBigDecimal().toString()
-//                    outputCm = (input * 10_000.0).toBigDecimal().toString()
-//                    outputDm = (input * 1_000.0).toBigDecimal().toString()
-//                    outputM = (input * 100.0).toBigDecimal().toString()
-//                    outputDam = (input * 10.0).toBigDecimal().toString()
-//                    outputHm = input.toLong().toString()
-//                    outputKm = (input / 10.0).toBigDecimal().toString()
-//                }
-//
-//                "km" -> {
-//                    outputMm = (input * 1_000_000.0).toBigDecimal().toString()
-//                    outputCm = (input * 100_000.0).toBigDecimal().toString()
-//                    outputDm = (input * 10_000.0).toBigDecimal().toString()
-//                    outputM = (input * 1_000.0).toBigDecimal().toString()
-//                    outputDam = (input * 100.0).toBigDecimal().toString()
-//                    outputHm = (input * 10.0).toBigDecimal().toString()
-//                    outputKm = input.toBigDecimal().toString()
-//                }
-//            }
+            outputMm = hitungKelipatan(listMeter, listMeterCurrent, "mm", input, 10.0).toString()
+            outputCm = hitungKelipatan(listMeter, listMeterCurrent, "cm", input, 10.0).toString()
+            outputDm = hitungKelipatan(listMeter, listMeterCurrent, "dm", input, 10.0).toString()
+            outputM = hitungKelipatan(listMeter, listMeterCurrent, "m", input, 10.0).toString()
+            outputDam = hitungKelipatan(listMeter, listMeterCurrent, "dam", input, 10.0).toString()
+            outputHm = hitungKelipatan(listMeter, listMeterCurrent, "hm", input, 10.0).toString()
+            outputKm = hitungKelipatan(listMeter, listMeterCurrent, "km", input, 10.0).toString()
         } else {
             outputMm = "0"
             outputCm = "0"

@@ -1,4 +1,4 @@
-package com.piscokz.Pengolah_rumus_compose.Programs
+package com.piscokz.Pengolah_rumus_compose.Programs.KonverterByte
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -19,7 +19,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.twotone.ArrowDropDown
 import androidx.compose.material.icons.twotone.Delete
 import androidx.compose.material.icons.twotone.KeyboardArrowDown
 import androidx.compose.material.icons.twotone.KeyboardArrowUp
@@ -57,14 +56,19 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.piscokz.Pengolah_rumus_compose.AppViewModelProvider
-import com.piscokz.Pengolah_rumus_compose.Programs.KonverterMeter.KmViewModel
+import com.piscokz.Pengolah_rumus_compose.Programs.ListKonversi
+import com.piscokz.Pengolah_rumus_compose.Programs.isWorthItRoundToLong
+import com.piscokz.Pengolah_rumus_compose.Programs.notasiIlmiahKonverter
+import com.piscokz.Pengolah_rumus_compose.Programs.numberSpacing
+import com.piscokz.Pengolah_rumus_compose.Programs.switchColorText
+import com.piscokz.Pengolah_rumus_compose.Programs.switchColorTextWithBackground
 import com.piscokz.Pengolah_rumus_compose.ui.theme.multigramTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Km(
+fun KbScreen(
     navController: NavController,
-    vm: KmViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    vm: KbViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     multigramTheme {
         Surface(
@@ -79,7 +83,7 @@ fun Km(
                         title = {
                             Text(
                                 color = switchColorText(),
-                                text = ListKonversi[0],
+                                text = ListKonversi[1],
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                                 style = MaterialTheme.typography.headlineMedium
@@ -103,13 +107,12 @@ fun Km(
 //                            vm.isInputError = !vm.isInputError
 //                            vm.conversion()
                             vm.input = ""
-                            vm.outputMm = "0"
-                            vm.outputCm = "0"
-                            vm.outputDm = "0"
-                            vm.outputM = "0"
-                            vm.outputDam = "0"
-                            vm.outputHm = "0"
-                            vm.outputKm = "0"
+                            vm.outputB = "0"
+                            vm.outputKb = "0"
+                            vm.outputMb = "0"
+                            vm.outputGb = "0"
+                            vm.outputTb = "0"
+                            vm.outputPb = "0"
                         },
                         contentColor = switchColorText(),
                         containerColor = MaterialTheme.colorScheme.surface
@@ -122,13 +125,13 @@ fun Km(
             ) { paddingValues ->
                 LazyColumn {
                     item {
-                        KmBodyOutput(
+                        KbBodyOutput(
                             vm = vm,
                             paddingValues = paddingValues
                         )
                     }
                     item {
-                        KmBodyInput(
+                        KbBodyInput(
 //                            paddingValues = paddingValues,
                             vm
                         )
@@ -141,9 +144,9 @@ fun Km(
 }
 
 @Composable
-fun KmBodyInput(
+fun KbBodyInput(
 //    paddingValues: PaddingValues,
-    vm: KmViewModel
+    vm: KbViewModel
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -224,15 +227,15 @@ fun KmBodyInput(
                             Modifier
                                 .clickable {
                                     keyboardController?.hide()
-                                    vm.expandedListMeter = true
+                                    vm.expandedListByte = true
                                 }
                         ) {
                             Text(
-                                text = vm.listMeterCurrent,
-                            modifier = Modifier.padding(top = 1.dp)
+                                text = vm.listByteCurrent,
+                                modifier = Modifier.padding(top = 1.dp)
 
                             )
-                            if (vm.expandedListMeter) Icon(
+                            if (vm.expandedListByte) Icon(
                                 imageVector = Icons.TwoTone.KeyboardArrowUp,
                                 contentDescription = null
                             )
@@ -262,10 +265,10 @@ fun KmBodyInput(
 
             DropdownMenu(
                 offset = DpOffset(x = (-15).dp, y = 10.dp),
-                expanded = vm.expandedListMeter,
-                onDismissRequest = { vm.expandedListMeter = false })
+                expanded = vm.expandedListByte,
+                onDismissRequest = { vm.expandedListByte = false })
             {
-                for (i in vm.listMeter) {
+                for (i in vm.listByte) {
                     DropdownMenuItem(
                         text = {
                             Text(
@@ -275,8 +278,8 @@ fun KmBodyInput(
                             )
                         },
                         onClick = {
-                            vm.listMeterCurrent = i
-                            vm.expandedListMeter = false
+                            vm.listByteCurrent = i
+                            vm.expandedListByte = false
                             vm.conversion()
                         },
                     )
@@ -287,9 +290,9 @@ fun KmBodyInput(
 }
 
 @Composable
-fun KmBodyOutput(
+fun KbBodyOutput(
     paddingValues: PaddingValues,
-    vm: KmViewModel
+    vm: KbViewModel
 ) {
     Column(
         modifier = Modifier
@@ -325,13 +328,12 @@ fun KmBodyOutput(
                     horizontalAlignment = Alignment.Start
                 ) {
                     val listOutputListMeter: List<String> = listOf(
-                        vm.outputMm,
-                        vm.outputCm,
-                        vm.outputDm,
-                        vm.outputM,
-                        vm.outputDam,
-                        vm.outputHm,
-                        vm.outputKm
+                        vm.outputB,
+                        vm.outputKb,
+                        vm.outputMb,
+                        vm.outputGb,
+                        vm.outputTb,
+                        vm.outputPb,
                     )
                     for (i in listOutputListMeter) {
 //                        jika hasil lebih dari 32 digit
@@ -362,7 +364,7 @@ fun KmBodyOutput(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.End
                 ) {
-                    for (i in vm.listMeter) {
+                    for (i in vm.listByte) {
                         Text(
                             text = i,
                             color = switchColorText(),
@@ -381,11 +383,11 @@ fun KmBodyOutput(
     }
 }
 
-@Preview
+@Preview()
 @Composable
 private fun prev() {
-    KmBodyOutput(
-        vm = KmViewModel(),
-        paddingValues = PaddingValues(10.dp)
+    KbBodyInput(
+        vm = KbViewModel(),
+//        paddingValues = PaddingValues(10.dp)
     )
 }

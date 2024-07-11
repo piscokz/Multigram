@@ -4,7 +4,7 @@ import androidx.navigation.NavController
 import com.piscokz.Pengolah_rumus_compose.Screen
 
 
-var ListKonversi : List<String> = listOf("Konverter Meter")
+var ListKonversi : List<String> = listOf("Konverter Meter", "Konverter Byte")
 var ListRumus : List<String> = listOf("Keliling persegi panjang", "Luas persegi panjang",)
 var listProgram : List<String> = ListKonversi + ListRumus
 

@@ -7,6 +7,7 @@ val route : String
     data object Kpp : Screen(route = "kpp_screen")
     data object Lpp : Screen(route = "lp_screen")
     data object  Km : Screen(route = "km_screen")
+    data object Kb : Screen(route = "kb_screen")
 
 }
 

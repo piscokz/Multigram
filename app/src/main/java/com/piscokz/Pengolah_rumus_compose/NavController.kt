@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.piscokz.Pengolah_rumus_compose.Home.Home
 import com.piscokz.Pengolah_rumus_compose.Programs.Km
+import com.piscokz.Pengolah_rumus_compose.Programs.KonverterByte.KbScreen
 //import com.piscokz.Pengolah_rumus_compose.Programs.ukuranPanjang
 import com.piscokz.Pengolah_rumus_compose.Programs.RumusKelilingPersegiPanjang.Kpp
 
@@ -27,6 +28,8 @@ fun Navigations() {
         composable(route = Screen.Km.route) {
             Km(navController = navController)
         }
-
+        composable(route = Screen.Kb.route) {
+            KbScreen(navController = navController)
+        }
     }
 }

@@ -143,9 +143,9 @@ fun HomeBody(
                 )
                 listProgram(
                     navController = navController,
-                    namaProgram = ListKonversi[0],
+                    namaProgram = ListKonversi[1],
                     jenisProgram = "konversi",
-                    screen_route = Screen.Km.route,
+                    screen_route = Screen.Kb.route,
                     id_resource = R.drawable.meter_logo
                 )
             }
@@ -158,6 +158,13 @@ fun HomeBody(
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(start = 5.dp, bottom = 15.dp)
+                )
+                listProgram(
+                    navController = navController,
+                    namaProgram = ListKonversi[0],
+                    jenisProgram = "konversi",
+                    screen_route = Screen.Km.route,
+                    id_resource = R.drawable.meter_logo
                 )
                 listProgram(
                     navController = navController,

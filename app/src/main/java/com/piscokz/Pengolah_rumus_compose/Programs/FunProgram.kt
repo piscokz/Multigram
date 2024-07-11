@@ -9,25 +9,90 @@ import com.piscokz.Pengolah_rumus_compose.ui.theme.DarkButtonColor
 import com.piscokz.Pengolah_rumus_compose.ui.theme.LightButtonColors
 import java.math.BigDecimal
 import kotlin.math.pow
+import kotlin.math.roundToLong
+
+fun numberSpacing(number: String): String {
+    if (!number.contains('.')) {
+        val formattedNumber = number.reversed().chunked(3).joinToString(",")
+        return formattedNumber.reversed()
+    } else {
+        val finalNumber = number.substringBefore(".")
+        val formattedNumber = finalNumber.reversed().chunked(3).joinToString(",")
+        return formattedNumber.reversed() + "." + number.substringAfter(".")
+    }
+}
+
+fun notasiIlmiahKonverter(input: String): String {
+    var finalResult: String = input
+    //    untuk E-
+    if (finalResult[finalResult.lastIndex] == '0' && finalResult.contains(".") && !finalResult.contains("E")
+    ) {
+        finalResult = finalResult.substring(startIndex = 0, endIndex = finalResult.lastIndex)
+        if (finalResult[finalResult.lastIndex] == '.') {
+            finalResult = finalResult.substring(startIndex = 0, endIndex = finalResult.lastIndex)
+        }
+    }
+//    untuk E+
+    else if (input.contains("E+")) {
+        val lenghtOf0 = input.substringAfter("E").toLong()
+        var resultLenghtOf0 = ""
+        var i = 0
+        while (i < lenghtOf0) {
+            resultLenghtOf0 += "0"; i++
+        }
+        if (finalResult.contains(".0")) {
+            finalResult = finalResult.substringBefore(".0E") + resultLenghtOf0
+        }
+        if (finalResult.substringAfter(".") == "0") {
+            finalResult =
+                finalResult.replace(".", "").replace(finalResult.substringAfter("E"), "")
+                    .replace("E", "")
+        } else {
+            var lenghtOfNot0 = finalResult.substring(1).replace(".", "").substringBefore("E")
+            resultLenghtOf0 = resultLenghtOf0.dropLast(lenghtOfNot0.length)
+            finalResult = finalResult.replace(".", "").substringBefore("E") + resultLenghtOf0
+        }
+    }
+    return finalResult
+}
+
+fun isWorthItRoundToLong(number: String): String {
+    if (number.contains(".")) {
+        if (number.substringAfter(".") == "0") {
+            return number.toDouble().roundToLong().toString()
+        }
+    }
+    return number
+}
 
 fun hitungKelipatan(
     listNilaiDariTerkecil: List<String> = listOf("mm", "cm", "dm", "m", "dam", "hm", "km"),
     nilaiSaatIni: String = "m",
     nilaiTujuan: String = "km",
     nilaiAngkaSaatIni: Double = 100.0,
-    nilaiKelipatan : Double = 10.0
-) : BigDecimal {
+    nilaiKelipatan: Double = 10.0
+): BigDecimal {
     var nilaiAkhir = nilaiAngkaSaatIni
-    val kelipatan10x : Double
+    val kelipatan10x: Double
 
     if (listNilaiDariTerkecil.indexOf(nilaiSaatIni) < listNilaiDariTerkecil.indexOf(nilaiTujuan)) {
 
-        kelipatan10x = (nilaiKelipatan).pow((listNilaiDariTerkecil.indexOf(nilaiTujuan) + 1) - (listNilaiDariTerkecil.indexOf(nilaiSaatIni) + 1))
+        kelipatan10x = (nilaiKelipatan).pow(
+            (listNilaiDariTerkecil.indexOf(nilaiTujuan) + 1) - (listNilaiDariTerkecil.indexOf(
+                nilaiSaatIni
+            ) + 1)
+        )
         nilaiAkhir = nilaiAngkaSaatIni / kelipatan10x
-    }
-    else if (listNilaiDariTerkecil.indexOf(nilaiSaatIni) > listNilaiDariTerkecil.indexOf(nilaiTujuan)) {
+    } else if (listNilaiDariTerkecil.indexOf(nilaiSaatIni) > listNilaiDariTerkecil.indexOf(
+            nilaiTujuan
+        )
+    ) {
 
-        kelipatan10x = (nilaiKelipatan).pow((listNilaiDariTerkecil.indexOf(nilaiSaatIni)) - (listNilaiDariTerkecil.indexOf(nilaiTujuan)))
+        kelipatan10x = (nilaiKelipatan).pow(
+            (listNilaiDariTerkecil.indexOf(nilaiSaatIni)) - (listNilaiDariTerkecil.indexOf(
+                nilaiTujuan
+            ))
+        )
         nilaiAkhir = nilaiAngkaSaatIni * kelipatan10x
     }
     return nilaiAkhir.toBigDecimal()
@@ -37,19 +102,18 @@ fun hitungKelipatan(
 
 
 fun konverterUkuranPanjang(
-    konversikanUkuranPanjangParam : String,
-    ukuranPanjangSaatIniParam : String,
+    konversikanUkuranPanjangParam: String,
+    ukuranPanjangSaatIniParam: String,
     nilai: String
-) : String{
+): String {
 //    val listUkuranPanjang: List<String> = listOf("mm", "cm", "dm", "m", "dam", "hm", "km")
-    val ukuranPanjangSaatIni : Int = listUkuranPanjang.indexOf(ukuranPanjangSaatIniParam) + 1
-    val konversikanUkuranPanjang : Int = listUkuranPanjang.indexOf(konversikanUkuranPanjangParam) + 1
-    var hasil : Double = nilai.toDouble()
+    val ukuranPanjangSaatIni: Int = listUkuranPanjang.indexOf(ukuranPanjangSaatIniParam) + 1
+    val konversikanUkuranPanjang: Int = listUkuranPanjang.indexOf(konversikanUkuranPanjangParam) + 1
+    var hasil: Double = nilai.toDouble()
 
     if (ukuranPanjangSaatIni > konversikanUkuranPanjang) {
         hasil = nilai.toDouble() * 10.0.pow(ukuranPanjangSaatIni - konversikanUkuranPanjang)
-    }
-    else if (ukuranPanjangSaatIni < konversikanUkuranPanjang) {
+    } else if (ukuranPanjangSaatIni < konversikanUkuranPanjang) {
         hasil = nilai.toDouble() / 10.0.pow(konversikanUkuranPanjang - ukuranPanjangSaatIni)
     }
     return "$hasil"
@@ -70,7 +134,7 @@ fun cekInput(
         }
     }
     val hasil2: String = when {
-        input2.contains("-") || input2.contains(",") || input2.contains(".")-> {
+        input2.contains("-") || input2.contains(",") || input2.contains(".") -> {
             "false"
         }
 
