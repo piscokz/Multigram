@@ -334,19 +334,8 @@ fun KmBodyOutput(
                         vm.outputKm
                     )
                     for (i in listOutputListMeter) {
-//                        jika hasil lebih dari 32 digit
                         Text(
-                            text = if (i.length > 32) {
-                                "${
-                                    numberSpacing(
-                                        isWorthItRoundToLong(
-                                            i.subSequence(0, 30).toString()
-                                        )
-                                    )
-                                }++"
-                            } else {
-                                numberSpacing(isWorthItRoundToLong(notasiIlmiahKonverter(i)))
-                            },
+                            text = i,
                             color = switchColorText(),
                             modifier = Modifier.padding(vertical = 5.dp)
                         )

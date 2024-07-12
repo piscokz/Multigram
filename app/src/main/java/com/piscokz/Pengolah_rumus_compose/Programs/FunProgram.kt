@@ -11,6 +11,15 @@ import java.math.BigDecimal
 import kotlin.math.pow
 import kotlin.math.roundToLong
 
+fun isLenghtToMuch(string: String): Boolean {
+    val maxLenght = 19
+    return if (string.contains("E")) {
+        if (string.substringAfter("E").toInt() > maxLenght) {
+            return true
+        } else false
+    } else return false
+}
+
 fun numberSpacing(number: String): String {
     if (!number.contains('.')) {
         val formattedNumber = number.reversed().chunked(3).joinToString(",")
@@ -22,35 +31,54 @@ fun numberSpacing(number: String): String {
     }
 }
 
-fun notasiIlmiahKonverter(input: String): String {
+fun notasiIlmiahKonverter(
+    input: String,
+    returnFrom_isLenghtToMuch: Boolean
+): String {
     var finalResult: String = input
-    //    untuk E-
-    if (finalResult[finalResult.lastIndex] == '0' && finalResult.contains(".") && !finalResult.contains("E")
-    ) {
-        finalResult = finalResult.substring(startIndex = 0, endIndex = finalResult.lastIndex)
-        if (finalResult[finalResult.lastIndex] == '.') {
+    if (!returnFrom_isLenghtToMuch) {
+//        untuk menghilangkan akhiran 0 pada bigDecimal
+        if (finalResult[finalResult.lastIndex] == '0' && finalResult.contains(".") && !finalResult.contains("E")
+        ) {
+
             finalResult = finalResult.substring(startIndex = 0, endIndex = finalResult.lastIndex)
+            if (finalResult[finalResult.lastIndex] == '.') {
+                finalResult = finalResult.substring(startIndex = 0, endIndex = finalResult.lastIndex)
+            }
         }
-    }
+        //    untuk E-
+        else if (finalResult.contains("E-")) {
+            val lenghtOf0 = finalResult.substringAfter("E-").toInt()
+            var resultLenghtOf0 = "0."
+            var i = 0
+            while (i < lenghtOf0 - 1) {
+                resultLenghtOf0 += "0"; i++
+            }
+            finalResult = resultLenghtOf0 + finalResult.substringBefore("E").replace(".", "")
+            if (finalResult[finalResult.lastIndex].toString() == "0") {
+                finalResult = finalResult.substring(startIndex = 0, endIndex = finalResult.lastIndex)
+            }
+        }
 //    untuk E+
-    else if (input.contains("E+")) {
-        val lenghtOf0 = input.substringAfter("E").toLong()
-        var resultLenghtOf0 = ""
-        var i = 0
-        while (i < lenghtOf0) {
-            resultLenghtOf0 += "0"; i++
-        }
-        if (finalResult.contains(".0")) {
-            finalResult = finalResult.substringBefore(".0E") + resultLenghtOf0
-        }
-        if (finalResult.substringAfter(".") == "0") {
-            finalResult =
-                finalResult.replace(".", "").replace(finalResult.substringAfter("E"), "")
-                    .replace("E", "")
-        } else {
-            var lenghtOfNot0 = finalResult.substring(1).replace(".", "").substringBefore("E")
-            resultLenghtOf0 = resultLenghtOf0.dropLast(lenghtOfNot0.length)
-            finalResult = finalResult.replace(".", "").substringBefore("E") + resultLenghtOf0
+        else if (finalResult.contains("E+")) {
+            val lenghtOf0 = finalResult.substringAfter("E").toLong()
+            var resultLenghtOf0 = ""
+            var i = 0
+            while (i < lenghtOf0) {
+                resultLenghtOf0 += "0"; i++
+            }
+            if (finalResult.contains(".0")) {
+                finalResult = finalResult.substringBefore(".0E") + resultLenghtOf0
+            }
+            if (finalResult.substringAfter(".") == "0") {
+                finalResult =
+                    finalResult.replace(".", "").replace(finalResult.substringAfter("E"), "")
+                        .replace("E", "")
+            } else {
+                var lenghtOfNot0 = finalResult.substring(1).replace(".", "").substringBefore("E")
+                resultLenghtOf0 = resultLenghtOf0.dropLast(lenghtOfNot0.length)
+                finalResult = finalResult.replace(".", "").substringBefore("E") + resultLenghtOf0
+            }
         }
     }
     return finalResult
