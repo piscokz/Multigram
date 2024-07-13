@@ -21,5 +21,6 @@ val DarkButtonColor = Color(0x52000000)
 val LightButtonColors = Color(0xFF6D98E6)
 val LightButtonColor2 = Color(0xFFA4C5FF)
 
+// color dari apk Note
 val BlueLightMode = Color(0xFF4285F4)
 val YellowDarkMode = Color(0xFFFFC700)

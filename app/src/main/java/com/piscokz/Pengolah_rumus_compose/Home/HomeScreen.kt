@@ -129,13 +129,13 @@ fun HomeBody(
         modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues)
-            .padding(horizontal = 10.dp, vertical = 15.dp)
+            .padding(horizontal = 10.dp)
             .fillMaxSize(),
     ) {
         item {
             Column() {
                 Text(
-                    modifier = Modifier.padding(start = 5.dp, bottom = 15.dp),
+                    modifier = Modifier.padding(start = 5.dp, bottom = 15.dp, top = 15.dp),
                     color = switchColorText(),
                     text = "Rekomendasi ",
                     style = MaterialTheme.typography.headlineMedium,
@@ -146,7 +146,7 @@ fun HomeBody(
                     namaProgram = ListKonversi[1],
                     jenisProgram = "konversi",
                     screen_route = Screen.Kb.route,
-                    id_resource = R.drawable.meter_logo
+                    id_resource = R.drawable.byte_logo
                 )
             }
         }

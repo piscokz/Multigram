@@ -1,3 +1,3 @@
 # Multigram
 
-Multigram, aplikasi multi program -_-
+Multigram = multi program _o_o
