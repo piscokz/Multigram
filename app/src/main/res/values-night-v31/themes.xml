@@ -5,6 +5,5 @@
         <item name="postSplashScreenTheme">@style/Theme.PengolahRumusCompose</item>
         <item name="android:windowSplashScreenBrandingImage">@drawable/splashscreen</item>
         <item name="android:windowSplashScreenBackground">@color/black</item>
-        <!--        <item name="windowSplashScreenIconBackgroundColor">@color/teal_200</item>-->
     </style>
 </resources>

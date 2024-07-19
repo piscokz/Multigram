@@ -17,7 +17,7 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-    surface = DarkBlue,
+    surface = Color.Black,
     onSurface = Color.White, // tulisan di dropDownMenu, tulisan pada list rumus, tulisan di toppBar
     primary = Color.White, // text button
     onSecondary = Color.Green,
@@ -31,7 +31,7 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 private val LightColorScheme = lightColorScheme(
-    surface = LightBlue,
+    surface = Color.White,
     onSurface = Color.DarkGray,
     primary = Color.DarkGray,
     onSecondary = Color.Black,

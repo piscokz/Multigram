@@ -41,6 +41,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -58,6 +60,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.piscokz.Pengolah_rumus_compose.AppViewModelProvider
 import com.piscokz.Pengolah_rumus_compose.Programs.KonverterMeter.KmViewModel
+import com.piscokz.Pengolah_rumus_compose.ui.theme.clearButtonDarkMode
 import com.piscokz.Pengolah_rumus_compose.ui.theme.multigramTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -82,7 +85,7 @@ fun Km(
                                 text = ListKonversi[0],
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
-                                style = MaterialTheme.typography.headlineMedium
+                                style = MaterialTheme.typography.headlineSmall
                             )
                         },
                         navigationIcon = {
@@ -111,8 +114,8 @@ fun Km(
                             vm.outputHm = "0"
                             vm.outputKm = "0"
                         },
-                        contentColor = switchColorText(),
-                        containerColor = MaterialTheme.colorScheme.surface
+                        contentColor = Color.White,
+                        containerColor = customSwitchColor(lighMode = Color.Red, darkMode = clearButtonDarkMode)
                     ) {
 //                        Icon(imageVector = Icons.AutoMirrored.TwoTone.ArrowForward, contentDescription = "konversikan")
                         Icon(imageVector = Icons.TwoTone.Delete, contentDescription = "konversikan")
@@ -222,6 +225,7 @@ fun KmBodyInput(
                     ) {
                         Row(
                             Modifier
+                                .background(customSwitchColor(lighMode = Color.White, darkMode = Color.Black))
                                 .clickable {
                                     keyboardController?.hide()
                                     vm.expandedListMeter = true
@@ -229,7 +233,7 @@ fun KmBodyInput(
                         ) {
                             Text(
                                 text = vm.listMeterCurrent,
-                            modifier = Modifier.padding(top = 1.dp)
+                                modifier = Modifier.padding(top = 1.dp)
 
                             )
                             if (vm.expandedListMeter) Icon(
@@ -240,7 +244,6 @@ fun KmBodyInput(
                                 imageVector = Icons.TwoTone.KeyboardArrowDown,
                                 contentDescription = null
                             )
-
                         }
 
                     }
@@ -321,7 +324,7 @@ fun KmBodyOutput(
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Column(
-                    modifier = Modifier.fillMaxWidth(0.8f),
+                    modifier = Modifier.fillMaxWidth(0.7f),
                     horizontalAlignment = Alignment.Start
                 ) {
                     val listOutputListMeter: List<String> = listOf(
@@ -370,11 +373,13 @@ fun KmBodyOutput(
     }
 }
 
-@Preview
+@Preview(
+    showBackground = true
+)
 @Composable
 private fun prev() {
-    KmBodyOutput(
+    Km(
         vm = KmViewModel(),
-        paddingValues = PaddingValues(10.dp)
+        navController = NavController(LocalContext.current)
     )
 }

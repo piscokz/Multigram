@@ -8,15 +8,15 @@ import androidx.lifecycle.ViewModel
 import com.piscokz.Pengolah_rumus_compose.Programs.hitungKelipatan
 import com.piscokz.Pengolah_rumus_compose.Programs.isLenghtToMuch
 import com.piscokz.Pengolah_rumus_compose.Programs.isWorthItRoundToLong
-import com.piscokz.Pengolah_rumus_compose.Programs.notasiIlmiahKonverter
+import com.piscokz.Pengolah_rumus_compose.Programs.konverterNotasiIlmiah
 import com.piscokz.Pengolah_rumus_compose.Programs.numberSpacing
 
 class KbViewModel : ViewModel() {
-    val listByte: List<String> = listOf("B", "Kb", "Mb", "Gb", "Tb", "Pb")
+    val listByte: List<String> = listOf("b", "Kb", "Mb", "Gb", "Tb", "Pb")
 
     //    properties dan method untuk ui input
     var input: String by mutableStateOf("")
-    var listByteCurrent: String by mutableStateOf("Kb")
+    var listByteCurrent: String by mutableStateOf(listByte[1])
     var expandedListByte: Boolean by mutableStateOf(false)
     var isInputError: Boolean by mutableStateOf(false)
     var inputLetterSpacing: Float by mutableFloatStateOf(1.0f)
@@ -39,104 +39,104 @@ class KbViewModel : ViewModel() {
             hitung = hitungKelipatan(
                 listByte,
                 listByteCurrent,
-                "B",
+                listByte[0],
                 input,
                 1000.0
             ).toString()
             expanded = isLenghtToMuch(hitung)
             outputB = numberSpacing(
                 isWorthItRoundToLong(
-                    notasiIlmiahKonverter(
+                    konverterNotasiIlmiah(
                         input = hitung,
                         returnFrom_isLenghtToMuch = expanded
                     )
                 )
             )
 
-//            KiloByte
+//            Kb
             hitung = hitungKelipatan(
                 listByte,
                 listByteCurrent,
-                "Kb",
+                listByte[1],
                 input,
                 1000.0
             ).toString()
             expanded = isLenghtToMuch(hitung)
             outputKb = numberSpacing(
                 isWorthItRoundToLong(
-                    notasiIlmiahKonverter(
+                    konverterNotasiIlmiah(
                         input = hitung,
                         returnFrom_isLenghtToMuch = expanded
                     )
                 )
             )
 
-//            MegaByte
+//            Mb
             hitung = hitungKelipatan(
                 listByte,
                 listByteCurrent,
-                "Mb",
+                listByte[2],
                 input,
                 1000.0
             ).toString()
             expanded = isLenghtToMuch(hitung)
             outputMb = numberSpacing(
                 isWorthItRoundToLong(
-                    notasiIlmiahKonverter(
+                    konverterNotasiIlmiah(
                         input = hitung,
                         returnFrom_isLenghtToMuch = expanded
                     )
                 )
             )
 
-//            GigaByte
+//            Gb
             hitung = hitungKelipatan(
                 listByte,
                 listByteCurrent,
-                "Gb",
+                listByte[3],
                 input,
                 1000.0
             ).toString()
             expanded = isLenghtToMuch(hitung)
             outputGb = numberSpacing(
                 isWorthItRoundToLong(
-                    notasiIlmiahKonverter(
+                    konverterNotasiIlmiah(
                         input = hitung,
                         returnFrom_isLenghtToMuch = expanded
                     )
                 )
             )
 
-//            TeraByte
+//            Tb
             hitung = hitungKelipatan(
                 listByte,
                 listByteCurrent,
-                "Tb",
+                listByte[4],
                 input,
                 1000.0
             ).toString()
             expanded = isLenghtToMuch(hitung)
             outputTb = numberSpacing(
                 isWorthItRoundToLong(
-                    notasiIlmiahKonverter(
+                    konverterNotasiIlmiah(
                         input = hitung,
                         returnFrom_isLenghtToMuch = expanded
                     )
                 )
             )
 
-//            PetaByte
+//            Pb
             hitung = hitungKelipatan(
                 listByte,
                 listByteCurrent,
-                "Pb",
+                listByte[5],
                 input,
                 1000.0
             ).toString()
             expanded = isLenghtToMuch(hitung)
             outputPb = numberSpacing(
                 isWorthItRoundToLong(
-                    notasiIlmiahKonverter(
+                    konverterNotasiIlmiah(
                         input = hitung,
                         returnFrom_isLenghtToMuch = expanded
                     )

@@ -2,17 +2,18 @@ package com.piscokz.Pengolah_rumus_compose.Programs
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.IconButtonColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import com.piscokz.Pengolah_rumus_compose.Programs.RumusKelilingPersegiPanjang.listUkuranPanjang
-import com.piscokz.Pengolah_rumus_compose.ui.theme.DarkButtonColor
+import com.piscokz.Pengolah_rumus_compose.ui.theme.LightBlue
 import com.piscokz.Pengolah_rumus_compose.ui.theme.LightButtonColors
 import java.math.BigDecimal
 import kotlin.math.pow
 import kotlin.math.roundToLong
 
 fun isLenghtToMuch(string: String): Boolean {
-    val maxLenght = 19
+    val maxLenght = 13
     return if (string.contains("E")) {
         if (string.substringAfter("E").toInt() > maxLenght) {
             return true
@@ -31,7 +32,7 @@ fun numberSpacing(number: String): String {
     }
 }
 
-fun notasiIlmiahKonverter(
+fun konverterNotasiIlmiah(
     input: String,
     returnFrom_isLenghtToMuch: Boolean
 ): String {
@@ -183,6 +184,11 @@ fun cekInput(
 }
 
 @Composable
+fun customSwitchColor(lighMode : Color, darkMode : Color) : Color {
+    if(isSystemInDarkTheme()) return darkMode else return lighMode
+}
+
+@Composable
 fun switchColorText(): Color {
     var a: Color
     if (isSystemInDarkTheme()) {
@@ -209,18 +215,38 @@ fun switchButtonColors(): ButtonColors {
     var a: ButtonColors
     if (isSystemInDarkTheme()) {
         a = ButtonColors(
-            containerColor = DarkButtonColor, // background color
+            containerColor = Color.Black, // background color
             contentColor = Color.White, // text color
             disabledContainerColor = Color.White,
             disabledContentColor = Color.Black
+
         )
     } else {
         a = ButtonColors(
             containerColor = LightButtonColors,
-            contentColor = Color.Black,
+            contentColor = Color.White,
             disabledContainerColor = Color.Black,
             disabledContentColor = Color.Red
         )
     }
     return a
+}
+
+@Composable
+fun switchIconButtonColors() : IconButtonColors {
+    if (isSystemInDarkTheme()) {
+        return  IconButtonColors(
+            containerColor = Color.Black,
+            contentColor = Color.LightGray,
+            disabledContentColor = Color.Black,
+            disabledContainerColor = Color.LightGray
+        )
+    }
+    else {
+        return  IconButtonColors(
+            containerColor = LightBlue,
+            contentColor = Color.Black,
+            disabledContentColor = LightBlue,
+            disabledContainerColor = Color.Black        )
+    }
 }

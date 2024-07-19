@@ -8,11 +8,11 @@ import androidx.lifecycle.ViewModel
 import com.piscokz.Pengolah_rumus_compose.Programs.hitungKelipatan
 import com.piscokz.Pengolah_rumus_compose.Programs.isLenghtToMuch
 import com.piscokz.Pengolah_rumus_compose.Programs.isWorthItRoundToLong
-import com.piscokz.Pengolah_rumus_compose.Programs.notasiIlmiahKonverter
+import com.piscokz.Pengolah_rumus_compose.Programs.konverterNotasiIlmiah
 import com.piscokz.Pengolah_rumus_compose.Programs.numberSpacing
 
 class KmViewModel : ViewModel() {
-    val listMeter: List<String> = listOf("mm", "cm", "dm", "m", "dam", "hm", "km")
+    val listMeter: List<String> = listOf("mm", "cm", "dm", "meter", "dam", "hm", "km")
 
     //    properties dan method untuk ui input
     var input: String by mutableStateOf("")
@@ -43,54 +43,54 @@ class KmViewModel : ViewModel() {
             var hitung: String
             var expanded: Boolean
 
-//            miliMeter
+//            mm
             hitung = hitungKelipatan(
                 listMeter,
                 listMeterCurrent,
-                "mm",
+                listMeter[0],
                 input,
                 10.0
             ).toString()
             expanded = isLenghtToMuch(hitung)
             outputMm = numberSpacing(
                 isWorthItRoundToLong(
-                    notasiIlmiahKonverter(
+                    konverterNotasiIlmiah(
                         input = hitung,
                         returnFrom_isLenghtToMuch = expanded
                     )
                 )
             )
 
-//            centiMeter
+//            cm
             hitung = hitungKelipatan(
                 listMeter,
                 listMeterCurrent,
-                "cm",
+                listMeter[1],
                 input,
                 10.0
             ).toString()
             expanded = isLenghtToMuch(hitung)
             outputCm = numberSpacing(
                 isWorthItRoundToLong(
-                    notasiIlmiahKonverter(
+                    konverterNotasiIlmiah(
                         input = hitung,
                         returnFrom_isLenghtToMuch = expanded
                     )
                 )
             )
 
-//            desiMeter
+//            dm
             hitung = hitungKelipatan(
                 listMeter,
                 listMeterCurrent,
-                "dm",
+                listMeter[2],
                 input,
                 10.0
             ).toString()
             expanded = isLenghtToMuch(hitung)
             outputDm = numberSpacing(
                 isWorthItRoundToLong(
-                    notasiIlmiahKonverter(
+                    konverterNotasiIlmiah(
                         input = hitung,
                         returnFrom_isLenghtToMuch = expanded
                     )
@@ -101,65 +101,65 @@ class KmViewModel : ViewModel() {
             hitung = hitungKelipatan(
                 listMeter,
                 listMeterCurrent,
-                "m",
+                listMeter[3],
                 input,
                 10.0
             ).toString()
             expanded = isLenghtToMuch(hitung)
             outputM = numberSpacing(
                 isWorthItRoundToLong(
-                    notasiIlmiahKonverter(
+                    konverterNotasiIlmiah(
                         input = hitung,
                         returnFrom_isLenghtToMuch = expanded
                     )
                 )
             )
-//            dekaMeter
+//            dam
             hitung = hitungKelipatan(
                 listMeter,
                 listMeterCurrent,
-                "dam",
+                listMeter[4],
                 input,
                 10.0
             ).toString()
             expanded = isLenghtToMuch(hitung)
             outputDam = numberSpacing(
                 isWorthItRoundToLong(
-                    notasiIlmiahKonverter(
+                    konverterNotasiIlmiah(
                         input = hitung,
                         returnFrom_isLenghtToMuch = expanded
                     )
                 )
             )
-//            hektoMeter
+//            hm
             hitung = hitungKelipatan(
                 listMeter,
                 listMeterCurrent,
-                "hm",
+                listMeter[5],
                 input,
                 10.0
             ).toString()
             expanded = isLenghtToMuch(hitung)
             outputHm = numberSpacing(
                 isWorthItRoundToLong(
-                    notasiIlmiahKonverter(
+                    konverterNotasiIlmiah(
                         input = hitung,
                         returnFrom_isLenghtToMuch = expanded
                     )
                 )
             )
-//            kiloMeter
+//            km
             hitung = hitungKelipatan(
                 listMeter,
                 listMeterCurrent,
-                "km",
+                listMeter[6],
                 input,
                 10.0
             ).toString()
             expanded = isLenghtToMuch(hitung)
             outputKm = numberSpacing(
                 isWorthItRoundToLong(
-                    notasiIlmiahKonverter(
+                    konverterNotasiIlmiah(
                         input = hitung,
                         returnFrom_isLenghtToMuch = expanded
                     )
