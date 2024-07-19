@@ -4,6 +4,5 @@
     <style name="Theme.PengolahRumusCompose" parent="android:Theme.Material.Light.NoActionBar" />
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
         <item name="postSplashScreenTheme">@style/Theme.PengolahRumusCompose</item>
-
     </style>
 </resources>

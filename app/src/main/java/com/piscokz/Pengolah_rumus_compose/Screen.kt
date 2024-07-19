@@ -6,7 +6,8 @@ val route : String
     data object Home : Screen(route = "home_screen")
     data object Kpp : Screen(route = "kpp_screen")
     data object Lpp : Screen(route = "lp_screen")
-    data object  UkuranPanjang : Screen(route = "ukuran_panjang")
+    data object  Km : Screen(route = "km_screen")
+    data object Kb : Screen(route = "kb_screen")
 
 }
 

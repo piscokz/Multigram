@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.PengolahRumusCompose" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="postSplashScreenTheme">@style/Theme.PengolahRumusCompose</item>
+        <item name="android:windowSplashScreenBrandingImage">@drawable/splashscreen</item>
+        <item name="android:windowSplashScreenBackground">@color/black</item>
+    </style>
+</resources>

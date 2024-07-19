@@ -17,7 +17,7 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-    surface = DarkBlue,
+    surface = Color.Black,
     onSurface = Color.White, // tulisan di dropDownMenu, tulisan pada list rumus, tulisan di toppBar
     primary = Color.White, // text button
     onSecondary = Color.Green,
@@ -31,7 +31,7 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 private val LightColorScheme = lightColorScheme(
-    surface = LightBlue,
+    surface = Color.White,
     onSurface = Color.DarkGray,
     primary = Color.DarkGray,
     onSecondary = Color.Black,
@@ -47,7 +47,7 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun PengolahRumusComposeTheme(
+fun multigramTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = false,
@@ -73,7 +73,7 @@ fun PengolahRumusComposeTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = typography,
         content = content
     )
 }

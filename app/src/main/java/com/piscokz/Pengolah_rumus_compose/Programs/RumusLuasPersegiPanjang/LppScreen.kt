@@ -1,5 +1,7 @@
 package com.piscokz.Pengolah_rumus_compose
 
+import android.content.res.Configuration
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -12,19 +14,22 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.twotone.Delete
+import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -36,19 +41,31 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.piscokz.Pengolah_rumus_compose.Programs.ListRumus
 import com.piscokz.Pengolah_rumus_compose.Programs.RumusLuasPersegiPanjang.LppViewModel
 import com.piscokz.Pengolah_rumus_compose.Programs.cekInput
-import com.piscokz.Pengolah_rumus_compose.Programs.listRumus
+import com.piscokz.Pengolah_rumus_compose.Programs.customSwitchColor
 import com.piscokz.Pengolah_rumus_compose.Programs.switchButtonColors
 import com.piscokz.Pengolah_rumus_compose.Programs.switchColorText
+import com.piscokz.Pengolah_rumus_compose.ui.theme.LightBlue
+import com.piscokz.Pengolah_rumus_compose.ui.theme.LightButtonColors
+import com.piscokz.Pengolah_rumus_compose.ui.theme.clearButtonDarkMode
 
 val listUkuranPanjang: List<String> = listOf("mm", "cm", "dm", "m", "dam", "hm", "km")
 
@@ -62,21 +79,16 @@ fun Lpp(
     navController: NavController,
     lppViewModel: LppViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
-    Surface(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
         Scaffold(
-            modifier = Modifier
-                .fillMaxSize(),
+//            modifier = Modifier.border((0.5).dp, LightBlue),
             topBar = {
                 TopAppBar(
                     title = {
                         Text(
-                            listRumus[1],
+                            ListRumus[1],
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
-                            style = MaterialTheme.typography.headlineLarge
+                            style = MaterialTheme.typography.headlineSmall
 
                         )
                     },
@@ -91,26 +103,41 @@ fun Lpp(
                         }
                     }
                 )
-
+            },
+            floatingActionButton = {
+                LargeFloatingActionButton(
+                    onClick = {
+                        lppViewModel.inputPanjang = ""
+                        lppViewModel.inputLebar = ""
+                        lppViewModel.display = ""
+                        lppViewModel.isError = false
+                    },
+                    contentColor = Color.White,
+                    containerColor = customSwitchColor(
+                        lighMode = Color.Red,
+                        darkMode = clearButtonDarkMode
+                    )
+                ) {
+                    Icon(imageVector = Icons.TwoTone.Delete, contentDescription = "konversikan")
+                }
             }
 
         ) { paddingValues ->
             LppBody(paddingValues = paddingValues, lppViewModel = lppViewModel)
         }
     }
-}
 
 @Composable
 fun LppBody(
     paddingValues: PaddingValues,
     lppViewModel: LppViewModel,
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues)
     ) {
-
         item {
             Spacer(
                 modifier = Modifier
@@ -184,6 +211,7 @@ fun LppBody(
                                     fontFamily = FontFamily.Monospace,
                                     style = MaterialTheme.typography.titleMedium,
                                     modifier = Modifier.clickable {
+                                        keyboardController?.hide()
                                         lppViewModel.expandedPanjang = true
                                     }
                                 )
@@ -202,12 +230,7 @@ fun LppBody(
                             },
                             isError = lppViewModel.inputPanjang.isEmpty() && lppViewModel.isError
                         )
-//                        IconButton(onClick = { lppViewModel.expandedPanjang = true }) {
-//                            Icon(
-//                                Icons.Default.ArrowDropDown,
-//                                contentDescription = "Localized description"
-//                            )
-//                        }
+
                         DropdownMenu(
                             expanded = lppViewModel.expandedPanjang,
                             onDismissRequest = { lppViewModel.expandedPanjang = false }
@@ -224,6 +247,7 @@ fun LppBody(
                     }
                     Row {
                         DropdownMenu(
+                            offset = DpOffset(x = (40).dp, y = 10.dp),
                             expanded = lppViewModel.expandedLebar,
                             onDismissRequest = { lppViewModel.expandedLebar = false }
                         ) {
@@ -268,6 +292,7 @@ fun LppBody(
                                     fontFamily = FontFamily.Monospace,
                                     style = MaterialTheme.typography.titleMedium,
                                     modifier = Modifier.clickable {
+                                        keyboardController?.hide()
                                         lppViewModel.expandedLebar = true
                                     }
                                 )
@@ -303,63 +328,87 @@ fun LppBody(
                         .fillMaxWidth(1f),
                     horizontalArrangement = Arrangement.End
                 ) {
-                    IconButton(onClick = { lppViewModel.expandedHitung = true }) {
-                        Icon(
-                            Icons.Default.ArrowDropDown,
-                            contentDescription = "Localized description"
-                        )
+                    Surface (modifier = Modifier.padding(end = 10.dp)){
+                        ElevatedButton(
+                            border = BorderStroke(1.dp, LightBlue),
+                            colors = switchButtonColors(),
+                            onClick = {
+
+                                if (cekInput(lppViewModel.inputPanjang, lppViewModel.inputLebar)) {
+
+                                    lppViewModel.isError =
+                                        lppViewModel.inputPanjang.isEmpty() || lppViewModel.inputLebar.isEmpty()
+
+                                    if (lppViewModel.inputPanjang.isNotEmpty() && lppViewModel.inputLebar.isNotEmpty()) {
+                                        lppViewModel.panjang = lppViewModel.inputPanjang
+                                        lppViewModel.lebar = lppViewModel.inputLebar
+
+                                        lppViewModel.panjang =
+                                            lppViewModel.konversiUkuranLppPanjang()
+
+                                        lppViewModel.lebar = lppViewModel.konversiUkuranLppLebar()
+
+                                        lppViewModel.display = lppViewModel.hitungLpp()
+
+                                    }
+                                }
+                            },
+                        ) {
+                            Text(
+                                color = Color.White,
+                                text = "Hitung & konversi",
+                                textAlign = TextAlign.Center
+                            )
+                        }
+
                     }
+                    Button(
+                        border = BorderStroke(1.dp, LightBlue),
+                        colors = switchButtonColors(),
+                        onClick = {
+                            keyboardController?.hide()
+                            lppViewModel.expandedHitung = true
+                        },
+                    ) {
+                        Row {
+                            Text(
+                                text = lppViewModel.ukuranInputHitung,
+                                modifier = Modifier.padding(top = 2.dp)
+                            )
+                            if (lppViewModel.expandedHitung) {
+                                Icon(
+                                    Icons.Filled.KeyboardArrowUp,
+                                    contentDescription = null
+                                )
+                            } else {
+                                Icon(
+                                    Icons.Default.KeyboardArrowDown,
+                                    contentDescription = null
+                                )
+                            }
+                        }
+                    }
+//                    Surface (
+//                        shape = RoundedCornerShape(405.dp),
+//                        color = LightBlue
+//                    ){
+//
+//                    }
+
                     DropdownMenu(
                         expanded = lppViewModel.expandedHitung,
-                        onDismissRequest = { lppViewModel.expandedHitung = false }
+                        onDismissRequest = { lppViewModel.expandedHitung = false },
+                        offset = DpOffset(x = (-15).dp, y = 10.dp),
                     ) {
                         for (i in listUkuranPanjang) {
                             DropdownMenuItem(
                                 text = { Text(text = i) },
-                                onClick = { lppViewModel.ukuranInputHitung = i })
+                                onClick = {
+                                    lppViewModel.expandedHitung = false
+                                    lppViewModel.ukuranInputHitung = i
+                                },
+                            )
                         }
-                    }
-                    ElevatedButton(
-                        shape = RoundedCornerShape(35.dp),
-                        colors = switchButtonColors(),
-                        onClick = {
-
-                            if (cekInput(lppViewModel.inputPanjang, lppViewModel.inputLebar)) {
-
-                                lppViewModel.isError =
-                                    lppViewModel.inputPanjang.isEmpty() || lppViewModel.inputLebar.isEmpty()
-
-                                if (lppViewModel.inputPanjang.isNotEmpty() && lppViewModel.inputLebar.isNotEmpty()) {
-                                    lppViewModel.panjang = lppViewModel.inputPanjang
-                                    lppViewModel.lebar = lppViewModel.inputLebar
-
-                                    lppViewModel.panjang = lppViewModel.konversiUkuranLppPanjang()
-
-                                    lppViewModel.lebar = lppViewModel.konversiUkuranLppLebar()
-
-                                    lppViewModel.display = lppViewModel.hitungLpp()
-
-                                }
-                            }
-                        },
-                        modifier = Modifier.padding(end = 10.dp),
-                    ) {
-                        Text(
-                            text = "Hitung & konversikan ${lppViewModel.ukuranInputHitung}",
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                    ElevatedButton(
-                        shape = RoundedCornerShape(35.dp),
-                        colors = switchButtonColors(),
-                        onClick = {
-                            lppViewModel.inputPanjang = ""
-                            lppViewModel.inputLebar = ""
-                            lppViewModel.display = ""
-                            lppViewModel.isError = false
-                        },
-                    ) {
-                        Text(text = "Reset")
                     }
                 }
                 Spacer(
@@ -371,10 +420,22 @@ fun LppBody(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(1.dp)
-                        .border(1.dp, switchColorText())
+                        .border(1.dp, customSwitchColor(lighMode = Color.Black, darkMode = Color.LightGray))
                 )
             }
         }
     }
 }
 
+@Preview(
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+)
+@Preview(
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+)
+@Composable
+private fun prev() {
+    Lpp(lppViewModel = LppViewModel(), navController = NavController(context = LocalContext.current))
+}
