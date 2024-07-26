@@ -1,0 +1,54 @@
+<resources>
+    <string name="app_name">MultiGram</string>
+    <string-array name="listMeter">
+        <item>mm</item>
+        <item>cm</item>
+        <item>dm</item>
+        <item>m</item>
+        <item>dam</item>
+        <item>hm</item>
+        <item>km</item>
+    </string-array>
+
+    <string-array name="listByte">
+        <item>byte</item>
+        <item>Kb</item>
+        <item>Mb</item>
+        <item>Gb</item>
+        <item>Tb</item>
+        <item>Pb</item>
+    </string-array>
+
+    <string-array name="jenisProgram">
+        <item>kalkulator</item>
+        <item>konverter</item>
+    </string-array>
+
+    <string-array name="listProgram">
+        <item>Byte</item>
+        <item>Meter</item>
+        <item>Luas persegi panjang</item>
+        <item>Keliling persegi panjang</item>
+    </string-array>
+
+    <!--  program byte  -->
+    <string name="teksHasil">hasil</string>
+    <string name="placeholderInput">masukkan angka</string>
+
+    <!--  program meter  -->
+    <!--    <string name="resultMeter">result</string>-->
+    <!--    <string name="inputMeter">Enter a number</string>-->
+
+    <!--  kpp & lpp  -->
+    <string name="teksHitung_kpp_lpp">hitung &amp; konversikan</string>
+    <string name="input_kpp_lpp">masukkan angka</string>
+    <string name="panjang_kpp_lpp">panjang</string>
+    <string name="lebar_kpp_lpp">lebar</string>
+
+    <!--  program kpp -->
+    <string name="displayKpp">2 * (panjang + lebar)</string>
+
+    <!--  program lpp  -->
+    <string name="displayLpp">panjang * lebar</string>
+
+</resources>

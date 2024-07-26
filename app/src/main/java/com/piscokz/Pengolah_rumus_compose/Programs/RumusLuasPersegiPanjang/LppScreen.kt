@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -41,11 +40,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.input.KeyboardType
@@ -53,18 +51,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.piscokz.Pengolah_rumus_compose.Programs.ListRumus
 import com.piscokz.Pengolah_rumus_compose.Programs.RumusLuasPersegiPanjang.LppViewModel
 import com.piscokz.Pengolah_rumus_compose.Programs.cekInput
 import com.piscokz.Pengolah_rumus_compose.Programs.customSwitchColor
 import com.piscokz.Pengolah_rumus_compose.Programs.switchButtonColors
 import com.piscokz.Pengolah_rumus_compose.Programs.switchColorText
 import com.piscokz.Pengolah_rumus_compose.ui.theme.LightBlue
-import com.piscokz.Pengolah_rumus_compose.ui.theme.LightButtonColors
 import com.piscokz.Pengolah_rumus_compose.ui.theme.clearButtonDarkMode
 
 val listUkuranPanjang: List<String> = listOf("mm", "cm", "dm", "m", "dam", "hm", "km")
@@ -79,13 +74,14 @@ fun Lpp(
     navController: NavController,
     lppViewModel: LppViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
+    val listProgram : Array<String> = stringArrayResource(id = R.array.listProgram)
         Scaffold(
 //            modifier = Modifier.border((0.5).dp, LightBlue),
             topBar = {
                 TopAppBar(
                     title = {
                         Text(
-                            ListRumus[1],
+                            listProgram[2],
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                             style = MaterialTheme.typography.headlineSmall
@@ -98,7 +94,7 @@ fun Lpp(
                         }) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = "Back"
+                                contentDescription = null
                             )
                         }
                     }
@@ -118,7 +114,7 @@ fun Lpp(
                         darkMode = clearButtonDarkMode
                     )
                 ) {
-                    Icon(imageVector = Icons.TwoTone.Delete, contentDescription = "konversikan")
+                    Icon(imageVector = Icons.TwoTone.Delete, contentDescription = null)
                 }
             }
 
@@ -187,7 +183,7 @@ fun LppBody(
                             placeholder = {
                                 Text(
                                     color = switchColorText(),
-                                    text = "panjang",
+                                    text = stringResource(id = R.string.panjang_kpp_lpp),
                                     fontFamily = FontFamily.Serif,
                                     modifier = Modifier.fillMaxWidth(),
                                     textAlign = TextAlign.Right,
@@ -218,12 +214,12 @@ fun LppBody(
                             },
                             supportingText = {
                                 if (lppViewModel.inputPanjang.isEmpty()) Text(
-                                    text = "masukkan angka",
+                                    text = stringResource(id = R.string.placeholderInput),
                                     color = switchColorText()
                                 )
                                 if (lppViewModel.isError && lppViewModel.inputPanjang.isEmpty()) {
                                     Text(
-                                        text = "masukkan angka !",
+                                        text = "${stringResource(id = R.string.placeholderInput)} !",
                                         color = Color.Red
                                     )
                                 }
@@ -266,7 +262,7 @@ fun LppBody(
                             placeholder = {
                                 Text(
                                     color = switchColorText(),
-                                    text = "lebar",
+                                    text = stringResource(id = R.string.lebar_kpp_lpp),
                                     fontFamily = FontFamily.Serif,
                                     modifier = Modifier.fillMaxWidth(),
                                     textAlign = TextAlign.Right,
@@ -299,11 +295,11 @@ fun LppBody(
                             },
                             supportingText = {
                                 if (lppViewModel.inputLebar.isEmpty()) Text(
-                                    text = "masukkan angka",
+                                    text = stringResource(id = R.string.placeholderInput),
                                     color = switchColorText()
                                 )
                                 if (lppViewModel.isError && lppViewModel.inputLebar.isEmpty()) Text(
-                                    text = "masukkan angka",
+                                    text = "${stringResource(id = R.string.placeholderInput)} !",
                                     color = Color.Red
                                 )
                             },
@@ -356,7 +352,7 @@ fun LppBody(
                         ) {
                             Text(
                                 color = Color.White,
-                                text = "Hitung & konversi",
+                                text = stringResource(id = R.string.teksHitung_kpp_lpp),
                                 textAlign = TextAlign.Center
                             )
                         }
@@ -420,7 +416,10 @@ fun LppBody(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(1.dp)
-                        .border(1.dp, customSwitchColor(lighMode = Color.Black, darkMode = Color.LightGray))
+                        .border(
+                            1.dp,
+                            customSwitchColor(lighMode = Color.Black, darkMode = Color.LightGray)
+                        )
                 )
             }
         }

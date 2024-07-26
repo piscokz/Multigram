@@ -30,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -37,14 +38,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.piscokz.Pengolah_rumus_compose.Programs.ListKonversi
-import com.piscokz.Pengolah_rumus_compose.Programs.ListRumus
 import com.piscokz.Pengolah_rumus_compose.Programs.customSwitchColor
 import com.piscokz.Pengolah_rumus_compose.Programs.switchIconButtonColors
 import com.piscokz.Pengolah_rumus_compose.Programs.switchColorText
 import com.piscokz.Pengolah_rumus_compose.R
 import com.piscokz.Pengolah_rumus_compose.Screen
-import com.piscokz.Pengolah_rumus_compose.ui.theme.BlueLightMode
+import com.piscokz.Pengolah_rumus_compose.ui.theme.ColorTextLightMode
 import com.piscokz.Pengolah_rumus_compose.ui.theme.LightBlue
 import com.piscokz.Pengolah_rumus_compose.ui.theme.multigramTheme
 
@@ -75,7 +74,7 @@ fun Home(
                             Text(
                                 "Gram",
                                 color = customSwitchColor(
-                                    lighMode = BlueLightMode,
+                                    lighMode = ColorTextLightMode,
                                     darkMode = LightBlue
                                 ),
                                 maxLines = 1,
@@ -170,6 +169,8 @@ fun HomeBody(
     paddingValues: PaddingValues,
     navController: NavController
 ) {
+    val listProgram: Array<String> = stringArrayResource(R.array.listProgram)
+    val listjenisProgram: Array<String> = stringArrayResource(R.array.jenisProgram)
     LazyColumn(
         modifier = Modifier
             .padding(paddingValues)
@@ -180,17 +181,10 @@ fun HomeBody(
             Column(
                 modifier = Modifier.padding(horizontal = 10.dp)
             ) {
-//                Text(
-//                    modifier = Modifier.padding(start = 5.dp, bottom = 15.dp, top = 15.dp),
-//                    color = switchColorText(),
-//                    text = "Rekomendasi ",
-//                    style = MaterialTheme.typography.headlineMedium,
-//                    fontWeight = FontWeight.Bold,
-//                )
                 listProgram(
                     navController = navController,
-                    namaProgram = ListKonversi[1],
-                    jenisProgram = "konverter",
+                    namaProgram = listProgram[0],
+                    jenisProgram = listjenisProgram[1],
                     screen_route = Screen.Kb.route,
                     id_resource = R.drawable.byte_logo,
                     modifier = Modifier.padding(end = 15.dp)
@@ -203,31 +197,31 @@ fun HomeBody(
             ) {
 //                Text(
 //                    color = switchColorText(),
-//                    text = "Lainnya ",
+//                    text = myStringArray[1],
 //                    style = MaterialTheme.typography.headlineMedium,
 //                    fontWeight = FontWeight.Bold,
 //                    modifier = Modifier.padding(start = 5.dp, bottom = 15.dp)
 //                )
                 listProgram(
                     navController = navController,
-                    namaProgram = ListKonversi[0],
-                    jenisProgram = "konverter",
+                    namaProgram = listProgram[1],
+                    jenisProgram = listjenisProgram[1],
                     screen_route = Screen.Km.route,
                     id_resource = R.drawable.meter_logo,
                     modifier = Modifier.padding(end = 15.dp)
                 )
                 listProgram(
                     navController = navController,
-                    namaProgram = ListRumus[1],
-                    jenisProgram = "rumus",
+                    namaProgram = listProgram[2],
+                    jenisProgram = listjenisProgram[0],
                     screen_route = Screen.Lpp.route,
                     id_resource = R.drawable.lpp_logo,
                     modifier = Modifier.padding(end = 15.dp)
                 )
                 listProgram(
                     navController = navController,
-                    namaProgram = ListRumus[0],
-                    jenisProgram = "rumus",
+                    namaProgram = listProgram[3],
+                    jenisProgram = listjenisProgram[0],
                     screen_route = Screen.Kpp.route,
                     id_resource = R.drawable.rectangle_shape,
                     modifier = Modifier.padding(end = 15.dp)

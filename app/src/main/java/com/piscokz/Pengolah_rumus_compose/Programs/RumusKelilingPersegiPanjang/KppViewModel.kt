@@ -1,10 +1,14 @@
 package com.piscokz.Pengolah_rumus_compose.Programs.RumusKelilingPersegiPanjang
 
+import android.content.res.Resources
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
-import com.piscokz.Pengolah_rumus_compose.Programs.konverterUkuranPanjang
+import com.piscokz.Pengolah_rumus_compose.Programs.hitungKelipatan
+import com.piscokz.Pengolah_rumus_compose.R
 import java.math.RoundingMode
 import kotlin.math.roundToLong
 
@@ -29,27 +33,39 @@ class KppViewModel : ViewModel() {
     var ukuranInputHitung by mutableStateOf("cm")
 
     fun konversiUkuranKppPanjang(): String {
-        return konverterUkuranPanjang(
-            ukuranPanjangSaatIniParam = ukuranInputPanjang,
-            konversikanUkuranPanjangParam = ukuranInputHitung,
-            nilai = inputPanjang
-        )
+        if (panjang != "") {
+            val input: Double = this.panjang.toDouble()
+            return hitungKelipatan(
+                listNilaiDariTerkecil = listOf("mm", "cm", "dm", "m", "dam", "hm", "km"),
+                nilaiSaatIni = ukuranInputPanjang,
+                nilaiTujuan = ukuranInputHitung,
+                nilaiAngkaSaatIni = input,
+                nilaiKelipatan = 10.0
+            ).toString()
+        }
+        else return ""
     }
 
     fun konversiUkuranKppLebar(): String {
-        return konverterUkuranPanjang(
-            ukuranPanjangSaatIniParam = ukuranInputLebar,
-            konversikanUkuranPanjangParam = ukuranInputHitung,
-            nilai = inputLebar
-        )
+        if (lebar != "") {
+            val input: Double = this.lebar.toDouble()
+            return hitungKelipatan(
+                listNilaiDariTerkecil = listOf("mm", "cm", "dm", "m", "dam", "hm", "km"),
+                nilaiSaatIni = ukuranInputLebar,
+                nilaiTujuan = ukuranInputHitung,
+                nilaiAngkaSaatIni = input,
+                nilaiKelipatan = 10.0
+            ).toString()
+        }
+        else return ""
     }
 
+    @Composable
     fun displayKpp(): String {
         var returnStr: String = display
         if (display.isEmpty()) {
-            returnStr = "kpp = 2 * (panjang + lebar)"
+            returnStr = stringResource(id = R.string.displayKpp)
         }
-
         return returnStr
     }
 
@@ -60,12 +76,12 @@ class KppViewModel : ViewModel() {
         val hitung: Double = 2 * (inputPanjang + inputLebar)
         var hasil: Number = hitung
 
-        if (hasil.toString().contains(".0")) {
-            hasil = hitung.roundToLong()
-        }
-        else {
-            hasil = hitung.toBigDecimal().setScale(1, RoundingMode.UP).toDouble()
-        }
+//        if (hasil.toString().contains(".0")) {
+//            hasil = hitung.roundToLong()
+//        }
+//        else {
+//            hasil = hitung.toBigDecimal().setScale(1, RoundingMode.UP).toDouble()
+//        }
 
 
         return "lpp = $hasil $ukuranInputHitung"

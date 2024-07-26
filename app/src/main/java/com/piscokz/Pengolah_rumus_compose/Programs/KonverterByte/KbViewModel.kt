@@ -12,7 +12,7 @@ import com.piscokz.Pengolah_rumus_compose.Programs.konverterNotasiIlmiah
 import com.piscokz.Pengolah_rumus_compose.Programs.numberSpacing
 
 class KbViewModel : ViewModel() {
-    val listByte: List<String> = listOf("b", "Kb", "Mb", "Gb", "Tb", "Pb")
+    val listByte: List<String> = listOf("byte", "Kb", "Mb", "Gb", "Tb", "Pb")
 
     //    properties dan method untuk ui input
     var input: String by mutableStateOf("")
@@ -37,11 +37,11 @@ class KbViewModel : ViewModel() {
 
 //            Byte
             hitung = hitungKelipatan(
-                listByte,
-                listByteCurrent,
-                listByte[0],
-                input,
-                1000.0
+                listNilaiDariTerkecil = listByte,
+                nilaiSaatIni = listByteCurrent,
+                nilaiTujuan = listByte[0],
+                nilaiAngkaSaatIni = input,
+                nilaiKelipatan = 1000.0
             ).toString()
             expanded = isLenghtToMuch(hitung)
             outputB = numberSpacing(

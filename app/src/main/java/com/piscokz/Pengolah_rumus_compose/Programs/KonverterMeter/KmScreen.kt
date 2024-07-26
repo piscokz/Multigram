@@ -19,7 +19,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.twotone.ArrowDropDown
 import androidx.compose.material.icons.twotone.Delete
 import androidx.compose.material.icons.twotone.KeyboardArrowDown
 import androidx.compose.material.icons.twotone.KeyboardArrowUp
@@ -44,6 +43,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -60,6 +61,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.piscokz.Pengolah_rumus_compose.AppViewModelProvider
 import com.piscokz.Pengolah_rumus_compose.Programs.KonverterMeter.KmViewModel
+import com.piscokz.Pengolah_rumus_compose.R
 import com.piscokz.Pengolah_rumus_compose.ui.theme.clearButtonDarkMode
 import com.piscokz.Pengolah_rumus_compose.ui.theme.multigramTheme
 
@@ -69,6 +71,7 @@ fun Km(
     navController: NavController,
     vm: KmViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
+    val listProgram: Array<String> = stringArrayResource(R.array.listProgram)
     multigramTheme {
         Surface(
             modifier = Modifier
@@ -82,7 +85,7 @@ fun Km(
                         title = {
                             Text(
                                 color = switchColorText(),
-                                text = ListKonversi[0],
+                                text = listProgram[1],
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                                 style = MaterialTheme.typography.headlineSmall
@@ -94,7 +97,7 @@ fun Km(
                             }) {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                    contentDescription = "Back"
+                                    contentDescription = null
                                 )
                             }
                         }
@@ -176,17 +179,17 @@ fun KmBodyInput(
                     fontWeight = FontWeight.Bold,
                     letterSpacing = TextUnit(vm.inputLetterSpacing, TextUnitType.Sp),
                 ),
-                supportingText = {
-                    if (vm.isInputError) {
-                        if (vm.input == "") {
-                            Text(text = "input minimal 1 angka")
-                        }
-                    }
-                },
+//                supportingText = {
+//                    if (vm.isInputError) {
+//                        if (vm.input == "") {
+//                            Text(text = "input minimal 1 angkasa")
+//                        }
+//                    }
+//                },
                 placeholder = {
                     Text(
                         modifier = Modifier.fillMaxWidth(),
-                        text = "Masukkan angka",
+                        text = stringResource(id = R.string.placeholderInput),
                         letterSpacing = TextUnit(2.5f, TextUnitType.Sp),
                         fontFamily = FontFamily.Monospace,
                         textAlign = TextAlign.Right,
@@ -225,7 +228,12 @@ fun KmBodyInput(
                     ) {
                         Row(
                             Modifier
-                                .background(customSwitchColor(lighMode = Color.White, darkMode = Color.Black))
+                                .background(
+                                    customSwitchColor(
+                                        lighMode = Color.White,
+                                        darkMode = Color.Black
+                                    )
+                                )
                                 .clickable {
                                     keyboardController?.hide()
                                     vm.expandedListMeter = true
@@ -310,7 +318,7 @@ fun KmBodyOutput(
                 .padding(top = 15.dp),
         ) {
             Text(
-                text = "Hasil",
+                text = stringResource(id = R.string.teksHasil),
                 fontFamily = FontFamily.SansSerif,
                 color = switchColorText(),
                 fontWeight = FontWeight.W300,
