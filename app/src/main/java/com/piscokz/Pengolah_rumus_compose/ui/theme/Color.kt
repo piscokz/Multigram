@@ -4,8 +4,6 @@ import androidx.compose.ui.graphics.Color
 
 val Navy = Color(0xFF061E63)
 
-val DarkBlue = Color(0xFF093379)
-
 //val LightBlue = Color(0xFF82B1FF) previous
 val LightBlue = Color(0xFFB0CFFF)
 
@@ -19,6 +17,6 @@ val LightButtonColor2 = Color(0xFFA4C5FF)
 val MainBackgroundLightMode = Color(0xFFF8F8F8)
 val clearButtonDarkMode = Color(0xFFAF0000)
 
-// color dari apk Note
-val BlueLightMode = Color(0xFF4285F4)
-val YellowDarkMode = Color(0xFFFFC700)
+// color from Note app
+val ColorTextLightMode = Color(0xFF4285F4)
+val ColorTextDarkMode = Color(0xFFFFC700)
