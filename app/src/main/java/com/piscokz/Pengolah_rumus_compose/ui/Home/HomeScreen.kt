@@ -1,4 +1,4 @@
-package com.piscokz.Pengolah_rumus_compose.Home
+package com.piscokz.Pengolah_rumus_compose.ui.Home
 
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
@@ -38,19 +38,23 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.piscokz.Pengolah_rumus_compose.Programs.customSwitchColor
-import com.piscokz.Pengolah_rumus_compose.Programs.switchIconButtonColors
-import com.piscokz.Pengolah_rumus_compose.Programs.switchColorText
+import com.piscokz.Pengolah_rumus_compose.Kb
+import com.piscokz.Pengolah_rumus_compose.Km
+import com.piscokz.Pengolah_rumus_compose.Kpp
+import com.piscokz.Pengolah_rumus_compose.Lpp
 import com.piscokz.Pengolah_rumus_compose.R
-import com.piscokz.Pengolah_rumus_compose.Screen
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.customSwitchColor
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.switchColorText
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.switchIconButtonColors
 import com.piscokz.Pengolah_rumus_compose.ui.theme.ColorTextLightMode
 import com.piscokz.Pengolah_rumus_compose.ui.theme.LightBlue
 import com.piscokz.Pengolah_rumus_compose.ui.theme.multigramTheme
+import kotlinx.serialization.Serializable
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Home(
-    navController: NavController
+    navController: NavController,
 ) {
     multigramTheme {
         Scaffold(
@@ -91,20 +95,20 @@ fun Home(
         ) { paddingValues ->
             HomeBody(
                 paddingValues = paddingValues,
-                navController = navController
+                navController = navController,
             )
+
         }
     }
 }
 
 @Composable
 fun listProgram(
-    navController: NavController,
     namaProgram: String,
     jenisProgram: String,
-    screen_route: String,
     id_resource: Int,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick : () -> Unit
 ) {
     Surface(
         shape = RoundedCornerShape(25.dp),
@@ -114,7 +118,7 @@ fun listProgram(
     ) {
         OutlinedIconButton(
             shape = RoundedCornerShape(25.dp),
-            onClick = {navController.navigate(screen_route)},
+            onClick = onClick,
             modifier = Modifier
                 .fillMaxWidth()
                 .requiredHeight(160.dp)
@@ -167,7 +171,7 @@ fun listProgram(
 @Composable
 fun HomeBody(
     paddingValues: PaddingValues,
-    navController: NavController
+    navController: NavController,
 ) {
     val listProgram: Array<String> = stringArrayResource(R.array.listProgram)
     val listjenisProgram: Array<String> = stringArrayResource(R.array.jenisProgram)
@@ -175,19 +179,25 @@ fun HomeBody(
         modifier = Modifier
             .padding(paddingValues)
             .padding(top = 10.dp)
-            .fillMaxSize(),
+            .fillMaxSize()
+        ,
     ) {
         item {
             Column(
                 modifier = Modifier.padding(horizontal = 10.dp)
             ) {
                 listProgram(
-                    navController = navController,
                     namaProgram = listProgram[0],
                     jenisProgram = listjenisProgram[1],
-                    screen_route = Screen.Kb.route,
                     id_resource = R.drawable.byte_logo,
-                    modifier = Modifier.padding(end = 15.dp)
+                    modifier = Modifier.padding(end = 15.dp),
+                    onClick = {
+                        navController.navigate(
+                            Kb(
+                                listProgram[0]
+                            )
+                        )
+                    }
                 )
             }
         }
@@ -203,28 +213,37 @@ fun HomeBody(
 //                    modifier = Modifier.padding(start = 5.dp, bottom = 15.dp)
 //                )
                 listProgram(
-                    navController = navController,
                     namaProgram = listProgram[1],
                     jenisProgram = listjenisProgram[1],
-                    screen_route = Screen.Km.route,
                     id_resource = R.drawable.meter_logo,
-                    modifier = Modifier.padding(end = 15.dp)
+                    modifier = Modifier.padding(end = 15.dp),
+                    onClick = {
+                        navController.navigate(
+                            Km(listProgram[1])
+                        )
+                    }
                 )
                 listProgram(
-                    navController = navController,
                     namaProgram = listProgram[2],
                     jenisProgram = listjenisProgram[0],
-                    screen_route = Screen.Lpp.route,
                     id_resource = R.drawable.lpp_logo,
-                    modifier = Modifier.padding(end = 15.dp)
+                    modifier = Modifier.padding(end = 15.dp),
+                    onClick = {
+                        navController.navigate(
+                            Lpp(listProgram[2])
+                        )
+                    }
                 )
                 listProgram(
-                    navController = navController,
                     namaProgram = listProgram[3],
                     jenisProgram = listjenisProgram[0],
-                    screen_route = Screen.Kpp.route,
                     id_resource = R.drawable.rectangle_shape,
-                    modifier = Modifier.padding(end = 15.dp)
+                    modifier = Modifier.padding(end = 15.dp),
+                    onClick = {
+                        navController.navigate(
+                            Kpp(listProgram[3])
+                        )
+                    }
                 )
             }
         }
@@ -241,5 +260,5 @@ fun HomeBody(
 )
 @Composable
 private fun prev() {
-    Home(navController = NavController(context = LocalContext.current))
+//    Home(navController = NavController(context = LocalContext.current))
 }

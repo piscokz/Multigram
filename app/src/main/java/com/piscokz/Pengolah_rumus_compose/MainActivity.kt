@@ -10,9 +10,9 @@ import com.piscokz.Pengolah_rumus_compose.ui.theme.multigramTheme
 class MainActivity : ComponentActivity() {
 
     private val viewModel by viewModels<MainViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         installSplashScreen().apply {
             setKeepOnScreenCondition {
                 !viewModel.isReady.value
@@ -20,7 +20,7 @@ class MainActivity : ComponentActivity() {
         }
         setContent {
             multigramTheme {
-                Navigations()
+                NavController()
             }
         }
     }

@@ -4,7 +4,6 @@
     <style name="Theme.PengolahRumusCompose" parent="android:Theme.Material.Light.NoActionBar">
         <item name="postSplashScreenTheme">@style/Theme.PengolahRumusCompose</item>
         <item name="android:windowSplashScreenBrandingImage">@drawable/splashscreen</item>
-<!--        <item name="pos"-->
         <item name="android:windowSplashScreenBackground">@color/background_lightMode</item>
     </style>
 

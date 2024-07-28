@@ -1,15 +1,15 @@
-package com.piscokz.Pengolah_rumus_compose.Programs.KonverterMeter
+package com.piscokz.Pengolah_rumus_compose.ui.Programs.KonverterMeter
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.piscokz.Pengolah_rumus_compose.Programs.hitungKelipatan
-import com.piscokz.Pengolah_rumus_compose.Programs.isLenghtToMuch
-import com.piscokz.Pengolah_rumus_compose.Programs.isWorthItRoundToLong
-import com.piscokz.Pengolah_rumus_compose.Programs.konverterNotasiIlmiah
-import com.piscokz.Pengolah_rumus_compose.Programs.numberSpacing
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.hitungKelipatan
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.isLenghtToMuch
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.isWorthItRoundToLong
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.konverterNotasiIlmiah
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.numberSpacing
 
 class KmViewModel : ViewModel() {
     val listMeter: List<String> = listOf("mm", "cm", "dm", "meter", "dam", "hm", "km")

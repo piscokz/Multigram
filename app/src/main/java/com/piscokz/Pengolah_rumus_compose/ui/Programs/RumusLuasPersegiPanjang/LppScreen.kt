@@ -1,4 +1,4 @@
-package com.piscokz.Pengolah_rumus_compose.Programs.RumusKelilingPersegiPanjang
+package com.piscokz.Pengolah_rumus_compose
 
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -41,15 +40,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -58,15 +54,13 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.piscokz.Pengolah_rumus_compose.AppViewModelProvider
-import com.piscokz.Pengolah_rumus_compose.Programs.cekInput
-import com.piscokz.Pengolah_rumus_compose.Programs.customSwitchColor
-import com.piscokz.Pengolah_rumus_compose.Programs.switchButtonColors
-import com.piscokz.Pengolah_rumus_compose.Programs.switchColorText
-import com.piscokz.Pengolah_rumus_compose.R
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.RumusLuasPersegiPanjang.LppViewModel
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.cekInput
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.customSwitchColor
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.switchButtonColors
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.switchColorText
 import com.piscokz.Pengolah_rumus_compose.ui.theme.LightBlue
 import com.piscokz.Pengolah_rumus_compose.ui.theme.clearButtonDarkMode
-import com.piscokz.Pengolah_rumus_compose.ui.theme.multigramTheme
 
 val listUkuranPanjang: List<String> = listOf("mm", "cm", "dm", "m", "dam", "hm", "km")
 
@@ -76,83 +70,70 @@ const val marginBawahSesi = 40
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Kpp(
+fun Lpp(
+    data : Lpp,
     navController: NavController,
-    kppViewModel: KppViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    lppViewModel: LppViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
-    val listProgram: Array<String> = stringArrayResource(R.array.listProgram)
-    multigramTheme {
-        Surface(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            Scaffold(
-                modifier = Modifier
-                    .fillMaxSize(),
-                topBar = {
-                    TopAppBar(
-                        title = {
-                            Text(
-                                color = switchColorText(),
-                                text = listProgram[3],
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis,
-                                style = MaterialTheme.typography.headlineSmall
+        Scaffold(
+//            modifier = Modifier.border((0.5).dp, LightBlue),
+            topBar = {
+                TopAppBar(
+                    title = {
+                        Text(
+                            data.judul,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            style = MaterialTheme.typography.headlineSmall
 
-                            )
-                        },
-                        navigationIcon = {
-                            IconButton(onClick = {
-                                navController.navigateUp()
-                            }) {
-                                Icon(
-                                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                    contentDescription = null
-                                )
-                            }
-                        }
-                    )
-                },
-                floatingActionButton = {
-                    LargeFloatingActionButton(
-                        onClick = {
-                            kppViewModel.inputPanjang = ""
-                            kppViewModel.inputLebar = ""
-                            kppViewModel.display = ""
-                            kppViewModel.isError = false
-                        },
-                        contentColor = Color.White,
-                        containerColor = customSwitchColor(
-                            lighMode = Color.Red,
-                            darkMode = clearButtonDarkMode
                         )
-                    ) {
-                        Icon(imageVector = Icons.TwoTone.Delete, contentDescription = null)
+                    },
+                    navigationIcon = {
+                        IconButton(onClick = {
+                            navController.navigateUp()
+                        }) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = null
+                            )
+                        }
                     }
+                )
+            },
+            floatingActionButton = {
+                LargeFloatingActionButton(
+                    onClick = {
+                        lppViewModel.inputPanjang = ""
+                        lppViewModel.inputLebar = ""
+                        lppViewModel.display = ""
+                        lppViewModel.isError = false
+                    },
+                    contentColor = Color.White,
+                    containerColor = customSwitchColor(
+                        lighMode = Color.Red,
+                        darkMode = clearButtonDarkMode
+                    )
+                ) {
+                    Icon(imageVector = Icons.TwoTone.Delete, contentDescription = null)
                 }
-
-            ) { paddingValues ->
-                KppBody(paddingValues = paddingValues, kppViewModel = kppViewModel)
             }
+
+        ) { paddingValues ->
+            LppBody(paddingValues = paddingValues, lppViewModel = lppViewModel)
         }
     }
-}
 
 @Composable
-fun KppBody(
+fun LppBody(
     paddingValues: PaddingValues,
-    kppViewModel: KppViewModel
+    lppViewModel: LppViewModel,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
-//    val focusRequester = remember { FocusRequester() }
-//    var isKeyboardHide by remember { mutableStateOf(true) }
-
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues)
     ) {
-
         item {
             Spacer(
                 modifier = Modifier
@@ -168,9 +149,8 @@ fun KppBody(
 
                 Text(
                     color = switchColorText(),
-                    text = kppViewModel.displayKpp(),
+                    text = lppViewModel.displayLpp(),
                     fontFamily = FontFamily.Serif,
-                    fontWeight = FontWeight.Thin,
                     style = MaterialTheme.typography.headlineMedium,
                     modifier = Modifier
                         .fillMaxWidth(1f)
@@ -198,10 +178,8 @@ fun KppBody(
                 ) {
                     Row {
                         OutlinedTextField(
-                            value = kppViewModel.inputPanjang,
-                            onValueChange = {
-                                kppViewModel.inputPanjang = it
-                            },
+                            value = lppViewModel.inputPanjang,
+                            onValueChange = { lppViewModel.inputPanjang = it },
                             placeholder = {
                                 Text(
                                     color = switchColorText(),
@@ -215,62 +193,50 @@ fun KppBody(
                             textStyle = LocalTextStyle.current.copy(
                                 textAlign = TextAlign.Right
                             ),
-                            keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Number,
-                                imeAction = ImeAction.Done,
-                            ),
-                            keyboardActions = KeyboardActions(
-                                onDone = {
-                                    keyboardController?.hide()
-//                                    isKeyboardHide = true
-                                }
-                            ),
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             singleLine = true,
                             modifier = Modifier
-//                                .width(lebarTexfield.dp)
                                 .padding(end = 5.dp)
-                                .fillParentMaxWidth(0.4f),
+                                .fillParentMaxWidth(0.4f)
+//                                .width(lebarTexfield.dp)
+                            ,
                             suffix = {
                                 Text(
                                     color = switchColorText(),
-                                    text = " ${kppViewModel.ukuranInputPanjang}",
+                                    text = " ${lppViewModel.ukuranInputPanjang}",
                                     fontFamily = FontFamily.Monospace,
                                     style = MaterialTheme.typography.titleMedium,
                                     modifier = Modifier.clickable {
                                         keyboardController?.hide()
-                                        kppViewModel.expandedPanjang = true
+                                        lppViewModel.expandedPanjang = true
                                     }
                                 )
                             },
                             supportingText = {
-                                if (kppViewModel.inputPanjang.isEmpty()) Text(
+                                if (lppViewModel.inputPanjang.isEmpty()) Text(
                                     text = stringResource(id = R.string.placeholderInput),
                                     color = switchColorText()
                                 )
-                                if(kppViewModel.isError && kppViewModel.inputPanjang.isEmpty()) {
+                                if (lppViewModel.isError && lppViewModel.inputPanjang.isEmpty()) {
                                     Text(
                                         text = "${stringResource(id = R.string.placeholderInput)} !",
                                         color = Color.Red
                                     )
                                 }
                             },
-                            isError = kppViewModel.inputPanjang.isEmpty() && kppViewModel.isError
+                            isError = lppViewModel.inputPanjang.isEmpty() && lppViewModel.isError
                         )
 
                         DropdownMenu(
-                            expanded = kppViewModel.expandedPanjang,
-                            onDismissRequest = {
-                                kppViewModel.expandedPanjang = false
-                                keyboardController?.hide()
-                            }
+                            expanded = lppViewModel.expandedPanjang,
+                            onDismissRequest = { lppViewModel.expandedPanjang = false }
                         ) {
                             for (i in listUkuranPanjang) {
                                 DropdownMenuItem(
                                     text = { Text(text = i) },
                                     onClick = {
-                                        kppViewModel.ukuranInputPanjang = i
-                                        kppViewModel.expandedPanjang = false
-                                        keyboardController?.hide()
+                                        lppViewModel.ukuranInputPanjang = i
+                                        lppViewModel.expandedPanjang = false
                                     })
                             }
                         }
@@ -278,22 +244,21 @@ fun KppBody(
                     Row {
                         DropdownMenu(
                             offset = DpOffset(x = (40).dp, y = 10.dp),
-                            expanded = kppViewModel.expandedLebar,
-                            onDismissRequest = { kppViewModel.expandedLebar = false }
+                            expanded = lppViewModel.expandedLebar,
+                            onDismissRequest = { lppViewModel.expandedLebar = false }
                         ) {
                             for (i in listUkuranPanjang) {
                                 DropdownMenuItem(
                                     text = { Text(text = i) },
                                     onClick = {
-                                        kppViewModel.ukuranInputLebar = i
-                                        kppViewModel.expandedLebar = false
+                                        lppViewModel.ukuranInputLebar = i
+                                        lppViewModel.expandedLebar = false
                                     })
                             }
                         }
-
                         OutlinedTextField(
-                            value = kppViewModel.inputLebar,
-                            onValueChange = { kppViewModel.inputLebar = it },
+                            value = lppViewModel.inputLebar,
+                            onValueChange = { lppViewModel.inputLebar = it },
                             placeholder = {
                                 Text(
                                     color = switchColorText(),
@@ -302,7 +267,6 @@ fun KppBody(
                                     modifier = Modifier.fillMaxWidth(),
                                     textAlign = TextAlign.Right,
                                     fontStyle = FontStyle.Italic
-
                                 )
                             },
                             textStyle = LocalTextStyle.current.copy(
@@ -313,36 +277,33 @@ fun KppBody(
                             ),
                             singleLine = true,
                             modifier = Modifier
+                                .padding(start = 5.dp)
                                 .fillParentMaxWidth(0.4f)
 //                                .width(lebarTexfield.dp)
-                                .padding(start = 5.dp)
-                                .pointerInput(key1 = true) {},
+                            ,
                             suffix = {
                                 Text(
                                     color = switchColorText(),
-                                    text = " ${kppViewModel.ukuranInputLebar}",
+                                    text = " ${lppViewModel.ukuranInputLebar}",
                                     fontFamily = FontFamily.Monospace,
                                     style = MaterialTheme.typography.titleMedium,
                                     modifier = Modifier.clickable {
                                         keyboardController?.hide()
-                                        kppViewModel.expandedLebar = true
+                                        lppViewModel.expandedLebar = true
                                     }
                                 )
                             },
-
                             supportingText = {
-                                if (kppViewModel.inputLebar.isEmpty()) Text(
+                                if (lppViewModel.inputLebar.isEmpty()) Text(
                                     text = stringResource(id = R.string.placeholderInput),
                                     color = switchColorText()
                                 )
-                                if(kppViewModel.isError && kppViewModel.inputPanjang.isEmpty()) {
-                                    Text(
-                                        text = "${stringResource(id = R.string.placeholderInput)} !",
-                                        color = Color.Red
-                                    )
-                                }
+                                if (lppViewModel.isError && lppViewModel.inputLebar.isEmpty()) Text(
+                                    text = "${stringResource(id = R.string.placeholderInput)} !",
+                                    color = Color.Red
+                                )
                             },
-                            isError = kppViewModel.inputLebar.isEmpty() && kppViewModel.isError
+                            isError = lppViewModel.inputLebar.isEmpty() && lppViewModel.isError
                         )
                     }
                 }
@@ -363,26 +324,28 @@ fun KppBody(
                         .fillMaxWidth(1f),
                     horizontalArrangement = Arrangement.End
                 ) {
-                    Surface(modifier = Modifier.padding(end = 10.dp)) {
+                    Surface (modifier = Modifier.padding(end = 10.dp)){
                         ElevatedButton(
                             border = BorderStroke(1.dp, LightBlue),
                             colors = switchButtonColors(),
                             onClick = {
-                                if (cekInput(kppViewModel.inputPanjang, kppViewModel.inputLebar)) {
-                                    kppViewModel.isError =
-                                        kppViewModel.inputPanjang.isEmpty() || kppViewModel.inputLebar.isEmpty()
 
-                                    if (kppViewModel.inputPanjang.isNotEmpty() && kppViewModel.inputLebar.isNotEmpty()) {
-                                        kppViewModel.panjang = kppViewModel.inputPanjang
-                                        kppViewModel.lebar = kppViewModel.inputLebar
+                                if (cekInput(lppViewModel.inputPanjang, lppViewModel.inputLebar)) {
 
-                                        kppViewModel.panjang = kppViewModel.konversiUkuranKppPanjang()
-                                        kppViewModel.lebar = kppViewModel.konversiUkuranKppLebar()
+                                    lppViewModel.isError =
+                                        lppViewModel.inputPanjang.isEmpty() || lppViewModel.inputLebar.isEmpty()
 
-                                        kppViewModel.display = kppViewModel.hitungKpp()
+                                    if (lppViewModel.inputPanjang.isNotEmpty() && lppViewModel.inputLebar.isNotEmpty()) {
+                                        lppViewModel.panjang = lppViewModel.inputPanjang
+                                        lppViewModel.lebar = lppViewModel.inputLebar
 
-                                    } else {
-                                        kppViewModel.isError = true
+                                        lppViewModel.panjang =
+                                            lppViewModel.konversiUkuranLppPanjang()
+
+                                        lppViewModel.lebar = lppViewModel.konversiUkuranLppLebar()
+
+                                        lppViewModel.display = lppViewModel.hitungLpp()
+
                                     }
                                 }
                             },
@@ -396,20 +359,21 @@ fun KppBody(
 
                     }
                     Button(
+                        border = BorderStroke(1.dp, LightBlue),
+                        colors = switchButtonColors(),
                         onClick = {
                             keyboardController?.hide()
-                            kppViewModel.expandedHitung = true },
-                        colors = switchButtonColors(),
-                        border = BorderStroke(1.dp, LightBlue)
+                            lppViewModel.expandedHitung = true
+                        },
                     ) {
                         Row {
                             Text(
-                                text = kppViewModel.ukuranInputHitung,
+                                text = lppViewModel.ukuranInputHitung,
                                 modifier = Modifier.padding(top = 2.dp)
                             )
-                            if (kppViewModel.expandedHitung) {
+                            if (lppViewModel.expandedHitung) {
                                 Icon(
-                                    Icons.Default.KeyboardArrowUp,
+                                    Icons.Filled.KeyboardArrowUp,
                                     contentDescription = null
                                 )
                             } else {
@@ -419,23 +383,26 @@ fun KppBody(
                                 )
                             }
                         }
-
                     }
+//                    Surface (
+//                        shape = RoundedCornerShape(405.dp),
+//                        color = LightBlue
+//                    ){
+//
+//                    }
 
                     DropdownMenu(
+                        expanded = lppViewModel.expandedHitung,
+                        onDismissRequest = { lppViewModel.expandedHitung = false },
                         offset = DpOffset(x = (-15).dp, y = 10.dp),
-                        expanded = kppViewModel.expandedHitung,
-                        onDismissRequest = {
-                            kppViewModel.expandedHitung = false
-                        }
                     ) {
                         for (i in listUkuranPanjang) {
                             DropdownMenuItem(
                                 text = { Text(text = i) },
                                 onClick = {
-                                    kppViewModel.ukuranInputHitung = i
-                                    kppViewModel.expandedHitung = false
-                                }
+                                    lppViewModel.expandedHitung = false
+                                    lppViewModel.ukuranInputHitung = i
+                                },
                             )
                         }
                     }
@@ -449,7 +416,10 @@ fun KppBody(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(1.dp)
-                        .border(1.dp, switchColorText())
+                        .border(
+                            1.dp,
+                            customSwitchColor(lighMode = Color.Black, darkMode = Color.LightGray)
+                        )
                 )
             }
         }
@@ -466,8 +436,5 @@ fun KppBody(
 )
 @Composable
 private fun prev() {
-    Kpp(
-        kppViewModel = KppViewModel(),
-        navController = NavController(context = LocalContext.current)
-    )
+//    Lpp(lppViewModel = LppViewModel(), navController = NavController(context = LocalContext.current))
 }

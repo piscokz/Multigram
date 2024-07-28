@@ -60,18 +60,22 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.piscokz.Pengolah_rumus_compose.AppViewModelProvider
-import com.piscokz.Pengolah_rumus_compose.Programs.KonverterMeter.KmViewModel
+import com.piscokz.Pengolah_rumus_compose.Km
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.KonverterMeter.KmViewModel
 import com.piscokz.Pengolah_rumus_compose.R
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.customSwitchColor
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.switchColorText
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.switchColorTextWithBackground
 import com.piscokz.Pengolah_rumus_compose.ui.theme.clearButtonDarkMode
 import com.piscokz.Pengolah_rumus_compose.ui.theme.multigramTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Km(
+    data : Km,
     navController: NavController,
     vm: KmViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
-    val listProgram: Array<String> = stringArrayResource(R.array.listProgram)
     multigramTheme {
         Surface(
             modifier = Modifier
@@ -85,7 +89,7 @@ fun Km(
                         title = {
                             Text(
                                 color = switchColorText(),
-                                text = listProgram[1],
+                                text = data.judul,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                                 style = MaterialTheme.typography.headlineSmall
@@ -386,8 +390,8 @@ fun KmBodyOutput(
 )
 @Composable
 private fun prev() {
-    Km(
-        vm = KmViewModel(),
-        navController = NavController(LocalContext.current)
-    )
+//    Km(
+//        vm = KmViewModel(),
+//        navController = NavController(LocalContext.current)
+//    )
 }

@@ -1,11 +1,11 @@
-package com.piscokz.Pengolah_rumus_compose.Programs
+package com.piscokz.Pengolah_rumus_compose.ui.Programs
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.IconButtonColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import com.piscokz.Pengolah_rumus_compose.Programs.RumusKelilingPersegiPanjang.listUkuranPanjang
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.RumusKelilingPersegiPanjang.listUkuranPanjang
 import com.piscokz.Pengolah_rumus_compose.ui.theme.LightBlue
 import com.piscokz.Pengolah_rumus_compose.ui.theme.LightButtonColors
 import java.math.BigDecimal

@@ -1,4 +1,4 @@
-package com.piscokz.Pengolah_rumus_compose.Programs.RumusKelilingPersegiPanjang
+package com.piscokz.Pengolah_rumus_compose.ui.Programs.RumusKelilingPersegiPanjang
 
 import android.content.res.Resources
 import androidx.compose.runtime.Composable
@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
-import com.piscokz.Pengolah_rumus_compose.Programs.hitungKelipatan
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.hitungKelipatan
 import com.piscokz.Pengolah_rumus_compose.R
 import java.math.RoundingMode
 import kotlin.math.roundToLong

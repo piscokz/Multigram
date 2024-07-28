@@ -9,6 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="background_lightMode">#E4E4E4</color>
 
-    <color name="nightMode">#FF093379</color>
+    <color name="darkMode">#FF093379</color>
     <color name="lightMode">#FF82B1FF</color>
 </resources>

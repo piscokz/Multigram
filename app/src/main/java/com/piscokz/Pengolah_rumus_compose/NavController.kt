@@ -5,31 +5,60 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.piscokz.Pengolah_rumus_compose.Home.Home
+import androidx.navigation.toRoute
+import com.piscokz.Pengolah_rumus_compose.ui.Home.Home
 import com.piscokz.Pengolah_rumus_compose.Programs.Km
-import com.piscokz.Pengolah_rumus_compose.Programs.KonverterByte.KbScreen
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.KonverterByte.Kb
 //import com.piscokz.Pengolah_rumus_compose.Programs.ukuranPanjang
-import com.piscokz.Pengolah_rumus_compose.Programs.RumusKelilingPersegiPanjang.Kpp
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.RumusKelilingPersegiPanjang.Kpp
+import kotlinx.serialization.Serializable
 
 @Composable
-fun Navigations() {
+fun NavController() {
     val navController : NavHostController = rememberNavController()
-    NavHost(navController = navController, startDestination = Screen.Home.route) {
+    NavHost(navController = navController, startDestination = Home) {
 
-        composable(route = Screen.Home.route) {
+        composable<Home> {
             Home(navController = navController)
         }
-        composable(route = Screen.Kpp.route) {
-            Kpp(navController = navController)
+        composable<Kpp> {
+            val data = it.toRoute<Kpp>()
+            Kpp(data, navController = navController)
         }
-        composable(route = Screen.Lpp.route) {
-            Lpp(navController = navController)
+        composable<Lpp> {
+            val data = it.toRoute<Lpp>()
+            Lpp(data, navController = navController)
         }
-        composable(route = Screen.Km.route) {
-            Km(navController = navController)
+        composable<Km> {
+            val data = it.toRoute<Km>()
+            Km(data, navController = navController)
         }
-        composable(route = Screen.Kb.route) {
-            KbScreen(navController = navController)
+        composable<Kb> {
+            val data = it.toRoute<Kb>()
+            Kb(data, navController = navController)
         }
     }
 }
+
+@Serializable
+object Home
+
+@Serializable
+data class Kpp(
+    val judul : String,
+)
+
+@Serializable
+data class Lpp(
+    val judul : String,
+)
+
+@Serializable
+data class Km(
+    val judul : String,
+)
+
+@Serializable
+data class Kb(
+    val judul : String,
+)
