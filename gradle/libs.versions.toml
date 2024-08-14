@@ -1,0 +1,51 @@
+[versions]
+activityCompose = "1.9.1"
+adaptiveNavigationAndroid = "1.0.0-beta04"
+appcompat = "1.7.0"
+composeBom = "2024.06.00"
+coreKtx = "1.13.1"
+coreSplashscreen = "1.0.1"
+espressoCore = "3.6.1"
+junit = "4.13.2"
+junitVersion = "1.2.1"
+lifecycleRuntimeKtx = "2.8.4"
+material3 = "1.2.1"
+navigationCompose = "2.7.7"
+navigationComposeBeta = "2.8.0-beta06"
+kotlin-serialization = "2.0.0"
+kotlin-serialization-json = "1.7.1"
+kotlin = "2.0.0"
+
+
+
+[libraries]
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+androidx-adaptive-layout-android = { module = "androidx.compose.material3.adaptive:adaptive-layout-android", version.ref = "adaptiveNavigationAndroid" }
+androidx-adaptive-navigation-android = { module = "androidx.compose.material3.adaptive:adaptive-navigation-android", version.ref = "adaptiveNavigationAndroid" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
+androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
+androidx-junit = { module = "androidx.test.ext:junit", version.ref = "junitVersion" }
+androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+androidx-ui = { module = "androidx.compose.ui:ui" }
+androidx-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
+androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
+androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
+androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+androidx-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+junit = { module = "junit:junit", version.ref = "junit" }
+
+navigation-compose-beta = { module = "androidx.navigation:navigation-compose", version.ref = "navigationComposeBeta"}
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialization-json"}
+
+[plugins]
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin-serialization"}
+
+org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+
+

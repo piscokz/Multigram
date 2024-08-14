@@ -1,4 +1,4 @@
-package com.piscokz.Pengolah_rumus_compose.Home
+package com.piscokz.Pengolah_rumus_compose.ui.Home
 
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
@@ -30,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -37,21 +38,23 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.piscokz.Pengolah_rumus_compose.Programs.ListKonversi
-import com.piscokz.Pengolah_rumus_compose.Programs.ListRumus
-import com.piscokz.Pengolah_rumus_compose.Programs.customSwitchColor
-import com.piscokz.Pengolah_rumus_compose.Programs.switchIconButtonColors
-import com.piscokz.Pengolah_rumus_compose.Programs.switchColorText
+import com.piscokz.Pengolah_rumus_compose.Kb
+import com.piscokz.Pengolah_rumus_compose.Km
+import com.piscokz.Pengolah_rumus_compose.Kpp
+import com.piscokz.Pengolah_rumus_compose.Lpp
 import com.piscokz.Pengolah_rumus_compose.R
-import com.piscokz.Pengolah_rumus_compose.Screen
-import com.piscokz.Pengolah_rumus_compose.ui.theme.BlueLightMode
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.customSwitchColor
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.switchColorText
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.switchIconButtonColors
+import com.piscokz.Pengolah_rumus_compose.ui.theme.ColorTextLightMode
 import com.piscokz.Pengolah_rumus_compose.ui.theme.LightBlue
 import com.piscokz.Pengolah_rumus_compose.ui.theme.multigramTheme
+import kotlinx.serialization.Serializable
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Home(
-    navController: NavController
+    navController: NavController,
 ) {
     multigramTheme {
         Scaffold(
@@ -75,7 +78,7 @@ fun Home(
                             Text(
                                 "Gram",
                                 color = customSwitchColor(
-                                    lighMode = BlueLightMode,
+                                    lighMode = ColorTextLightMode,
                                     darkMode = LightBlue
                                 ),
                                 maxLines = 1,
@@ -92,20 +95,20 @@ fun Home(
         ) { paddingValues ->
             HomeBody(
                 paddingValues = paddingValues,
-                navController = navController
+                navController = navController,
             )
+
         }
     }
 }
 
 @Composable
 fun listProgram(
-    navController: NavController,
     namaProgram: String,
     jenisProgram: String,
-    screen_route: String,
     id_resource: Int,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick : () -> Unit
 ) {
     Surface(
         shape = RoundedCornerShape(25.dp),
@@ -115,7 +118,7 @@ fun listProgram(
     ) {
         OutlinedIconButton(
             shape = RoundedCornerShape(25.dp),
-            onClick = {navController.navigate(screen_route)},
+            onClick = onClick,
             modifier = Modifier
                 .fillMaxWidth()
                 .requiredHeight(160.dp)
@@ -168,32 +171,33 @@ fun listProgram(
 @Composable
 fun HomeBody(
     paddingValues: PaddingValues,
-    navController: NavController
+    navController: NavController,
 ) {
+    val listProgram: Array<String> = stringArrayResource(R.array.listProgram)
+    val listjenisProgram: Array<String> = stringArrayResource(R.array.jenisProgram)
     LazyColumn(
         modifier = Modifier
             .padding(paddingValues)
             .padding(top = 10.dp)
-            .fillMaxSize(),
+            .fillMaxSize()
+        ,
     ) {
         item {
             Column(
                 modifier = Modifier.padding(horizontal = 10.dp)
             ) {
-//                Text(
-//                    modifier = Modifier.padding(start = 5.dp, bottom = 15.dp, top = 15.dp),
-//                    color = switchColorText(),
-//                    text = "Rekomendasi ",
-//                    style = MaterialTheme.typography.headlineMedium,
-//                    fontWeight = FontWeight.Bold,
-//                )
                 listProgram(
-                    navController = navController,
-                    namaProgram = ListKonversi[1],
-                    jenisProgram = "konverter",
-                    screen_route = Screen.Kb.route,
+                    namaProgram = listProgram[0],
+                    jenisProgram = listjenisProgram[1],
                     id_resource = R.drawable.byte_logo,
-                    modifier = Modifier.padding(end = 15.dp)
+                    modifier = Modifier.padding(end = 15.dp),
+                    onClick = {
+                        navController.navigate(
+                            Kb(
+                                listProgram[0]
+                            )
+                        )
+                    }
                 )
             }
         }
@@ -203,34 +207,43 @@ fun HomeBody(
             ) {
 //                Text(
 //                    color = switchColorText(),
-//                    text = "Lainnya ",
+//                    text = myStringArray[1],
 //                    style = MaterialTheme.typography.headlineMedium,
 //                    fontWeight = FontWeight.Bold,
 //                    modifier = Modifier.padding(start = 5.dp, bottom = 15.dp)
 //                )
                 listProgram(
-                    navController = navController,
-                    namaProgram = ListKonversi[0],
-                    jenisProgram = "konverter",
-                    screen_route = Screen.Km.route,
+                    namaProgram = listProgram[1],
+                    jenisProgram = listjenisProgram[1],
                     id_resource = R.drawable.meter_logo,
-                    modifier = Modifier.padding(end = 15.dp)
+                    modifier = Modifier.padding(end = 15.dp),
+                    onClick = {
+                        navController.navigate(
+                            Km(listProgram[1])
+                        )
+                    }
                 )
                 listProgram(
-                    navController = navController,
-                    namaProgram = ListRumus[1],
-                    jenisProgram = "rumus",
-                    screen_route = Screen.Lpp.route,
+                    namaProgram = listProgram[2],
+                    jenisProgram = listjenisProgram[0],
                     id_resource = R.drawable.lpp_logo,
-                    modifier = Modifier.padding(end = 15.dp)
+                    modifier = Modifier.padding(end = 15.dp),
+                    onClick = {
+                        navController.navigate(
+                            Lpp(listProgram[2])
+                        )
+                    }
                 )
                 listProgram(
-                    navController = navController,
-                    namaProgram = ListRumus[0],
-                    jenisProgram = "rumus",
-                    screen_route = Screen.Kpp.route,
+                    namaProgram = listProgram[3],
+                    jenisProgram = listjenisProgram[0],
                     id_resource = R.drawable.rectangle_shape,
-                    modifier = Modifier.padding(end = 15.dp)
+                    modifier = Modifier.padding(end = 15.dp),
+                    onClick = {
+                        navController.navigate(
+                            Kpp(listProgram[3])
+                        )
+                    }
                 )
             }
         }
@@ -247,5 +260,5 @@ fun HomeBody(
 )
 @Composable
 private fun prev() {
-    Home(navController = NavController(context = LocalContext.current))
+//    Home(navController = NavController(context = LocalContext.current))
 }

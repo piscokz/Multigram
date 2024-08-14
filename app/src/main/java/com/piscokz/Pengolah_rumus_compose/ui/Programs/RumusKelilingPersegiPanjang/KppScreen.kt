@@ -1,4 +1,4 @@
-package com.piscokz.Pengolah_rumus_compose.Programs.RumusKelilingPersegiPanjang
+package com.piscokz.Pengolah_rumus_compose.ui.Programs.RumusKelilingPersegiPanjang
 
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
@@ -44,6 +44,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -57,11 +59,12 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.piscokz.Pengolah_rumus_compose.AppViewModelProvider
-import com.piscokz.Pengolah_rumus_compose.Programs.ListRumus
-import com.piscokz.Pengolah_rumus_compose.Programs.cekInput
-import com.piscokz.Pengolah_rumus_compose.Programs.customSwitchColor
-import com.piscokz.Pengolah_rumus_compose.Programs.switchButtonColors
-import com.piscokz.Pengolah_rumus_compose.Programs.switchColorText
+import com.piscokz.Pengolah_rumus_compose.Kpp
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.cekInput
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.customSwitchColor
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.switchButtonColors
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.switchColorText
+import com.piscokz.Pengolah_rumus_compose.R
 import com.piscokz.Pengolah_rumus_compose.ui.theme.LightBlue
 import com.piscokz.Pengolah_rumus_compose.ui.theme.clearButtonDarkMode
 import com.piscokz.Pengolah_rumus_compose.ui.theme.multigramTheme
@@ -75,6 +78,7 @@ const val marginBawahSesi = 40
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Kpp(
+    data : Kpp,
     navController: NavController,
     kppViewModel: KppViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
@@ -91,7 +95,7 @@ fun Kpp(
                         title = {
                             Text(
                                 color = switchColorText(),
-                                text = ListRumus[0],
+                                text = data.judul,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                                 style = MaterialTheme.typography.headlineSmall
@@ -104,7 +108,7 @@ fun Kpp(
                             }) {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                    contentDescription = "Back"
+                                    contentDescription = null
                                 )
                             }
                         }
@@ -202,7 +206,7 @@ fun KppBody(
                             placeholder = {
                                 Text(
                                     color = switchColorText(),
-                                    text = "panjang",
+                                    text = stringResource(id = R.string.panjang_kpp_lpp),
                                     fontFamily = FontFamily.Serif,
                                     modifier = Modifier.fillMaxWidth(),
                                     textAlign = TextAlign.Right,
@@ -241,12 +245,12 @@ fun KppBody(
                             },
                             supportingText = {
                                 if (kppViewModel.inputPanjang.isEmpty()) Text(
-                                    text = "masukkan angka",
+                                    text = stringResource(id = R.string.placeholderInput),
                                     color = switchColorText()
                                 )
                                 if(kppViewModel.isError && kppViewModel.inputPanjang.isEmpty()) {
                                     Text(
-                                        text = "masukkan angka !",
+                                        text = "${stringResource(id = R.string.placeholderInput)} !",
                                         color = Color.Red
                                     )
                                 }
@@ -294,7 +298,7 @@ fun KppBody(
                             placeholder = {
                                 Text(
                                     color = switchColorText(),
-                                    text = "lebar",
+                                    text = stringResource(id = R.string.lebar_kpp_lpp),
                                     fontFamily = FontFamily.Serif,
                                     modifier = Modifier.fillMaxWidth(),
                                     textAlign = TextAlign.Right,
@@ -329,12 +333,12 @@ fun KppBody(
 
                             supportingText = {
                                 if (kppViewModel.inputLebar.isEmpty()) Text(
-                                    text = "masukkan angka",
+                                    text = stringResource(id = R.string.placeholderInput),
                                     color = switchColorText()
                                 )
                                 if(kppViewModel.isError && kppViewModel.inputPanjang.isEmpty()) {
                                     Text(
-                                        text = "masukkan angka !",
+                                        text = "${stringResource(id = R.string.placeholderInput)} !",
                                         color = Color.Red
                                     )
                                 }
@@ -373,8 +377,7 @@ fun KppBody(
                                         kppViewModel.panjang = kppViewModel.inputPanjang
                                         kppViewModel.lebar = kppViewModel.inputLebar
 
-                                        kppViewModel.panjang =
-                                            kppViewModel.konversiUkuranKppPanjang()
+                                        kppViewModel.panjang = kppViewModel.konversiUkuranKppPanjang()
                                         kppViewModel.lebar = kppViewModel.konversiUkuranKppLebar()
 
                                         kppViewModel.display = kppViewModel.hitungKpp()
@@ -387,7 +390,7 @@ fun KppBody(
                         ) {
                             Text(
                                 color = Color.White,
-                                text = "Hitung & konversi",
+                                text = stringResource(id = R.string.teksHitung_kpp_lpp),
                                 textAlign = TextAlign.Center
                             )
                         }
@@ -408,12 +411,12 @@ fun KppBody(
                             if (kppViewModel.expandedHitung) {
                                 Icon(
                                     Icons.Default.KeyboardArrowUp,
-                                    contentDescription = "Localized description"
+                                    contentDescription = null
                                 )
                             } else {
                                 Icon(
                                     Icons.Default.KeyboardArrowDown,
-                                    contentDescription = "Localized description"
+                                    contentDescription = null
                                 )
                             }
                         }
@@ -464,8 +467,8 @@ fun KppBody(
 )
 @Composable
 private fun prev() {
-    Kpp(
-        kppViewModel = KppViewModel(),
-        navController = NavController(context = LocalContext.current)
-    )
+//    Kpp(
+//        kppViewModel = KppViewModel(),
+//        navController = NavController(context = LocalContext.current)
+//    )
 }
