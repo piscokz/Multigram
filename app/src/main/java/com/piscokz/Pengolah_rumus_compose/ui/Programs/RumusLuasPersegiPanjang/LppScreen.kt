@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -37,15 +38,22 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -61,6 +69,7 @@ import com.piscokz.Pengolah_rumus_compose.ui.Programs.switchButtonColors
 import com.piscokz.Pengolah_rumus_compose.ui.Programs.switchColorText
 import com.piscokz.Pengolah_rumus_compose.ui.theme.LightBlue
 import com.piscokz.Pengolah_rumus_compose.ui.theme.clearButtonDarkMode
+import kotlinx.coroutines.launch
 
 val listUkuranPanjang: List<String> = listOf("mm", "cm", "dm", "m", "dam", "hm", "km")
 
@@ -75,6 +84,7 @@ fun Lpp(
     navController: NavController,
     lppViewModel: LppViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
+    val focusRequester : FocusRequester = remember { FocusRequester() }
         Scaffold(
 //            modifier = Modifier.border((0.5).dp, LightBlue),
             topBar = {
@@ -103,10 +113,15 @@ fun Lpp(
             floatingActionButton = {
                 LargeFloatingActionButton(
                     onClick = {
-                        lppViewModel.inputPanjang = ""
-                        lppViewModel.inputLebar = ""
-                        lppViewModel.display = ""
-                        lppViewModel.isError = false
+                        if (lppViewModel.inputPanjang.isNotEmpty() || lppViewModel.inputLebar.isNotEmpty()) { 
+                            lppViewModel.inputPanjang = ""
+                            lppViewModel.inputLebar = ""
+                        }
+                        else {
+                            lppViewModel.display = ""
+                            lppViewModel.isError = false
+                            focusRequester.requestFocus()
+                        }
                     },
                     contentColor = Color.White,
                     containerColor = customSwitchColor(
@@ -119,7 +134,7 @@ fun Lpp(
             }
 
         ) { paddingValues ->
-            LppBody(paddingValues = paddingValues, lppViewModel = lppViewModel)
+            LppBody(paddingValues = paddingValues, lppViewModel = lppViewModel, focusRequester)
         }
     }
 
@@ -127,8 +142,19 @@ fun Lpp(
 fun LppBody(
     paddingValues: PaddingValues,
     lppViewModel: LppViewModel,
+    focusRequester: FocusRequester
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
+    val coroutineScope = rememberCoroutineScope()
+    val focusManager = LocalFocusManager.current
+
+    // Mengatur fokus secara otomatis ketika halaman pertama kali ditampilkan
+    LaunchedEffect(Unit) {
+        coroutineScope.launch {
+            focusRequester.requestFocus()
+        }
+    }
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -193,9 +219,13 @@ fun LppBody(
                             textStyle = LocalTextStyle.current.copy(
                                 textAlign = TextAlign.Right
                             ),
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Number,
+                                imeAction = ImeAction.Next
+                            ),
                             singleLine = true,
                             modifier = Modifier
+                                .focusRequester(focusRequester = focusRequester)
                                 .padding(end = 5.dp)
                                 .fillParentMaxWidth(0.4f)
 //                                .width(lebarTexfield.dp)
@@ -274,7 +304,16 @@ fun LppBody(
                             ),
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Number,
+                                imeAction = ImeAction.Done
                             ),
+                            keyboardActions =
+                                KeyboardActions(
+                                    onDone = {
+                                        keyboardController?.hide()
+                                        focusManager.clearFocus()
+                                    }
+                                )
+                            ,
                             singleLine = true,
                             modifier = Modifier
                                 .padding(start = 5.dp)
@@ -436,5 +475,9 @@ fun LppBody(
 )
 @Composable
 private fun prev() {
-//    Lpp(lppViewModel = LppViewModel(), navController = NavController(context = LocalContext.current))
+    Lpp(
+        data = Lpp("lpp"),
+        lppViewModel = LppViewModel(),
+        navController = NavController(context = LocalContext.current)
+    )
 }

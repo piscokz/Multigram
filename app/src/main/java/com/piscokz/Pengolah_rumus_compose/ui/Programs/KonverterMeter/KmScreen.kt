@@ -38,10 +38,16 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
@@ -68,6 +74,7 @@ import com.piscokz.Pengolah_rumus_compose.ui.Programs.switchColorText
 import com.piscokz.Pengolah_rumus_compose.ui.Programs.switchColorTextWithBackground
 import com.piscokz.Pengolah_rumus_compose.ui.theme.clearButtonDarkMode
 import com.piscokz.Pengolah_rumus_compose.ui.theme.multigramTheme
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -76,7 +83,7 @@ fun Km(
     navController: NavController,
     vm: KmViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
-    multigramTheme {
+    val focusRequester = remember { FocusRequester() }
         Surface(
             modifier = Modifier
                 .fillMaxSize()
@@ -110,21 +117,22 @@ fun Km(
                 floatingActionButton = {
                     LargeFloatingActionButton(
                         onClick = {
-//                            vm.isInputError = !vm.isInputError
-//                            vm.conversion()
-                            vm.input = ""
-                            vm.outputMm = "0"
-                            vm.outputCm = "0"
-                            vm.outputDm = "0"
-                            vm.outputM = "0"
-                            vm.outputDam = "0"
-                            vm.outputHm = "0"
-                            vm.outputKm = "0"
+                            if (vm.input.isNotEmpty()) vm.input = ""
+                            else if (vm.input.isEmpty()) {
+
+                                vm.outputMm = "0"
+                                vm.outputCm = "0"
+                                vm.outputDm = "0"
+                                vm.outputM = "0"
+                                vm.outputDam = "0"
+                                vm.outputHm = "0"
+                                vm.outputKm = "0"
+                                focusRequester.requestFocus()
+                            }
                         },
                         contentColor = Color.White,
                         containerColor = customSwitchColor(lighMode = Color.Red, darkMode = clearButtonDarkMode)
                     ) {
-//                        Icon(imageVector = Icons.AutoMirrored.TwoTone.ArrowForward, contentDescription = "konversikan")
                         Icon(imageVector = Icons.TwoTone.Delete, contentDescription = "konversikan")
                     }
                 }
@@ -138,24 +146,29 @@ fun Km(
                         )
                     }
                     item {
-                        KmBodyInput(
-//                            paddingValues = paddingValues,
-                            vm
-                        )
+                        KmBodyInput(vm, focusRequester)
                     }
                 }
 
             }
         }
-    }
 }
 
 @Composable
 fun KmBodyInput(
-//    paddingValues: PaddingValues,
-    vm: KmViewModel
+    vm: KmViewModel,
+    focusRequester: FocusRequester
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
+    val coroutineScope = rememberCoroutineScope()
+    val focusManager = LocalFocusManager.current
+
+    // Mengatur fokus secara otomatis ketika halaman pertama kali ditampilkan
+    LaunchedEffect(Unit) {
+        coroutineScope.launch {
+            focusRequester.requestFocus()
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -174,6 +187,7 @@ fun KmBodyInput(
 //                    focusedContainerColor = Color.Yellow
                 ),
                 modifier = Modifier
+                    .focusRequester(focusRequester)
                     .fillMaxWidth()
                     .padding(horizontal = 15.dp),
                 textStyle = LocalTextStyle.current.copy(
@@ -271,6 +285,7 @@ fun KmBodyInput(
                         vm.inputLetterSpacing = 1.0f
                         keyboardController?.hide()
                         vm.conversion()
+                        focusManager.clearFocus()
                     }
                 ),
             )

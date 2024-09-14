@@ -38,13 +38,18 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -60,14 +65,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.piscokz.Pengolah_rumus_compose.AppViewModelProvider
 import com.piscokz.Pengolah_rumus_compose.Kpp
+import com.piscokz.Pengolah_rumus_compose.R
 import com.piscokz.Pengolah_rumus_compose.ui.Programs.cekInput
 import com.piscokz.Pengolah_rumus_compose.ui.Programs.customSwitchColor
 import com.piscokz.Pengolah_rumus_compose.ui.Programs.switchButtonColors
 import com.piscokz.Pengolah_rumus_compose.ui.Programs.switchColorText
-import com.piscokz.Pengolah_rumus_compose.R
 import com.piscokz.Pengolah_rumus_compose.ui.theme.LightBlue
 import com.piscokz.Pengolah_rumus_compose.ui.theme.clearButtonDarkMode
-import com.piscokz.Pengolah_rumus_compose.ui.theme.multigramTheme
+import kotlinx.coroutines.launch
 
 val listUkuranPanjang: List<String> = listOf("mm", "cm", "dm", "m", "dam", "hm", "km")
 
@@ -82,7 +87,8 @@ fun Kpp(
     navController: NavController,
     kppViewModel: KppViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
-    multigramTheme {
+    val focusRequester = remember { FocusRequester() }
+
         Surface(
             modifier = Modifier
                 .fillMaxSize()
@@ -99,7 +105,6 @@ fun Kpp(
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                                 style = MaterialTheme.typography.headlineSmall
-
                             )
                         },
                         navigationIcon = {
@@ -117,10 +122,15 @@ fun Kpp(
                 floatingActionButton = {
                     LargeFloatingActionButton(
                         onClick = {
-                            kppViewModel.inputPanjang = ""
-                            kppViewModel.inputLebar = ""
-                            kppViewModel.display = ""
-                            kppViewModel.isError = false
+                            if (kppViewModel.inputPanjang.isNotEmpty() || kppViewModel.inputLebar.isNotEmpty()) {
+                                kppViewModel.inputPanjang = ""
+                                kppViewModel.inputLebar = ""
+                            }
+                            else {
+                                kppViewModel.display = ""
+                                kppViewModel.isError = false
+                                focusRequester.requestFocus()
+                            }
                         },
                         contentColor = Color.White,
                         containerColor = customSwitchColor(
@@ -133,20 +143,27 @@ fun Kpp(
                 }
 
             ) { paddingValues ->
-                KppBody(paddingValues = paddingValues, kppViewModel = kppViewModel)
+                KppBody(paddingValues = paddingValues, kppViewModel = kppViewModel, focusRequester)
             }
         }
-    }
 }
 
 @Composable
 fun KppBody(
     paddingValues: PaddingValues,
-    kppViewModel: KppViewModel
+    kppViewModel: KppViewModel,
+    focusRequester: FocusRequester
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
-//    val focusRequester = remember { FocusRequester() }
-//    var isKeyboardHide by remember { mutableStateOf(true) }
+    val coroutineScope = rememberCoroutineScope()
+    val focusManager = LocalFocusManager.current
+
+    // Mengatur fokus secara otomatis ketika halaman pertama kali ditampilkan
+    LaunchedEffect(Unit) {
+        coroutineScope.launch {
+            focusRequester.requestFocus()
+        }
+    }
 
     LazyColumn(
         modifier = Modifier
@@ -218,17 +235,13 @@ fun KppBody(
                             ),
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Number,
-                                imeAction = ImeAction.Done,
+                                imeAction = ImeAction.Next,
                             ),
                             keyboardActions = KeyboardActions(
-                                onDone = {
-                                    keyboardController?.hide()
-//                                    isKeyboardHide = true
-                                }
                             ),
                             singleLine = true,
                             modifier = Modifier
-//                                .width(lebarTexfield.dp)
+                                .focusRequester(focusRequester)
                                 .padding(end = 5.dp)
                                 .fillParentMaxWidth(0.4f),
                             suffix = {
@@ -311,6 +324,13 @@ fun KppBody(
                             ),
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Number,
+                                imeAction = ImeAction.Done
+                            ),
+                            keyboardActions = KeyboardActions(
+                                onDone = {
+                                    keyboardController?.hide()
+                                    focusManager.clearFocus()
+                                }
                             ),
                             singleLine = true,
                             modifier = Modifier
@@ -398,6 +418,7 @@ fun KppBody(
                     }
                     Button(
                         onClick = {
+                            
                             keyboardController?.hide()
                             kppViewModel.expandedHitung = true },
                         colors = switchButtonColors(),
@@ -466,9 +487,10 @@ fun KppBody(
     uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Composable
-private fun prev() {
-//    Kpp(
-//        kppViewModel = KppViewModel(),
-//        navController = NavController(context = LocalContext.current)
-//    )
+private fun Prev() {
+    Kpp(
+        data = Kpp("ok ags"),
+        kppViewModel = KppViewModel(),
+        navController = NavController(context = LocalContext.current)
+    )
 }

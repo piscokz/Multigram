@@ -18,5 +18,5 @@ val MainBackgroundLightMode = Color(0xFFF8F8F8)
 val clearButtonDarkMode = Color(0xFFAF0000)
 
 // color from Note app
-val ColorTextLightMode = Color(0xFF4285F4)
-val ColorTextDarkMode = Color(0xFFFFC700)
+val LightModeNote = Color(0xFF4285F4)
+val DarkModeNote = Color(0xFFFFC700)

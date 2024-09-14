@@ -38,6 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.piscokz.Pengolah_rumus_compose.Hd
 import com.piscokz.Pengolah_rumus_compose.Kb
 import com.piscokz.Pengolah_rumus_compose.Km
 import com.piscokz.Pengolah_rumus_compose.Kpp
@@ -46,10 +47,9 @@ import com.piscokz.Pengolah_rumus_compose.R
 import com.piscokz.Pengolah_rumus_compose.ui.Programs.customSwitchColor
 import com.piscokz.Pengolah_rumus_compose.ui.Programs.switchColorText
 import com.piscokz.Pengolah_rumus_compose.ui.Programs.switchIconButtonColors
-import com.piscokz.Pengolah_rumus_compose.ui.theme.ColorTextLightMode
+import com.piscokz.Pengolah_rumus_compose.ui.theme.LightModeNote
 import com.piscokz.Pengolah_rumus_compose.ui.theme.LightBlue
 import com.piscokz.Pengolah_rumus_compose.ui.theme.multigramTheme
-import kotlinx.serialization.Serializable
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -78,7 +78,7 @@ fun Home(
                             Text(
                                 "Gram",
                                 color = customSwitchColor(
-                                    lighMode = ColorTextLightMode,
+                                    lighMode = LightModeNote,
                                     darkMode = LightBlue
                                 ),
                                 maxLines = 1,
@@ -186,15 +186,22 @@ fun HomeBody(
             Column(
                 modifier = Modifier.padding(horizontal = 10.dp)
             ) {
+                Text(
+                    color = switchColorText(),
+                    text = "list Program",
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(start = 5.dp, bottom = 15.dp)
+                )
                 listProgram(
-                    namaProgram = listProgram[0],
+                    namaProgram = listProgram[4],
                     jenisProgram = listjenisProgram[1],
-                    id_resource = R.drawable.byte_logo,
+                    id_resource = R.drawable.discount,
                     modifier = Modifier.padding(end = 15.dp),
                     onClick = {
                         navController.navigate(
-                            Kb(
-                                listProgram[0]
+                            Hd(
+                                listProgram[4]
                             )
                         )
                     }
@@ -212,6 +219,19 @@ fun HomeBody(
 //                    fontWeight = FontWeight.Bold,
 //                    modifier = Modifier.padding(start = 5.dp, bottom = 15.dp)
 //                )
+                listProgram(
+                    namaProgram = listProgram[0],
+                    jenisProgram = listjenisProgram[1],
+                    id_resource = R.drawable.byte_logo,
+                    modifier = Modifier.padding(end = 15.dp),
+                    onClick = {
+                        navController.navigate(
+                            Kb(
+                                listProgram[0]
+                            )
+                        )
+                    }
+                )
                 listProgram(
                     namaProgram = listProgram[1],
                     jenisProgram = listjenisProgram[1],
@@ -260,5 +280,5 @@ fun HomeBody(
 )
 @Composable
 private fun prev() {
-//    Home(navController = NavController(context = LocalContext.current))
+    Home(navController = NavController(context = LocalContext.current))
 }

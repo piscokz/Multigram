@@ -2,6 +2,7 @@ package com.piscokz.Pengolah_rumus_compose
 
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.HitungDiskon.HdViewModel
 import com.piscokz.Pengolah_rumus_compose.ui.Programs.KonverterByte.KbViewModel
 import com.piscokz.Pengolah_rumus_compose.ui.Programs.KonverterMeter.KmViewModel
 import com.piscokz.Pengolah_rumus_compose.ui.Programs.RumusKelilingPersegiPanjang.KppViewModel
@@ -20,6 +21,9 @@ object AppViewModelProvider {
         }
         initializer {
             KbViewModel()
+        }
+        initializer {
+            HdViewModel()
         }
     }
 }

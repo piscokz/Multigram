@@ -8,8 +8,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.piscokz.Pengolah_rumus_compose.ui.Home.Home
 import com.piscokz.Pengolah_rumus_compose.Programs.Km
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.HitungDiskon.HdScreen
 import com.piscokz.Pengolah_rumus_compose.ui.Programs.KonverterByte.Kb
-//import com.piscokz.Pengolah_rumus_compose.Programs.ukuranPanjang
 import com.piscokz.Pengolah_rumus_compose.ui.Programs.RumusKelilingPersegiPanjang.Kpp
 import kotlinx.serialization.Serializable
 
@@ -37,6 +37,10 @@ fun NavController() {
             val data = it.toRoute<Kb>()
             Kb(data, navController = navController)
         }
+        composable<Hd> {
+            val data = it.toRoute<Hd>()
+            HdScreen(data = data, navController = navController)
+        }
     }
 }
 
@@ -61,4 +65,9 @@ data class Km(
 @Serializable
 data class Kb(
     val judul : String,
+)
+
+@Serializable
+data class Hd (
+    val judul: String
 )

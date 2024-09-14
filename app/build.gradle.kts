@@ -14,7 +14,7 @@ android {
         minSdk = 26
         targetSdk = 34
         versionCode = 1
-        versionName = "2.1"
+        versionName = "2.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -80,8 +80,11 @@ dependencies {
 
 //  splashscreen
     implementation(libs.androidx.core.splashscreen)
-
     implementation(libs.androidx.appcompat)
+
+//    pemanggilan API
+    implementation(libs.squareup.retrofit)
+    implementation(libs.converter.scalars)
 
 
 }
