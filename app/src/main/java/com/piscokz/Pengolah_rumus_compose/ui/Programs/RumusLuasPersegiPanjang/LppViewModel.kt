@@ -12,7 +12,7 @@ import com.piscokz.Pengolah_rumus_compose.ui.Programs.konverterUkuranPanjang
 import com.piscokz.Pengolah_rumus_compose.R
 import kotlin.math.roundToInt
 
-class LppViewModel : ViewModel() {
+class LppViewModel : ViewModel(){
     var panjang: String by mutableStateOf("")
     var lebar: String by mutableStateOf("")
 
@@ -26,6 +26,8 @@ class LppViewModel : ViewModel() {
     var expandedPanjang by mutableStateOf(false)
     var expandedLebar by mutableStateOf(false)
     var expandedHitung by mutableStateOf(false)
+
+    var copyDisplay by mutableStateOf("")
 
     var ukuranInputPanjang by mutableStateOf("cm")
     var ukuranInputLebar by mutableStateOf("cm")
@@ -51,7 +53,7 @@ class LppViewModel : ViewModel() {
             return hitungKelipatan(
                 listNilaiDariTerkecil = listOf("mm", "cm", "dm", "m", "dam", "hm", "km"),
                 nilaiSaatIni = ukuranInputLebar,
-                nilaiTujuan = ukuranInputHitung,
+                nilaiTujuan = ukuranInputPanjang,
                 nilaiAngkaSaatIni = input,
                 nilaiKelipatan = 10.0
             ).toString()
@@ -70,19 +72,16 @@ class LppViewModel : ViewModel() {
     }
 
     fun hitungLpp(): String {
-        val inputPanjang: Double = this.panjang.toDouble()
-        val inputLebar: Double = this.lebar.toDouble()
+        val hitung: Double = panjang.toDouble() * lebar.toDouble()
+        val hasil = hitungKelipatan(
+            listNilaiDariTerkecil = listOf("mm", "cm", "dm", "m", "dam", "hm", "km"),
+            nilaiSaatIni = ukuranInputPanjang,
+            nilaiTujuan = ukuranInputHitung,
+            nilaiAngkaSaatIni = hitung,
+            nilaiKelipatan = 10.0
+        )
 
-        val hitung: Double = inputPanjang * inputLebar
-
-
-//        if (hasil.toString().contains("")) {
-//            hasil = hitung.roundToInt()
-//        }
-//        else {
-        var hasil: Number = hitung.toBigDecimal()
-//        }
-
-        return "lpp = $hasil $ukuranInputHitung"
+        copyDisplay = hasil.toString()
+        return "$hasil $ukuranInputHitung"
     }
 }

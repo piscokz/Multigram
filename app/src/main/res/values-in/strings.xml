@@ -20,7 +20,7 @@
     </string-array>
 
     <string-array name="jenisProgram">
-        <item>kalkulator</item>
+        <item>hitung</item>
         <item>konverter</item>
     </string-array>
 
@@ -30,10 +30,15 @@
         <item>Luas persegi panjang</item>
         <item>Keliling persegi panjang</item>
         <item>Diskon</item>
+        <item>kalkulator</item>
+        <item>Gram</item>
+        <item>IMT</item>
+        <item>Lingkaran</item>
+        <item>Persegi</item>
     </string-array>
 
     <!--  program byte  -->
-    <string name="teksHasil">hasil</string>
+    <string name="teksHasil">Hasil</string>
     <string name="placeholderInput">masukkan angka</string>
 
     <!--  program meter  -->
@@ -51,5 +56,40 @@
 
     <!--  program lpp  -->
     <string name="displayLpp">panjang * lebar</string>
+
+    <!--  input BMI  -->
+    <string name="tinggiBadan">tinggi badan</string>
+    <string name="beratBadan">berat badan</string>
+    <string name="perintahTinggiBadan">masukkan tinggi badan (cm)</string>
+    <string name="perintahBeratBadan">masukkan berat badan (kg)</string>
+    <string name="indeks">indeks berat badan</string>
+    <string name="status">status</string>
+    <string-array name="listStatus">
+        <item>Kurus</item>
+        <item>Normal</item>
+        <item>Gemuk</item>
+        <item>Obesitas tingkat 1</item>
+        <item>tidak normal</item>
+    </string-array>
+
+    <!--  input diskon -->
+    <string name="hargaAwal">harga awal</string>
+    <string name="diskon">diskon</string>
+    <string name="perintahHarga">masukkan harga</string>
+    <string name="perintahDiskon">masukkan diskon (maksimal 2 digit)</string>
+    <string name="hargaAkhir">harga setelah diskon</string>
+    <string name="hemat">anda hemat</string>
+
+    <!--  konverter gram -->
+    <string-array name="listGram">
+        <item>mg</item>
+        <item>cg</item>
+        <item>dg</item>
+        <item>g</item>
+        <item>dag</item>
+        <item>hg</item>
+        <item>kg</item>
+    </string-array>
+
 
 </resources>

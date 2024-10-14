@@ -101,6 +101,7 @@ fun hitungKelipatan(
     nilaiAngkaSaatIni: Double = 100.0,
     nilaiKelipatan: Double = 10.0
 ): BigDecimal {
+
     var nilaiAkhir = nilaiAngkaSaatIni
     val kelipatan10x: Double
 
@@ -154,7 +155,7 @@ fun cekInput(
 ): Boolean {
     val hasilFinal: Boolean
     val hasil1: String = when {
-        input1.contains("-") || input1.contains(",") || input1.contains(".") -> {
+        input1.contains("-") || input1.contains(",") -> {
             "false"
         }
 
@@ -163,7 +164,7 @@ fun cekInput(
         }
     }
     val hasil2: String = when {
-        input2.contains("-") || input2.contains(",") || input2.contains(".") -> {
+        input2.contains("-") || input2.contains(",") -> {
             "false"
         }
 
@@ -187,6 +188,7 @@ fun cekInput(
 fun customSwitchColor(lighMode : Color, darkMode : Color) : Color {
     if(isSystemInDarkTheme()) return darkMode else return lighMode
 }
+
 
 @Composable
 fun switchColorText(): Color {

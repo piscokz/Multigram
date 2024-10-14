@@ -21,6 +21,7 @@ class KppViewModel : ViewModel() {
     var inputLebar by mutableStateOf("")
 
     var display by mutableStateOf("")
+    var copyDisplay by mutableStateOf("")
 
     var isError by mutableStateOf(false)
 
@@ -70,20 +71,10 @@ class KppViewModel : ViewModel() {
     }
 
     fun hitungKpp(): String {
-        val inputPanjang: Double = this.panjang.toDouble()
-        val inputLebar: Double = this.lebar.toDouble()
+        val hitung: Double = 2 * (panjang.toDouble() + lebar.toDouble())
+        val hasil: Number = hitung
 
-        val hitung: Double = 2 * (inputPanjang + inputLebar)
-        var hasil: Number = hitung
-
-//        if (hasil.toString().contains(".0")) {
-//            hasil = hitung.roundToLong()
-//        }
-//        else {
-//            hasil = hitung.toBigDecimal().setScale(1, RoundingMode.UP).toDouble()
-//        }
-
-
-        return "lpp = $hasil $ukuranInputHitung"
+        copyDisplay = hasil.toString()
+        return "$hasil $ukuranInputHitung"
     }
 }

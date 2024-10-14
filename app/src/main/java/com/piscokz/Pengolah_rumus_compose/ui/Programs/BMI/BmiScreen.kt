@@ -1,6 +1,5 @@
-package com.piscokz.Pengolah_rumus_compose.ui.Programs.HitungDiskon
+package com.piscokz.Pengolah_rumus_compose.ui.Programs.BMI
 
-import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -14,9 +13,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.TextSelectionColors
@@ -45,39 +41,37 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.piscokz.Pengolah_rumus_compose.AppViewModelProvider
-import com.piscokz.Pengolah_rumus_compose.Hd
+import com.piscokz.Pengolah_rumus_compose.BMI
 import com.piscokz.Pengolah_rumus_compose.R
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.Calculator.CalculatorBody
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.HitungDiskon.HdViewModel
 import com.piscokz.Pengolah_rumus_compose.ui.Programs.customSwitchColor
-import com.piscokz.Pengolah_rumus_compose.ui.Programs.switchColorText
 import com.piscokz.Pengolah_rumus_compose.ui.theme.DarkModeNote
 import com.piscokz.Pengolah_rumus_compose.ui.theme.LightBlue
 import com.piscokz.Pengolah_rumus_compose.ui.theme.LightButtonColors
 import com.piscokz.Pengolah_rumus_compose.ui.theme.LightModeNote
-import com.piscokz.Pengolah_rumus_compose.ui.theme.clearButtonDarkMode
 import kotlinx.coroutines.launch
+import kotlin.collections.get
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HdScreen(
-    data : Hd,
-    navController: NavController,
-    vm: HdViewModel = viewModel(factory = AppViewModelProvider.Factory)
+fun BmiScreen(
+    data : BMI,
+    navController : NavController,
+    vm: BmiViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val focusRequester = remember { FocusRequester() }
     val coroutineScope = rememberCoroutineScope()
@@ -93,6 +87,31 @@ fun HdScreen(
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
+        floatingActionButton = {
+            LargeFloatingActionButton(
+                onClick = {
+                    if (vm.tinggiBadan.isNotEmpty() || vm.beratBadan.isNotEmpty()) {
+                        vm.tinggiBadan = ""
+                        vm.beratBadan = ""
+                    } else if (vm.tinggiBadan.isEmpty() && vm.beratBadan.isEmpty()) {
+                        vm.hasil = ""
+                        vm.statusIndeks = ""
+                        focusRequester.requestFocus()
+                    }
+
+                },
+                containerColor = customSwitchColor(
+                    lighMode = Color.White,
+                    darkMode = Color.DarkGray
+                )
+            ) {
+                Icon(
+                    tint = customSwitchColor(Color.Black, Color.LightGray),
+                    imageVector = Icons.TwoTone.Delete,
+                    contentDescription = null
+                )
+            }
+        },
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors().copy(
@@ -127,31 +146,6 @@ fun HdScreen(
                 }
             )
         },
-        floatingActionButton = {
-            LargeFloatingActionButton(
-                onClick = {
-                    if (vm.inputHarga.isNotEmpty() || vm.inputDiskon.isNotEmpty()) {
-                        vm.inputHarga = ""
-                        vm.inputDiskon = ""
-                    } else if (vm.inputHarga.isEmpty() && vm.inputDiskon.isEmpty()) {
-                        vm.harga = ""
-                        vm.jumlahDiskon = ""
-                        focusRequester.requestFocus()
-                    }
-
-                },
-                containerColor = customSwitchColor(
-                    lighMode = Color.White,
-                    darkMode = Color.DarkGray
-                )
-            ) {
-                Icon(
-                    tint = customSwitchColor(Color.Black, Color.LightGray),
-                    imageVector = Icons.TwoTone.Delete,
-                    contentDescription = null
-                )
-            }
-        },
         containerColor = customSwitchColor(
             lighMode = Color.White, darkMode = Color.Black
         )
@@ -173,7 +167,7 @@ fun HdScreen(
             Surface(
 //                shape = RoundedCornerShape(15.dp),
                 color = customSwitchColor(Color.White, Color.Black),
-            modifier = Modifier
+                modifier = Modifier
 //                .padding(top = 50.dp)
 //                .padding(horizontal = 10.dp)
             ) {
@@ -190,19 +184,20 @@ fun HdScreen(
                         .padding(horizontal = 10.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-//            Input harga
+//            input tinggi badan
                     TextField(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .focusRequester(focusRequester),
-                        value = vm.inputHarga,
-                        onValueChange = { it ->
-                            vm.inputHarga = it
-                                .trimStart { it == '0' }
-                                .replace("-", "")
-                                .replace(",", "")
-                                .replace(" ", "")
-                                .replace(".", "")
+                            .focusRequester(focusRequester)
+                        ,
+                        value = vm.tinggiBadan,
+                        onValueChange = {
+                                vm.tinggiBadan = it
+                                    .trimStart { it == '0' }
+                                    .replace("-", "")
+                                    .replace(",", "")
+                                    .replace(".", "")
+                                    .replace(" ", "")
                         },
                         textStyle = LocalTextStyle.current.copy(
 //                    textAlign = TextAlign.Right,
@@ -219,7 +214,7 @@ fun HdScreen(
                                     lighMode = Color.Gray,
                                     darkMode = Color.Gray
                                 ),
-                                text = stringResource(R.string.perintahHarga),
+                                text = stringResource(R.string.perintahTinggiBadan),
 //                        textAlign = TextAlign.Right
                             )
                         },
@@ -227,7 +222,7 @@ fun HdScreen(
                         label = {
                             Text(
                                 modifier = Modifier.fillMaxWidth(),
-                                text = stringResource(R.string.hargaAwal),
+                                text = stringResource(R.string.tinggiBadan),
 //                        textAlign = TextAlign.Right,
                                 color = customSwitchColor(
                                     lighMode = Color.Black,
@@ -312,28 +307,22 @@ fun HdScreen(
                             imeAction = ImeAction.Next,
                             keyboardType = KeyboardType.Number,
                         ),
-                        keyboardActions = KeyboardActions(
-//                    onNext = {},
-                            onSend = {
-                                vm.hitungDiskon()
-                            }
-                        )
                     )
-//            input diskon
+                    val listjenisProgram: Array<String> = stringArrayResource(R.array.listStatus)
+//            Input berat badan
                     TextField(
-                        modifier = Modifier.fillMaxWidth(),
-                        value = vm.inputDiskon,
+                        modifier = Modifier
+                            .fillMaxWidth()
+//                            .focusRequester(focusRequester)
+                            ,
+                        value = vm.beratBadan,
                         onValueChange = { it ->
-                            if (vm.inputDiskon.length < 2 || it.length < vm.inputDiskonSebelumnya.length) {
-                                vm.inputDiskonSebelumnya = it
-                                vm.inputDiskon = it
-                                    .trimStart { it == '0' }
-                                    .replace("-", "")
-                                    .replace(",", "")
-                                    .replace(".", "")
-                                    .replace(" ", "")
-                            }
-
+                            vm.beratBadan = it
+                                .trimStart { it == '0' }
+                                .replace("-", "")
+                                .replace(",", "")
+                                .replace(" ", "")
+                                .replace(".", "")
                         },
                         textStyle = LocalTextStyle.current.copy(
 //                    textAlign = TextAlign.Right,
@@ -350,23 +339,15 @@ fun HdScreen(
                                     lighMode = Color.Gray,
                                     darkMode = Color.Gray
                                 ),
-                                text = stringResource(R.string.perintahDiskon),
+                                text = stringResource(R.string.perintahBeratBadan),
 //                        textAlign = TextAlign.Right
                             )
                         },
                         enabled = true,
-                        trailingIcon = {
-                            Text(
-                                text = "%", color = customSwitchColor(
-                                    lighMode = Color.Black,
-                                    darkMode = Color.LightGray
-                                )
-                            )
-                        },
                         label = {
                             Text(
                                 modifier = Modifier.fillMaxWidth(),
-                                text = stringResource(R.string.diskon),
+                                text = stringResource(R.string.beratBadan),
 //                        textAlign = TextAlign.Right,
                                 color = customSwitchColor(
                                     lighMode = Color.Black,
@@ -453,236 +434,55 @@ fun HdScreen(
                         ),
                         keyboardActions = KeyboardActions(
                             onSend = {
-                                if (vm.inputHarga.isNotEmpty() && vm.inputDiskon.isNotEmpty()) {
-                                    vm.hitungDiskon()
+                                if (vm.beratBadan.isNotEmpty() && vm.tinggiBadan.isNotEmpty()) {
+                                    vm.hitung()
+                                    vm.statusIndeks = when(vm.hasil.toDouble()) {
+                                        in 1.0..18.4 -> listjenisProgram[0]
+                                        in 18.5..24.9 -> listjenisProgram[1]
+                                        in 25.0..29.9 -> listjenisProgram[2]
+                                        in 25.0..34.9 -> listjenisProgram[3]
+//                                        in 30.0 .. 34.9 -> listjenisProgram[4]
+                                        else -> listjenisProgram[4]
+                                    }
+//                                    vm.statusIndeks()
                                     focusManager.clearFocus()
                                 }
                             }
                         )
                     )
-//            harga setelah diskon
-                TextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = vm.harga,
-                    onValueChange = { it ->
-                        vm.inputDiskon = it
-                            .trimStart { it == '0' }
-                            .replace("-", "")
-                            .replace(",", "")
-                            .replace(" ", "")
-                            .replace(".", "")
-                    },
-                    textStyle = LocalTextStyle.current.copy(
-//                    textAlign = TextAlign.Right,
-                        color = customSwitchColor(
-                            lighMode = Color.Black,
-                            darkMode = Color.LightGray
-                        )
-                    ),
-                    singleLine = true,
-                    readOnly = true,
-                    label = {
-                        Text(
-                            modifier = Modifier.fillMaxWidth(),
-                            text = stringResource(R.string.hargaAkhir),
-//                        textAlign = TextAlign.Right,
-                            color = Color.Gray
-                        )
-                    },
-                    isError = false,
-                    colors = TextFieldDefaults.colors().copy(
-                        textSelectionColors = TextSelectionColors(
-                            handleColor = DarkModeNote,
-                            backgroundColor = customSwitchColor(
-                                lighMode = LightModeNote,
-                                darkMode = Color.DarkGray
+                    Column() {
+                        //            indeks
+                            Text(
+                                text = stringResource(R.string.indeks) + " :",
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = Color.Gray,
+                                modifier = Modifier.padding(start = 10.dp)
                             )
-                        ),
-                        cursorColor = customSwitchColor(
-                            lighMode = LightBlue,
-                            darkMode = LightModeNote
-                        ),
-                        unfocusedTextColor = customSwitchColor(
-                            lighMode = Color.Black,
-                            darkMode = Color.LightGray
-                        ),
-                        focusedTextColor = customSwitchColor(
-                            lighMode = Color.Black,
-                            darkMode = Color.LightGray
-                        ),
-                        unfocusedContainerColor = customSwitchColor(
-                            lighMode = Color.White,
-                            darkMode = Color.Black
-                        ),
-                        focusedContainerColor = customSwitchColor(
-                            lighMode = Color.White,
-                            darkMode = Color.Black
-                        ),
-                        unfocusedPlaceholderColor = customSwitchColor(
-                            lighMode = Color.Black,
-                            darkMode = Color.LightGray
-                        ),
-                        focusedPlaceholderColor = customSwitchColor(
-                            lighMode = Color.Black,
-                            darkMode = Color.LightGray
-                        ),
-                        unfocusedIndicatorColor = customSwitchColor(
-                            lighMode = Color.White,
-                            darkMode = Color.Black
-                        ),
-                        focusedIndicatorColor = customSwitchColor(
-                            lighMode = Color.White,
-                            darkMode = Color.Black
-                        )
-                    ),
-                    keyboardOptions = KeyboardOptions(
-                        imeAction = ImeAction.Send,
-                        keyboardType = KeyboardType.Number,
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onSend = {
-                            if (vm.inputHarga.isNotEmpty() && vm.inputDiskon.isNotEmpty()) {
-                                vm.hitungDiskon()
-                                focusManager.clearFocus()
-                            }
-                        }
-                    )
-                )
-//            harga setelah diskon
-                TextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = vm.jumlahDiskon,
-                    onValueChange = { it ->
-                        vm.inputDiskon = it
-                            .trimStart { it == '0' }
-                            .replace("-", "")
-                            .replace(",", "")
-                            .replace(" ", "")
-                            .replace(".", "")
-                    },
-                    textStyle = LocalTextStyle.current.copy(
-//                        textAlign = TextAlign.Right,
-                        color = customSwitchColor(
-                            lighMode = Color.Black,
-                            darkMode = Color.LightGray
-                        )
-                    ),
-                    singleLine = true,
-                    readOnly = true,
-                    label = {
-                        Text(
-                            modifier = Modifier.fillMaxWidth(),
-                            text = stringResource(R.string.hemat),
-//                            textAlign = TextAlign.Right,
-                            color = Color.Gray
-                        )
-                    },
-                    isError = false,
-                    colors = TextFieldDefaults.colors().copy(
-                        textSelectionColors = TextSelectionColors(
-                            handleColor = DarkModeNote,
-                            backgroundColor = customSwitchColor(
-                                lighMode = LightModeNote,
-                                darkMode = Color.DarkGray
+                            Text(
+                                text = vm.hasil,
+                                color = customSwitchColor(Color.Black, Color.LightGray),
+                                style = MaterialTheme.typography.headlineLarge,
+                                fontWeight = FontWeight.Bold,
+                                fontFamily = FontFamily.Serif,
+                                modifier = Modifier.padding(start = 20.dp)
                             )
-                        ),
-                        cursorColor = customSwitchColor(
-                            lighMode = LightBlue,
-                            darkMode = LightModeNote
-                        ),
-                        unfocusedTextColor = customSwitchColor(
-                            lighMode = Color.Black,
-                            darkMode = Color.LightGray
-                        ),
-                        focusedTextColor = customSwitchColor(
-                            lighMode = Color.Black,
-                            darkMode = Color.LightGray
-                        ),
-                        unfocusedContainerColor = customSwitchColor(
-                            lighMode = Color.White,
-                            darkMode = Color.Black
-                        ),
-                        focusedContainerColor = customSwitchColor(
-                            lighMode = Color.White,
-                            darkMode = Color.Black
-                        ),
-                        unfocusedPlaceholderColor = customSwitchColor(
-                            lighMode = Color.Black,
-                            darkMode = Color.LightGray
-                        ),
-                        focusedPlaceholderColor = customSwitchColor(
-                            lighMode = Color.Black,
-                            darkMode = Color.LightGray
-                        ),
-                        unfocusedIndicatorColor = customSwitchColor(
-                            lighMode = Color.White,
-                            darkMode = Color.Black
-                        ),
-                        focusedIndicatorColor = customSwitchColor(
-                            lighMode = Color.White,
-                            darkMode = Color.Black
-                        )
-                    ),
-                    keyboardOptions = KeyboardOptions(
-                        imeAction = ImeAction.Send,
-                        keyboardType = KeyboardType.Number,
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onSend = {
-                            if (vm.inputHarga.isNotEmpty() && vm.inputDiskon.isNotEmpty()) {
-                                vm.hitungDiskon()
-                                focusManager.clearFocus()
-                            }
-                        }
-                    )
-                )
+                        //            status
+                            Text(
+                                text = stringResource(R.string.status) + " :",
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = Color.Gray,
+                                modifier = Modifier.padding(start = 10.dp)
+                            )
+                            Text(
+                                text = vm.statusIndeks,
+                                style = MaterialTheme.typography.headlineSmall,
+                                color = Color.Gray,
+                                modifier = Modifier.padding(start = 20.dp)
+                            )
+
+                    }
                 }
             }
         }
     }
-}
-
-//@Composable
-//fun Hasil() {
-//    Column(
-//        modifier = Modifier
-//            .border(2.dp, color = switchColorText(), shape = CircleShape.copy(CornerSize(5.dp)))
-//            .fillMaxWidth()
-//            .padding(horizontal = 15.dp)
-//            .padding(top = 15.dp),
-//    ) {
-//        Text(
-//            text = "Hasil",
-//            fontFamily = FontFamily.SansSerif,
-//            color = customSwitchColor(lighMode = Color.Black, darkMode = Color.LightGray),
-//            fontWeight = FontWeight.W300,
-//            style = MaterialTheme.typography.titleLarge,
-//            letterSpacing = TextUnit(2.5f, TextUnitType.Sp)
-//        )
-//        Row(
-//            modifier = Modifier
-//                .padding(top = 20.dp)
-//                .fillMaxWidth(),
-//            horizontalArrangement = Arrangement.SpaceBetween
-//        ) {
-//            Column(
-//                modifier = Modifier.fillMaxWidth()
-//            ) {
-//
-//            }
-//        }
-//    }
-//}
-
-@Preview(
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
-)
-@Preview(
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
-)
-@Composable
-private fun HdScreenPrev() {
-    HdScreen(data = Hd("Diskon"), navController = NavController(context = LocalContext.current))
 }

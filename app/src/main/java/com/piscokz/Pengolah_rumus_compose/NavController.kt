@@ -8,9 +8,13 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.piscokz.Pengolah_rumus_compose.ui.Home.Home
 import com.piscokz.Pengolah_rumus_compose.Programs.Km
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.BMI.BmiScreen
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.Calculator.CalculatorScreen
 import com.piscokz.Pengolah_rumus_compose.ui.Programs.HitungDiskon.HdScreen
 import com.piscokz.Pengolah_rumus_compose.ui.Programs.KonverterByte.Kb
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.KonverterGram.KonverterGramScreen
 import com.piscokz.Pengolah_rumus_compose.ui.Programs.RumusKelilingPersegiPanjang.Kpp
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.RumusPersegi.PersegiScreen
 import kotlinx.serialization.Serializable
 
 @Composable
@@ -41,6 +45,26 @@ fun NavController() {
             val data = it.toRoute<Hd>()
             HdScreen(data = data, navController = navController)
         }
+        composable<Calculator> {
+            val data = it.toRoute<Calculator>()
+            CalculatorScreen(data = data, navController = navController)
+        }
+        composable<Gram> {
+            val data = it.toRoute<Gram>()
+            KonverterGramScreen(data = data, navController = navController)
+        }
+
+        composable<BMI> {
+            val data = it.toRoute<BMI>()
+            BmiScreen(data = data, navController)
+        }
+        composable<Circle> {
+            val data = it.toRoute<Circle>()
+        }
+        composable<Square> {
+            val data = it.toRoute<Square>()
+            PersegiScreen(data = data, navController)
+        }
     }
 }
 
@@ -69,5 +93,30 @@ data class Kb(
 
 @Serializable
 data class Hd (
+    val judul: String
+)
+
+@Serializable
+data class Calculator (
+    val judul: String
+)
+
+@Serializable
+data class Gram (
+    val judul: String
+)
+
+@Serializable
+data class BMI (
+    val judul: String
+)
+
+@Serializable
+data class Circle (
+    val judul: String
+)
+
+@Serializable
+data class Square (
     val judul: String
 )

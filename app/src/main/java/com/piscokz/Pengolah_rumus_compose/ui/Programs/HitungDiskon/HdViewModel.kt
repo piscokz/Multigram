@@ -1,7 +1,7 @@
 package com.piscokz.Pengolah_rumus_compose.ui.Programs.HitungDiskon
 
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 

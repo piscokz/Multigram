@@ -86,5 +86,11 @@ dependencies {
     implementation(libs.squareup.retrofit)
     implementation(libs.converter.scalars)
 
+//    konversi json menjadi data yang bisa di konsumsi kotlin
+    implementation (libs.converter.gson)
+
+//    calculator
+    implementation ("com.google.accompanist:accompanist-systemuicontroller:0.31.2-alpha")
+
 
 }

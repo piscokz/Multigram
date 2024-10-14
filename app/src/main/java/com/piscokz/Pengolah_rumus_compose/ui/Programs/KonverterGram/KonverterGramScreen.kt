@@ -1,4 +1,4 @@
-package com.piscokz.Pengolah_rumus_compose.Programs
+package com.piscokz.Pengolah_rumus_compose.ui.Programs.KonverterGram
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
@@ -71,8 +71,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.piscokz.Pengolah_rumus_compose.AppViewModelProvider
+import com.piscokz.Pengolah_rumus_compose.Gram
+import com.piscokz.Pengolah_rumus_compose.Kb
 import com.piscokz.Pengolah_rumus_compose.Km
+import com.piscokz.Pengolah_rumus_compose.Programs.Km
+import com.piscokz.Pengolah_rumus_compose.Programs.KmBodyInput
+import com.piscokz.Pengolah_rumus_compose.Programs.KmBodyOutput
 import com.piscokz.Pengolah_rumus_compose.R
+import com.piscokz.Pengolah_rumus_compose.ui.Programs.KonverterByte.KbViewModel
 import com.piscokz.Pengolah_rumus_compose.ui.Programs.KonverterMeter.KmViewModel
 import com.piscokz.Pengolah_rumus_compose.ui.Programs.customSwitchColor
 import com.piscokz.Pengolah_rumus_compose.ui.Programs.switchColorText
@@ -83,77 +89,77 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Km(
-    data : Km,
+fun KonverterGramScreen(
+    data : Gram,
     navController: NavController,
-    vm: KmViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    vm: KonverterGramViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val focusRequester = remember { FocusRequester() }
-        Surface(
+    Surface(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        Scaffold(
             modifier = Modifier
-                .fillMaxSize()
-        ) {
-            Scaffold(
-                modifier = Modifier
-                    .fillMaxSize(),
-                topBar = {
-                    TopAppBar(
-                        colors = TopAppBarDefaults.topAppBarColors().copy(
-                            containerColor = customSwitchColor(LightButtonColors, Color.Black),
-                        ),
-                        title = {
-                            Text(
-                                text = data.judul,
-                                color = customSwitchColor(Color.White, Color.LightGray),
-                                maxLines = 1,
-                                style = MaterialTheme.typography.headlineSmall,
-                                fontWeight = FontWeight.W600
+                .fillMaxSize(),
+            topBar = {
+                TopAppBar(
+                    colors = TopAppBarDefaults.topAppBarColors().copy(
+                        containerColor = customSwitchColor(LightButtonColors, Color.Black),
+                    ),
+                    title = {
+                        Text(
+                            text = data.judul,
+                            color = customSwitchColor(Color.White, Color.LightGray),
+                            maxLines = 1,
+                            style = MaterialTheme.typography.headlineSmall,
+                            fontWeight = FontWeight.W600
+                        )
+                    },
+                    navigationIcon = {
+                        IconButton(onClick = {
+                            navController.navigateUp()
+                        }) {
+                            Icon(
+                                tint = customSwitchColor(Color.White, Color.LightGray),
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = null
                             )
-                        },
-                        navigationIcon = {
-                            IconButton(onClick = {
-                                navController.navigateUp()
-                            }) {
-                                Icon(
-                                    tint = customSwitchColor(Color.White, Color.LightGray),
-                                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                    contentDescription = null
-                                )
-                            }
                         }
-                    )
-                },
-                floatingActionButton = {
-                    LargeFloatingActionButton(
-                        onClick = {
-                            if (vm.input.isNotEmpty()) vm.input = ""
-                            else if (vm.input.isEmpty()) {
-
-                                vm.outputMm = "0"
-                                vm.outputCm = "0"
-                                vm.outputDm = "0"
-                                vm.outputM = "0"
-                                vm.outputDam = "0"
-                                vm.outputHm = "0"
-                                vm.outputKm = "0"
-                                focusRequester.requestFocus()
-                            }
-                        },
-                        contentColor = Color.White,
-                        containerColor = customSwitchColor(
-                            lighMode = Color.White,
-                            darkMode = Color.DarkGray
-                        )
-                    ) {
-                        Icon(
-                            tint = customSwitchColor(Color.Black, Color.LightGray),
-                            imageVector = Icons.TwoTone.Delete,
-                            contentDescription = "konversikan"
-                        )
                     }
-                }
+                )
+            },
+            floatingActionButton = {
+                LargeFloatingActionButton(
+                    onClick = {
+                        if (vm.input.isNotEmpty()) vm.input = ""
+                        else if (vm.input.isEmpty()) {
 
-            ) { paddingValues ->
+                            vm.outputMg = "0"
+                            vm.outputCg = "0"
+                            vm.outputDg = "0"
+                            vm.outputG = "0"
+                            vm.outputDag = "0"
+                            vm.outputHg = "0"
+                            vm.outputKg = "0"
+                            focusRequester.requestFocus()
+                        }
+                    },
+                    contentColor = Color.White,
+                    containerColor = customSwitchColor(
+                        lighMode = Color.White,
+                        darkMode = Color.DarkGray
+                    )
+                ) {
+                    Icon(
+                        tint = customSwitchColor(Color.Black, Color.LightGray),
+                        imageVector = Icons.TwoTone.Delete,
+                        contentDescription = "konversikan"
+                    )
+                }
+            }
+
+        ) { paddingValues ->
 //                LazyColumn {
 //                    item {
 //                        KmBodyOutput(
@@ -165,48 +171,47 @@ fun Km(
 //                        KmBodyInput(vm, focusRequester)
 //                    }
 //                }
-                Box(
-                    modifier = Modifier
-                        .background(Color.Transparent)
-                        .fillMaxSize()
-                        .padding(paddingValues)
-                ) {
-                    if (!isSystemInDarkTheme()) {
-                        Image(
-                            painter = painterResource(R.drawable.img_background_multigram),
-                            contentDescription = null,
-                            modifier = Modifier.fillMaxSize(),
-                            contentScale = ContentScale.FillBounds
-                        )
-                    }
-                    Surface(
+            Box(
+                modifier = Modifier
+                    .background(Color.Transparent)
+                    .fillMaxSize()
+                    .padding(paddingValues)
+            ) {
+                if (!isSystemInDarkTheme()) {
+                    Image(
+                        painter = painterResource(R.drawable.img_background_multigram),
+                        contentDescription = null,
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.FillBounds
+                    )
+                }
+                Surface(
 //                        shape = RoundedCornerShape(10.dp),
-                        color = Color.Red,
-                        modifier = Modifier
+                    color = Color.Red,
+                    modifier = Modifier
 //                            .padding(top = 50.dp)
 //                            .padding(horizontal = 10.dp)
-                    ) {
-                        Column {
-                            KmBodyOutput(
-                                vm = vm,
-                                paddingValues = paddingValues
-                            )
-                            KmBodyInput(
-                                vm = vm,
-                                focusRequester = focusRequester
-                            )
-
-                        }
+                ) {
+                    Column {
+                        KgBodyOutput(
+                            vm = vm,
+                            paddingValues = paddingValues
+                        )
+                        KgBodyInput(
+                            vm = vm,
+                            focusRequester = focusRequester
+                        )
                     }
                 }
-
             }
+
         }
+    }
 }
 
 @Composable
-fun KmBodyInput(
-    vm: KmViewModel,
+fun KgBodyInput(
+    vm: KonverterGramViewModel,
     focusRequester: FocusRequester
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -286,7 +291,7 @@ fun KmBodyInput(
 //                                vm.inputLetterSpacing = 1.0f
 //                            }
                             vm.conversion()
-                    }) {
+                        }) {
                         Icon(
                             tint = LightButtonColors,
                             painter = painterResource(R.drawable.spacing),
@@ -309,15 +314,15 @@ fun KmBodyInput(
                                 )
                                 .clickable {
                                     keyboardController?.hide()
-                                    vm.expandedListMeter = true
+                                    vm.expandedListGram = true
                                 }
                         ) {
                             Text(
-                                text = vm.listMeterCurrent,
+                                text = vm.listGramCurrent,
                                 modifier = Modifier.padding(top = 1.dp)
 
                             )
-                            if (vm.expandedListMeter) Icon(
+                            if (vm.expandedListGram) Icon(
                                 tint = LightButtonColors,
                                 imageVector = Icons.TwoTone.KeyboardArrowUp,
                                 contentDescription = null
@@ -348,10 +353,10 @@ fun KmBodyInput(
 
             DropdownMenu(
                 offset = DpOffset(x = (-15).dp, y = 10.dp),
-                expanded = vm.expandedListMeter,
-                onDismissRequest = { vm.expandedListMeter = false })
+                expanded = vm.expandedListGram,
+                onDismissRequest = { vm.expandedListGram = false })
             {
-                for (i in vm.listMeter) {
+                for (i in vm.listGram) {
                     DropdownMenuItem(
                         text = {
                             Text(
@@ -361,8 +366,8 @@ fun KmBodyInput(
                             )
                         },
                         onClick = {
-                            vm.listMeterCurrent = i
-                            vm.expandedListMeter = false
+                            vm.listGramCurrent = i
+                            vm.expandedListGram = false
                             vm.conversion()
                         },
                     )
@@ -373,9 +378,9 @@ fun KmBodyInput(
 }
 
 @Composable
-fun KmBodyOutput(
+fun KgBodyOutput(
     paddingValues: PaddingValues,
-    vm: KmViewModel
+    vm: KonverterGramViewModel
 ) {
     Spacer(
         modifier = Modifier
@@ -420,13 +425,13 @@ fun KmBodyOutput(
                     horizontalAlignment = Alignment.Start
                 ) {
                     val listOutputListMeter: List<String> = listOf(
-                        vm.outputMm,
-                        vm.outputCm,
-                        vm.outputDm,
-                        vm.outputM,
-                        vm.outputDam,
-                        vm.outputHm,
-                        vm.outputKm
+                        vm.outputMg,
+                        vm.outputCg,
+                        vm.outputDg,
+                        vm.outputG,
+                        vm.outputDag,
+                        vm.outputHg,
+                        vm.outputKg
                     )
                     for (i in listOutputListMeter) {
                         Text(
@@ -446,7 +451,7 @@ fun KmBodyOutput(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.End
                 ) {
-                    for (i in vm.listMeter) {
+                    for (i in vm.listGram) {
                         Text(
                             text = i,
                             color = switchColorText(),
@@ -476,8 +481,8 @@ fun KmBodyOutput(
 
 @Composable
 private fun prev() {
-    Km(
-        data = Km("meter converter"),
+    KonverterGramScreen(
+        data = Gram("meter converter"),
         navController = NavController(LocalContext.current)
     )
 }

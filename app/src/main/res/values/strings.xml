@@ -20,7 +20,7 @@
     </string-array>
 
     <string-array name="jenisProgram">
-        <item>calculator</item>
+        <item>calculate</item>
         <item>converter</item>
     </string-array>
 
@@ -30,11 +30,16 @@
         <item>Area of a Rectangle</item>
         <item>Perimeter of a Rectangle</item>
         <item>Discount</item>
+        <item>Calculator</item>
+        <item>Gram</item>
+        <item>BMI</item>
+        <item>Circle</item>
+        <item>Square</item>
     </string-array>
 
     <!--  program byte  -->
-    <string name="teksHasil">result</string>
-    <string name="placeholderInput">Enter a number</string>
+    <string name="teksHasil">Result</string>
+    <string name="placeholderInput">Enter number!</string>
 
     <!--  program meter  -->
 <!--    <string name="resultMeter">result</string>-->
@@ -42,14 +47,49 @@
 
     <!--  kpp & lpp  -->
     <string name="teksHitung_kpp_lpp">calculate &amp; convert</string>
-    <string name="input_kpp_lpp">Enter a number</string>
+    <string name="input_kpp_lpp">Enter number</string>
     <string name="panjang_kpp_lpp">width</string>
-    <string name="lebar_kpp_lpp">lenght</string>
+    <string name="lebar_kpp_lpp">length</string>
 
     <!--  program kpp -->
-    <string name="displayKpp">2 * (width + lenght)</string>
+    <string name="displayKpp">2 * (width + length)</string>
 
     <!--  program lpp  -->
-    <string name="displayLpp">width * lenght</string>
+    <string name="displayLpp">width * length</string>
+
+    <!--  input BMI  -->
+    <string name="tinggiBadan">height</string>
+    <string name="beratBadan">weight</string>
+    <string name="perintahTinggiBadan">enter height (cm)</string>
+    <string name="perintahBeratBadan">enter weight (kg)</string>
+    <string name="indeks">Body mass index</string>
+    <string name="status">status</string>
+    <string-array name="listStatus">
+        <item>Underweight</item>
+        <item>Normal</item>
+        <item>Overweight</item>
+        <item>Obese</item>
+        <item>Abnormal</item>
+    </string-array>
+
+
+    <!--  input BMI  -->
+    <string name="hargaAwal">starting price</string>
+    <string name="diskon">discount</string>
+    <string name="perintahHarga">enter price</string>
+    <string name="perintahDiskon">enter discount (maximum 2 digits)</string>
+    <string name="hargaAkhir">price after discount</string>
+    <string name="hemat">you save</string>
+
+    <!--  konverter gram -->
+    <string-array name="listGram">
+        <item>mg</item>
+        <item>cg</item>
+        <item>dg</item>
+        <item>g</item>
+        <item>dag</item>
+        <item>hg</item>
+        <item>kg</item>
+    </string-array>
 
 </resources>
